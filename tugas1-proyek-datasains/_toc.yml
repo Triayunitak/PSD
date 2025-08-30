@@ -4,9 +4,9 @@
 format: jb-book
 root: intro
 chapters:
-- file: memahami-bisnis/index
+- file: memahami_bisnis
   title: Memahami Bisnis
-- file: data-understanding/index
+- file: data_understanding
   title: Data Understanding
-- file: eksplorasi-data/index
+- file: eksplorasi_data
   title: Eksplorasi Data
