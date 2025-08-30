@@ -1,52 +1,35 @@
-# Markdown Files Data Understanding
+# Data Understanding
 
-Whether you write your book's content in Jupyter Notebooks (`.ipynb`) or
-in regular markdown files (`.md`), you'll write in the same flavor of markdown
-called **MyST Markdown**.
-This is a simple file to help you get started and show off some syntax.
+## 1️⃣ Deskripsi Dataset
 
-## What is MyST?
+Dataset yang digunakan adalah **Netflix Movies and TV Shows** dari Kaggle: [Netflix Movies and TV Shows](https://www.kaggle.com/datasets/shivamb/netflix-shows).  
+Dataset ini berisi informasi tentang film dan serial TV yang tersedia di Netflix, dengan beberapa kolom utama sebagai berikut:
 
-MyST stands for "Markedly Structured Text". It
-is a slight variation on a flavor of markdown called "CommonMark" markdown,
-with small syntax extensions to allow you to write **roles** and **directives**
-in the Sphinx ecosystem.
+| Kolom        | Tipe Data | Deskripsi |
+|--------------|-----------|-----------|
+| `show_id`    | String    | ID unik untuk setiap film atau serial |
+| `type`       | String    | Jenis konten: "Movie" atau "TV Show" |
+| `title`      | String    | Judul film atau serial |
+| `director`   | String    | Nama sutradara (bisa kosong) |
+| `cast`       | String    | Daftar pemeran utama (bisa kosong) |
+| `country`    | String    | Negara produksi |
+| `date_added` | Date      | Tanggal konten ditambahkan ke Netflix |
+| `release_year` | Integer | Tahun rilis asli |
+| `rating`     | String    | Rating konten (misal PG, TV-MA) |
+| `duration`   | String    | Lama film atau jumlah episode |
+| `listed_in`  | String    | Genre atau kategori konten |
 
-For more about MyST, see [the MyST Markdown Overview](https://jupyterbook.org/content/myst.html).
+> **Catatan:** Beberapa kolom memiliki missing value, misalnya `director` dan `cast`. Tanggal di `date_added` perlu dikonversi ke tipe tanggal agar bisa dianalisis tren rilis konten.
 
-## Sample Roles and Directives
+## 2️⃣ Tujuan Analisis
 
-Roles and directives are two of the most powerful tools in Jupyter Book. They
-are like functions, but written in a markup language. They both
-serve a similar purpose, but **roles are written in one line**, whereas
-**directives span many lines**. They both accept different kinds of inputs,
-and what they do with those inputs depends on the specific role or directive
-that is being called.
-
-Here is a "note" directive:
+Analisis pada tahap ini bertujuan untuk memahami karakteristik data Netflix agar bisa digunakan untuk menjawab pertanyaan bisnis, terutama terkait **tren perilisan konten**. Tujuannya meliputi:
 
 ```{note}
-Here is a note
-```
-
-It will be rendered in a special box when you build your book.
-
-Here is an inline directive to refer to a document: {doc}`markdown-notebooks`.
-
-
-## Citations
-
-You can also cite references that are stored in a `bibtex` file. For example,
-the following syntax: `` {cite}`holdgraf_evidence_2014` `` will render like
-this: {cite}`holdgraf_evidence_2014`.
-
-Moreover, you can insert a bibliography into your page with this syntax:
-The `{bibliography}` directive must be used for all the `{cite}` roles to
-render properly.
-For example, if the references for your book are stored in `references.bib`,
-then the bibliography is inserted with:
-
-```{bibliography}
+- Memastikan kolom-kolom penting tersedia dan memiliki format yang benar (misal `date_added` sebagai tipe tanggal).  
+- Mengidentifikasi missing value atau data yang tidak konsisten.  
+- Memberikan gambaran awal tentang jumlah konten per tipe, tahun, negara, dan genre.  
+- Menyiapkan dataset untuk analisis lebih lanjut, misal menghitung jumlah konten baru per bulan atau per musim.
 ```
 
 ## Learn more
