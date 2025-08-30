@@ -1,9 +1,8 @@
 # Masalah Bisnis (Business Problem)
-
+Memahami kapan dan seberapa sering Netflix menambah konten baru.
 ## Tujuan
 
 ```{note}
-Memahami kapan dan seberapa sering Netflix menambah konten baru agar bisa:
 - **Meningkatkan retensi pengguna:** Pengguna cenderung tetap berlangganan jika konten selalu segar dan menarik.
 - **Mengurangi churn:** Kurangnya konten baru bisa membuat pengguna berhenti berlangganan.
 - **Optimasi jadwal rilis konten:** Netflix bisa merencanakan kapan waktu terbaik menambahkan film/serial baru agar engagement maksimal.
