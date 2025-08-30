@@ -1,53 +1,43 @@
-# Markdown Files Memahami Bisnis Data
+# Masalah Bisnis (Business Problem)
 
-Whether you write your book's content in Jupyter Notebooks (`.ipynb`) or
-in regular markdown files (`.md`), you'll write in the same flavor of markdown
-called **MyST Markdown**.
-This is a simple file to help you get started and show off some syntax.
-
-## What is MyST?
-
-MyST stands for "Markedly Structured Text". It
-is a slight variation on a flavor of markdown called "CommonMark" markdown,
-with small syntax extensions to allow you to write **roles** and **directives**
-in the Sphinx ecosystem.
-
-For more about MyST, see [the MyST Markdown Overview](https://jupyterbook.org/content/myst.html).
-
-## Sample Roles and Directives
-
-Roles and directives are two of the most powerful tools in Jupyter Book. They
-are like functions, but written in a markup language. They both
-serve a similar purpose, but **roles are written in one line**, whereas
-**directives span many lines**. They both accept different kinds of inputs,
-and what they do with those inputs depends on the specific role or directive
-that is being called.
-
-Here is a "note" directive:
+## Tujuan
 
 ```{note}
-Here is a note
+Memahami kapan dan seberapa sering Netflix menambah konten baru agar bisa:
+- **Meningkatkan retensi pengguna:** Pengguna cenderung tetap berlangganan jika konten selalu segar dan menarik.
+- **Mengurangi churn:** Kurangnya konten baru bisa membuat pengguna berhenti berlangganan.
+- **Optimasi jadwal rilis konten:** Netflix bisa merencanakan kapan waktu terbaik menambahkan film/serial baru agar engagement maksimal.
 ```
 
-It will be rendered in a special box when you build your book.
-
-Here is an inline directive to refer to a document: {doc}`markdown-notebooks`.
-
-
-## Citations
-
-You can also cite references that are stored in a `bibtex` file. For example,
-the following syntax: `` {cite}`holdgraf_evidence_2014` `` will render like
-this: {cite}`holdgraf_evidence_2014`.
-
-Moreover, you can insert a bibliography into your page with this syntax:
-The `{bibliography}` directive must be used for all the `{cite}` roles to
-render properly.
-For example, if the references for your book are stored in `references.bib`,
-then the bibliography is inserted with:
-
-```{bibliography}
+## Pertanyaan Bisnis yang Bisa Dijawab
+```{tip}
+- Kapan bulan atau musim dengan rilis konten terbanyak?  
+- Apakah ada pola musiman (misal lebih banyak film/serial ditambahkan di liburan)?  
+- Bagaimana tren rilis konten tahunan selama beberapa tahun terakhir?  
+- Apakah ada genre tertentu yang lebih sering dirilis pada periode tertentu?  
+- Bagaimana tren ini mempengaruhi engagement pengguna?
 ```
+
+## Dampak Bisnis
+```{important}
+- Dengan mengetahui periode puncak penambahan konten, tim konten Netflix bisa merencanakan produksi atau akuisisi film/serial agar tersedia tepat waktu.  
+- Membantu tim marketing merancang kampanye promosi yang relevan dengan perilisan konten baru.  
+- Memberikan insight untuk algoritma rekomendasi supaya menyesuaikan saran konten berdasarkan rilis terbaru.  
+- Secara keseluruhan, meningkatkan retention dan lifetime value (LTV) pengguna.
+```
+
+## Pendekatan Analisis Data (Data Approach)
+- **Kolom utama yang digunakan:** `date_added` (tanggal konten ditambahkan).  
+
+**Langkah Analisis:**
+1. Bersihkan data, konversi `date_added` menjadi tipe tanggal.  
+2. Ekstrak komponen waktu: tahun, bulan, hari.  
+3. Hitung jumlah konten yang ditambahkan per bulan atau per musim.  
+4. Visualisasi: grafik garis/tren jumlah rilisan konten per periode.  
+5. Opsional: lakukan analisis deret waktu (time series) untuk mendeteksi pola musiman atau tren tahunan.
+
+**Output yang Diharapkan:**
+Insight berupa “periode puncak rilis konten” yang bisa dijadikan dasar keputusan bisnis.
 
 ## Learn more
 
