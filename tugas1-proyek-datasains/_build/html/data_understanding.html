@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'data_understanding';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="&lt;no title&gt;" href="data_exploration.html" />
+    <link rel="next" title="Data Exploration" href="data_exploration.html" />
     <link rel="prev" title="Business Problem" href="business_understanding.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -181,7 +181,8 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="business_understanding.html">Business Problem</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Understanding</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Data Understanding</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_exploration.html"><strong>Data Exploration</strong></a></li>
 </ul>
 
     </div>
@@ -354,7 +355,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -370,6 +373,23 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library"><strong>1. Import Library</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset"><strong>2. Load Dataset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-dataset"><strong>3. Informasi Dataset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengecek-tipe-data-dan-jenis-variabel"><strong>4. Mengecek Tipe Data dan Jenis Variabel</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif"><strong>5. Statistik Deskriptif</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-kategori-species"><strong>6. Statistik Kategori (species)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-distribusi-kolom-numerik"><strong>7. Visualisasi Distribusi Kolom Numerik</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-jumlah-setiap-kelas"><strong>8. Visualisasi Jumlah Setiap Kelas</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-awal-hubungan-fitur"><strong>9. Visualisasi Awal Hubungan Fitur</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insight-awal"><strong>10. Insight Awal</strong></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -380,11 +400,10 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
-<h1>Data Understanding<a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
-<ol class="arabic simple">
-<li><p>Import Library
-Kita mulai dengan mengimpor library Python yang dibutuhkan: pandas untuk manipulasi data, matplotlib dan seaborn untuk visualisasi.</p></li>
-</ol>
+<h1><strong>Data Understanding</strong><a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
+<section id="import-library">
+<h2><strong>1. Import Library</strong><a class="headerlink" href="#import-library" title="Link to this heading">#</a></h2>
+<p>Kita mulai dengan mengimpor library Python yang dibutuhkan: pandas untuk manipulasi data, matplotlib dan seaborn untuk visualisasi.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library yang diperlukan</span>
@@ -410,9 +429,9 @@ Kita mulai dengan mengimpor library Python yang dibutuhkan: pandas untuk manipul
 </div>
 </div>
 </div>
-<ol class="arabic simple" start="2">
-<li><p>Load Dataset</p></li>
-</ol>
+</section>
+<section id="load-dataset">
+<h2><strong>2. Load Dataset</strong><a class="headerlink" href="#load-dataset" title="Link to this heading">#</a></h2>
 <p>Dataset Iris akan dimuat dari file CSV. Pastikan file CSV berada di folder yang sama atau sesuaikan path-nya.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -458,71 +477,71 @@ Ukuran dataset: 150 baris, 7 kolom
 </div>
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_caa30">
+<table id="T_28343">
   <thead>
     <tr>
-      <th id="T_caa30_level0_col0" class="col_heading level0 col0" >id</th>
-      <th id="T_caa30_level0_col1" class="col_heading level0 col1" >sepal length</th>
-      <th id="T_caa30_level0_col2" class="col_heading level0 col2" >sepal width</th>
-      <th id="T_caa30_level0_col3" class="col_heading level0 col3" >petal length</th>
-      <th id="T_caa30_level0_col4" class="col_heading level0 col4" >petal width</th>
-      <th id="T_caa30_level0_col5" class="col_heading level0 col5" >species</th>
-      <th id="T_caa30_level0_col6" class="col_heading level0 col6" >species_name</th>
+      <th id="T_28343_level0_col0" class="col_heading level0 col0" >id</th>
+      <th id="T_28343_level0_col1" class="col_heading level0 col1" >sepal length</th>
+      <th id="T_28343_level0_col2" class="col_heading level0 col2" >sepal width</th>
+      <th id="T_28343_level0_col3" class="col_heading level0 col3" >petal length</th>
+      <th id="T_28343_level0_col4" class="col_heading level0 col4" >petal width</th>
+      <th id="T_28343_level0_col5" class="col_heading level0 col5" >species</th>
+      <th id="T_28343_level0_col6" class="col_heading level0 col6" >species_name</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_caa30_row0_col0" class="data row0 col0" >1</td>
-      <td id="T_caa30_row0_col1" class="data row0 col1" >5.1</td>
-      <td id="T_caa30_row0_col2" class="data row0 col2" >3.5</td>
-      <td id="T_caa30_row0_col3" class="data row0 col3" >1.4</td>
-      <td id="T_caa30_row0_col4" class="data row0 col4" >0.2</td>
-      <td id="T_caa30_row0_col5" class="data row0 col5" >1</td>
-      <td id="T_caa30_row0_col6" class="data row0 col6" >setosa</td>
+      <td id="T_28343_row0_col0" class="data row0 col0" >1</td>
+      <td id="T_28343_row0_col1" class="data row0 col1" >5.1</td>
+      <td id="T_28343_row0_col2" class="data row0 col2" >3.5</td>
+      <td id="T_28343_row0_col3" class="data row0 col3" >1.4</td>
+      <td id="T_28343_row0_col4" class="data row0 col4" >0.2</td>
+      <td id="T_28343_row0_col5" class="data row0 col5" >1</td>
+      <td id="T_28343_row0_col6" class="data row0 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_caa30_row1_col0" class="data row1 col0" >2</td>
-      <td id="T_caa30_row1_col1" class="data row1 col1" >4.9</td>
-      <td id="T_caa30_row1_col2" class="data row1 col2" >3.0</td>
-      <td id="T_caa30_row1_col3" class="data row1 col3" >1.4</td>
-      <td id="T_caa30_row1_col4" class="data row1 col4" >0.2</td>
-      <td id="T_caa30_row1_col5" class="data row1 col5" >1</td>
-      <td id="T_caa30_row1_col6" class="data row1 col6" >setosa</td>
+      <td id="T_28343_row1_col0" class="data row1 col0" >2</td>
+      <td id="T_28343_row1_col1" class="data row1 col1" >4.9</td>
+      <td id="T_28343_row1_col2" class="data row1 col2" >3.0</td>
+      <td id="T_28343_row1_col3" class="data row1 col3" >1.4</td>
+      <td id="T_28343_row1_col4" class="data row1 col4" >0.2</td>
+      <td id="T_28343_row1_col5" class="data row1 col5" >1</td>
+      <td id="T_28343_row1_col6" class="data row1 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_caa30_row2_col0" class="data row2 col0" >3</td>
-      <td id="T_caa30_row2_col1" class="data row2 col1" >4.7</td>
-      <td id="T_caa30_row2_col2" class="data row2 col2" >3.2</td>
-      <td id="T_caa30_row2_col3" class="data row2 col3" >1.3</td>
-      <td id="T_caa30_row2_col4" class="data row2 col4" >0.2</td>
-      <td id="T_caa30_row2_col5" class="data row2 col5" >1</td>
-      <td id="T_caa30_row2_col6" class="data row2 col6" >setosa</td>
+      <td id="T_28343_row2_col0" class="data row2 col0" >3</td>
+      <td id="T_28343_row2_col1" class="data row2 col1" >4.7</td>
+      <td id="T_28343_row2_col2" class="data row2 col2" >3.2</td>
+      <td id="T_28343_row2_col3" class="data row2 col3" >1.3</td>
+      <td id="T_28343_row2_col4" class="data row2 col4" >0.2</td>
+      <td id="T_28343_row2_col5" class="data row2 col5" >1</td>
+      <td id="T_28343_row2_col6" class="data row2 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_caa30_row3_col0" class="data row3 col0" >4</td>
-      <td id="T_caa30_row3_col1" class="data row3 col1" >4.6</td>
-      <td id="T_caa30_row3_col2" class="data row3 col2" >3.1</td>
-      <td id="T_caa30_row3_col3" class="data row3 col3" >1.5</td>
-      <td id="T_caa30_row3_col4" class="data row3 col4" >0.2</td>
-      <td id="T_caa30_row3_col5" class="data row3 col5" >1</td>
-      <td id="T_caa30_row3_col6" class="data row3 col6" >setosa</td>
+      <td id="T_28343_row3_col0" class="data row3 col0" >4</td>
+      <td id="T_28343_row3_col1" class="data row3 col1" >4.6</td>
+      <td id="T_28343_row3_col2" class="data row3 col2" >3.1</td>
+      <td id="T_28343_row3_col3" class="data row3 col3" >1.5</td>
+      <td id="T_28343_row3_col4" class="data row3 col4" >0.2</td>
+      <td id="T_28343_row3_col5" class="data row3 col5" >1</td>
+      <td id="T_28343_row3_col6" class="data row3 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_caa30_row4_col0" class="data row4 col0" >5</td>
-      <td id="T_caa30_row4_col1" class="data row4 col1" >5.0</td>
-      <td id="T_caa30_row4_col2" class="data row4 col2" >3.6</td>
-      <td id="T_caa30_row4_col3" class="data row4 col3" >1.4</td>
-      <td id="T_caa30_row4_col4" class="data row4 col4" >0.2</td>
-      <td id="T_caa30_row4_col5" class="data row4 col5" >1</td>
-      <td id="T_caa30_row4_col6" class="data row4 col6" >setosa</td>
+      <td id="T_28343_row4_col0" class="data row4 col0" >5</td>
+      <td id="T_28343_row4_col1" class="data row4 col1" >5.0</td>
+      <td id="T_28343_row4_col2" class="data row4 col2" >3.6</td>
+      <td id="T_28343_row4_col3" class="data row4 col3" >1.4</td>
+      <td id="T_28343_row4_col4" class="data row4 col4" >0.2</td>
+      <td id="T_28343_row4_col5" class="data row4 col5" >1</td>
+      <td id="T_28343_row4_col6" class="data row4 col6" >setosa</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
-<ol class="arabic simple" start="3">
-<li><p>Informasi Dataset</p></li>
-</ol>
+</section>
+<section id="informasi-dataset">
+<h2><strong>3. Informasi Dataset</strong><a class="headerlink" href="#informasi-dataset" title="Link to this heading">#</a></h2>
 <p>Mengecek tipe data tiap kolom, jumlah baris, dan ada tidaknya missing values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -549,9 +568,9 @@ memory usage: 7.7+ KB
 </div>
 </div>
 </div>
-<ol class="arabic simple" start="4">
-<li><p>Mengecek Tipe Data dan Jenis Variabel</p></li>
-</ol>
+</section>
+<section id="mengecek-tipe-data-dan-jenis-variabel">
+<h2><strong>4. Mengecek Tipe Data dan Jenis Variabel</strong><a class="headerlink" href="#mengecek-tipe-data-dan-jenis-variabel" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Tipe Data Kolom ---&quot;</span><span class="p">)</span>
@@ -587,9 +606,9 @@ dtype: int64
 </div>
 </div>
 </div>
-<ol class="arabic simple" start="5">
-<li><p>Statistik Deskriptif</p></li>
-</ol>
+</section>
+<section id="statistik-deskriptif">
+<h2><strong>5. Statistik Deskriptif</strong><a class="headerlink" href="#statistik-deskriptif" title="Link to this heading">#</a></h2>
 <p>Menampilkan statistik dasar dari kolom numerik, seperti min, max, mean, dan standar deviasi.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -701,9 +720,9 @@ dtype: int64
 </table>
 </div></div></div>
 </div>
-<ol class="arabic simple" start="6">
-<li><p>Statistik Kategori (Species)</p></li>
-</ol>
+</section>
+<section id="statistik-kategori-species">
+<h2><strong>6. Statistik Kategori (species)</strong><a class="headerlink" href="#statistik-kategori-species" title="Link to this heading">#</a></h2>
 <p>Menampilkan jumlah masing-masing spesies iris untuk mengetahui distribusi kelas.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -721,9 +740,9 @@ Name: count, dtype: int64
 </div>
 </div>
 </div>
-<ol class="arabic simple" start="6">
-<li><p>Visualisasi Distribusi Kolom Numerik</p></li>
-</ol>
+</section>
+<section id="visualisasi-distribusi-kolom-numerik">
+<h2><strong>7. Visualisasi Distribusi Kolom Numerik</strong><a class="headerlink" href="#visualisasi-distribusi-kolom-numerik" title="Link to this heading">#</a></h2>
 <p>Membuat histogram untuk setiap kolom numerik untuk melihat sebaran data.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -743,9 +762,9 @@ Name: count, dtype: int64
 <img alt="_images/11af67fdf89d29dc237112df9157742654e4745f63ee82d0b4fb8fc33a49f51e.png" src="_images/11af67fdf89d29dc237112df9157742654e4745f63ee82d0b4fb8fc33a49f51e.png" />
 </div>
 </div>
-<ol class="arabic simple" start="7">
-<li><p>Visualisasi Jumlah Setiap Kelas</p></li>
-</ol>
+</section>
+<section id="visualisasi-jumlah-setiap-kelas">
+<h2><strong>8. Visualisasi Jumlah Setiap Kelas</strong><a class="headerlink" href="#visualisasi-jumlah-setiap-kelas" title="Link to this heading">#</a></h2>
 <p>Membuat bar plot untuk melihat jumlah data pada setiap kelas (Species).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -760,9 +779,9 @@ Name: count, dtype: int64
 <img alt="_images/1f15dfb87d96de1d3c2ae70960a0fb564a83adfe92cdad42c7ca56c2c4f0a118.png" src="_images/1f15dfb87d96de1d3c2ae70960a0fb564a83adfe92cdad42c7ca56c2c4f0a118.png" />
 </div>
 </div>
-<ol class="arabic simple" start="8">
-<li><p>Visualisasi Awal Hubungan Fitur</p></li>
-</ol>
+</section>
+<section id="visualisasi-awal-hubungan-fitur">
+<h2><strong>9. Visualisasi Awal Hubungan Fitur</strong><a class="headerlink" href="#visualisasi-awal-hubungan-fitur" title="Link to this heading">#</a></h2>
 <p>Membuat scatter plot Petal Length vs Petal Width untuk melihat apakah kelas mudah dipisahkan.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -784,13 +803,16 @@ Name: count, dtype: int64
 <img alt="_images/f598483a69b623b50571943bcbc17c02762cab5d06e160cfedd7821dd5b26021.png" src="_images/f598483a69b623b50571943bcbc17c02762cab5d06e160cfedd7821dd5b26021.png" />
 </div>
 </div>
-<ol class="arabic simple" start="9">
-<li><p>Insight Awal</p></li>
-</ol>
+</section>
+<section id="insight-awal">
+<h2><strong>10. Insight Awal</strong><a class="headerlink" href="#insight-awal" title="Link to this heading">#</a></h2>
 <p>Dari histogram, scatter plot, dan bar plot:</p>
-<p>Tidak ada missing values, data bersih.</p>
-<p>Distribusi tiap kelas relatif seimbang.</p>
-<p>Scatter plot menunjukkan bahwa beberapa spesies dapat dipisahkan dengan jelas berdasarkan petal measurements.</p>
+<ul class="simple">
+<li><p>Tidak ada missing values, data bersih.</p></li>
+<li><p>Distribusi tiap kelas relatif seimbang.</p></li>
+<li><p>Scatter plot menunjukkan bahwa beberapa spesies dapat dipisahkan dengan jelas berdasarkan petal measurements.</p></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -837,7 +859,7 @@ Name: count, dtype: int64
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">&lt;no title&gt;</p>
+        <p class="prev-next-title"><strong>Data Exploration</strong></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -847,6 +869,30 @@ Name: count, dtype: int64
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library"><strong>1. Import Library</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset"><strong>2. Load Dataset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-dataset"><strong>3. Informasi Dataset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengecek-tipe-data-dan-jenis-variabel"><strong>4. Mengecek Tipe Data dan Jenis Variabel</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif"><strong>5. Statistik Deskriptif</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-kategori-species"><strong>6. Statistik Kategori (species)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-distribusi-kolom-numerik"><strong>7. Visualisasi Distribusi Kolom Numerik</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-jumlah-setiap-kelas"><strong>8. Visualisasi Jumlah Setiap Kelas</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-awal-hubungan-fitur"><strong>9. Visualisasi Awal Hubungan Fitur</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insight-awal"><strong>10. Insight Awal</strong></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
