@@ -1,11 +1,18 @@
-# Welcome to your Jupyter Book
+# Introduction
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+Hello 👋, my name is **Tria Yunita Krismiyanto**, a 5th-semester student of **Informatics Engineering – Universitas Trunojoyo Madura**, currently taking the class **Data Science Project (IF5B)**.  
 
-Check out the content pages bundled with this sample book to see more.
+**Identity:**
+- **NIM:** 230411100006  
+- **Professional Email:** triayunitakrismiyanto07@gmail.com  
+- **Student Email:** 230411100006@student.trunojoyo.ac.id  
+
+---
+
+## Project Topic 
+In this data science project, I am using the **Iris Dataset** with the topic:  
+
+> "How can we automatically classify iris flower species based on sepal and petal measurements to support accurate, efficient, and consistent identification?"  
 
 ```{tableofcontents}
 ```
