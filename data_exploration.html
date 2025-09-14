@@ -379,15 +379,42 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif"><strong>1. Statistik Deskriptif</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-tiap-fitur"><strong>2. Distribusi Tiap Fitur</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#korelasi-antar-fitur"><strong>3. Korelasi Antar Fitur</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot-petal"><strong>4. Scatterplot Petal</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot-sepal"><strong>5. Scatterplot Sepal</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-tiap-fitur"><strong>2. Distribusi Tiap Fitur</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keterangan-histogram-fitur-numerik"><strong>Keterangan Histogram Fitur Numerik :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan"><strong>Ringkasan:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#korelasi-antar-fitur"><strong>3. Korelasi Antar Fitur</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hubungan-antar-fitur"><strong>Hubungan antar fitur :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan"><strong>Kesimpulan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot-petal"><strong>4. Scatterplot Petal</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-gambar"><strong>Penjelasan Gambar</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot-sepal"><strong>5. Scatterplot Sepal</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-scatterplot-sepal"><strong>Analisis Scatterplot Sepal :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><strong>Kesimpulan</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#countplot-jumlah-tiap-species"><strong>6. Countplot Jumlah Tiap Species</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairplot-semua-fitur"><strong>7. Pairplot Semua Fitur</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-per-spesies"><strong>8. Analisis Per Spesies</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier"><strong>9. Deteksi Outlier</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan"><strong>10. Kesimpulan</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairplot-semua-fitur"><strong>7. Pairplot Semua Fitur</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-pairplot"><strong>Analisis Pairplot :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><strong>Kesimpulan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-per-spesies"><strong>8. Analisis Per Spesies</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-boxplot-per-spesies"><strong>Analisis Boxplot per Spesies :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><strong>Kesimpulan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier"><strong>9. Deteksi Outlier</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-outlier"><strong>Penjelasan Outlier :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi"><strong>Interpretasi</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><strong>10. Kesimpulan</strong></a></li>
 </ul>
             </nav>
         </div>
@@ -419,6 +446,20 @@ document.write(`
 
 <span class="c1"># Tambahkan nomor baris mulai dari 1</span>
 <span class="n">df</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;No&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="c1"># Load dataset Iris dari sklearn</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
 </pre></div>
 </div>
 </div>
@@ -559,9 +600,51 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/b63b3c964302d31b58d8c4c1a19ecb5eb9de106c4fff99654f17535f6ddff2ce.png" src="_images/b63b3c964302d31b58d8c4c1a19ecb5eb9de106c4fff99654f17535f6ddff2ce.png" />
+<img alt="_images/d589d10179a328f0bc7934b31145c57a3ed609e8fed6b5a677678422f4b8821c.png" src="_images/d589d10179a328f0bc7934b31145c57a3ed609e8fed6b5a677678422f4b8821c.png" />
 </div>
 </div>
+<section id="keterangan-histogram-fitur-numerik">
+<h3><strong>Keterangan Histogram Fitur Numerik :</strong><a class="headerlink" href="#keterangan-histogram-fitur-numerik" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Sepal Length (cm)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Distribusi relatif mendekati normal, meski sedikit condong ke kanan (<em>positively skewed</em>).</p></li>
+<li><p>Sebagian besar nilai berada di kisaran <strong>5.0 – 6.5 cm</strong>.</p></li>
+<li><p>Ada variasi cukup besar, menandakan fitur ini bisa membantu membedakan spesies.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Sepal Width (cm)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Distribusinya relatif <strong>simetris</strong> dan mendekati <em><strong>normal distribution</strong></em>.</p></li>
+<li><p>Nilai terbanyak sekitar 2.8 – 3.2 cm.</p></li>
+<li><p>Ada beberapa nilai ekstrem (<strong>outlier</strong>), terutama di bagian <strong>bawah</strong> (&lt; 2.5 cm) dan <strong>atas</strong> (&gt; 3.8 cm).</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Petal Length (cm)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Distribusi menunjukkan pola multimodal (lebih dari satu puncak).</p></li>
+<li><p>Menandakan perbedaan antar kelas spesies yang jelas.</p></li>
+<li><p>Kelompok pertama (sekitar 1.5 cm) merepresentasikan Setosa, sedangkan kelompok kedua (4 – 6 cm) merepresentasikan Versicolor dan Virginica.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Petal Width (cm)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Sama seperti petal length, distribusi juga terlihat multimodal.</p></li>
+<li><p>Nilai kecil (~0.2 cm) khas untuk <strong>Setosa</strong>, sedangkan nilai lebih besar (1.0 – 2.0 cm) khas untuk <strong>Versicolor</strong> dan <strong>Virginica</strong>.</p></li>
+<li><p>Distribusi ini memperlihatkan fitur petal width sangat diskriminatif dalam membedakan spesies.</p></li>
+</ul>
+</section>
+<section id="ringkasan">
+<h3><strong>Ringkasan:</strong><a class="headerlink" href="#ringkasan" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Fitur sepal <strong>(length &amp; width)</strong> memberikan informasi, tetapi distribusinya lebih overlapped antar spesies.</p></li>
+<li><p>Fitur petal <strong>(length &amp; width)</strong> jauh lebih baik untuk memisahkan spesies, terlihat dari distribusi multimodal yang jelas.</p></li>
+</ul>
+</section>
 </section>
 <section id="korelasi-antar-fitur">
 <h2><strong>3. Korelasi Antar Fitur</strong><a class="headerlink" href="#korelasi-antar-fitur" title="Link to this heading">#</a></h2>
@@ -575,9 +658,31 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/b7f09711ff3d513f1cacf1c27d7c8f3c7e520fdca1871bc6f838f1357f48a31c.png" src="_images/b7f09711ff3d513f1cacf1c27d7c8f3c7e520fdca1871bc6f838f1357f48a31c.png" />
+<img alt="_images/80489d9c7e9eb35f05a61925e8c4ad34e1826590dbe121aaf9a921e22b825680.png" src="_images/80489d9c7e9eb35f05a61925e8c4ad34e1826590dbe121aaf9a921e22b825680.png" />
 </div>
 </div>
+<section id="hubungan-antar-fitur">
+<h3><strong>Hubungan antar fitur :</strong><a class="headerlink" href="#hubungan-antar-fitur" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Sepal Length vs Petal Length (0.87)</strong>
+Korelasi positif yang sangat kuat. Semakin panjang sepal, umumnya semakin panjang petalnya.</p></li>
+<li><p><strong>Sepal Length vs Petal Width (0.82)</strong>
+Korelasi positif yang kuat. Sepal yang lebih panjang cenderung diikuti oleh petal yang lebih lebar.</p></li>
+<li><p><strong>Petal Length vs Petal Width (0.96)</strong>
+Korelasi positif yang sangat tinggi (mendekati 1). Artinya, panjang dan lebar petal hampir selalu bertambah secara bersamaan.</p></li>
+<li><p><strong>Sepal Width vs Petal Length (-0.43) dan Sepal Width vs Petal Width (-0.37)</strong>
+Korelasi negatif sedang. Artinya, sepal yang lebih lebar cenderung memiliki petal yang lebih pendek dan sempit.</p></li>
+<li><p><strong>Sepal Length vs Sepal Width (-0.12)</strong>
+Korelasi hampir nol (sangat lemah). Panjang sepal tidak banyak berhubungan dengan lebar sepal.</p></li>
+</ul>
+</section>
+<section id="kesimpulan">
+<h3><strong>Kesimpulan :</strong><a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Fitur <strong>petal length</strong> dan petal width memiliki hubungan yang sangat kuat, sehingga bisa menjadi indikator terbaik dalam klasifikasi spesies.</p></li>
+<li><p>Fitur <strong>sepal width</strong> justru kurang berkorelasi dengan fitur lain, sehingga kontribusinya mungkin lebih rendah dalam pemisahan kelas.</p></li>
+</ul>
+</section>
 </section>
 <section id="scatterplot-petal">
 <h2><strong>4. Scatterplot Petal</strong><a class="headerlink" href="#scatterplot-petal" title="Link to this heading">#</a></h2>
@@ -592,9 +697,18 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/88d24ff9d933a0b83bec4375919134d2175b80405ee61303e46768d975a14a94.png" src="_images/88d24ff9d933a0b83bec4375919134d2175b80405ee61303e46768d975a14a94.png" />
+<img alt="_images/b387c95845c109eac3f907ceba611711e10b6e7a10fe4ee82274af2f5b44fae0.png" src="_images/b387c95845c109eac3f907ceba611711e10b6e7a10fe4ee82274af2f5b44fae0.png" />
 </div>
 </div>
+<section id="penjelasan-gambar">
+<h3><strong>Penjelasan Gambar</strong><a class="headerlink" href="#penjelasan-gambar" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Setosa (merah)</strong> terlihat sangat terpisah dengan nilai petal length dan petal width yang rendah.</p></li>
+<li><p><strong>Versicolor (biru)</strong> dan <strong>Virginica (hijau)</strong> memiliki sebaran yang lebih berdekatan, tetapi masih dapat dipisahkan karena Virginica cenderung memiliki petal lebih panjang dan lebar.</p></li>
+<li><p>Variabel <strong>Petal Length</strong> dan <strong>Petal Width</strong> membedakan kelas (species), khususnya dalam membedakan Setosa dari dua spesies lainnya.</p></li>
+<li><p>Ini menegaskan bahwa kombinasi fitur petal merupakan predictor yang kuat untuk klasifikasi pada dataset Iris.</p></li>
+</ul>
+</section>
 </section>
 <section id="scatterplot-sepal">
 <h2><strong>5. Scatterplot Sepal</strong><a class="headerlink" href="#scatterplot-sepal" title="Link to this heading">#</a></h2>
@@ -609,30 +723,58 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/4d7d5c2b648da5f76499f70dd8995fa3f825f1bceb5f86f098e75083a537cffa.png" src="_images/4d7d5c2b648da5f76499f70dd8995fa3f825f1bceb5f86f098e75083a537cffa.png" />
+<img alt="_images/8a115792c18d2a6727201b16568a0038e32606e546de94042a0e07c1a20b7f2d.png" src="_images/8a115792c18d2a6727201b16568a0038e32606e546de94042a0e07c1a20b7f2d.png" />
 </div>
 </div>
+<section id="analisis-scatterplot-sepal">
+<h3><strong>Analisis Scatterplot Sepal :</strong><a class="headerlink" href="#analisis-scatterplot-sepal" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Setosa (hijau)</strong>
+Terlihat terpisah cukup jelas dari dua spesies lain. Setosa cenderung memiliki sepal yang <strong>lebih pendek</strong> (4.5–5.5 cm) namun <strong>lebih lebar</strong> (3.0–4.5 cm).</p></li>
+<li><p><strong>Versicolor (oranye)</strong>
+Memiliki distribusi di tengah-tengah. Sepal versicolor umumnya panjang 5.0–7.0 cm dengan lebar sekitar 2.0–3.5 cm. Ada sedikit <strong>tumpang tindih</strong> dengan <strong>Virginica</strong>.</p></li>
+<li><p><strong>Virginica (biru)</strong>
+Cenderung memiliki sepal yang <strong>lebih panjang</strong> (6.0–8.0 cm) dan lebar 2.5–3.5 cm. Walaupun cenderung lebih panjang, rentangnya <strong>tumpang tindih</strong> dengan <strong>Versicolor</strong>.</p></li>
+</ol>
+</section>
+<section id="id1">
+<h3><strong>Kesimpulan</strong><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Setosa</strong> dapat dibedakan dengan cukup jelas dari Versicolor dan Virginica menggunakan kombinasi panjang &amp; lebar sepal.</p></li>
+<li><p><strong>Versicolor</strong> dan Virginica saling tumpang tindih, sehingga sulit dipisahkan hanya dengan sepal.</p></li>
+<li><p>Sehingga, fitur sepal saja kurang cukup untuk memisahkan semua kelas; fitur petal lebih berperan penting dalam klasifikasi.</p></li>
+</ul>
+</section>
 </section>
 <section id="countplot-jumlah-tiap-species">
 <h2><strong>6. Countplot Jumlah Tiap Species</strong><a class="headerlink" href="#countplot-jumlah-tiap-species" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+
+<span class="c1"># Countplot dengan nama species_name, bukan angka</span>
 <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;pastel&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Jumlah Data per Species&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tambahkan judul</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Jumlah setiap kelas (Species)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Label sumbu</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Species&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Jumlah&quot;</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_12540\421743302.py:2: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_7992\2297075918.py:4: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.countplot(x=&#39;species_name&#39;, data=df, palette=&#39;pastel&#39;)
 </pre></div>
 </div>
-<img alt="_images/2520defe38f73748c7b98d4bcc2dec4f97afa64246e9f5ce359e1e09c03e7ed0.png" src="_images/2520defe38f73748c7b98d4bcc2dec4f97afa64246e9f5ce359e1e09c03e7ed0.png" />
+<img alt="_images/781ea3b2f117723b1b566f0e3ffcd8efde5645d1924b19f08900dc4f7b20ed8c.png" src="_images/781ea3b2f117723b1b566f0e3ffcd8efde5645d1924b19f08900dc4f7b20ed8c.png" />
 </div>
 </div>
 </section>
@@ -647,9 +789,36 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/730d4d5d5c6692ba41ed67399c218746f9f96a64e36f4779143f59839294ed9f.png" src="_images/730d4d5d5c6692ba41ed67399c218746f9f96a64e36f4779143f59839294ed9f.png" />
+<img alt="_images/a95313b4852c753cb54947dd81c001227019541705e7fe492cb220ad70e2f3b3.png" src="_images/a95313b4852c753cb54947dd81c001227019541705e7fe492cb220ad70e2f3b3.png" />
 </div>
 </div>
+<section id="analisis-pairplot">
+<h3><strong>Analisis Pairplot :</strong><a class="headerlink" href="#analisis-pairplot" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Distribusi diagonal (histogram/KDE tiap fitur)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Setosa (merah)</strong> terlihat memiliki distribusi yang sangat berbeda dengan dua kelas lainnya, terutama pada petal length dan petal width.</p></li>
+<li><p><strong>Versicolor (biru)</strong> dan <strong>Virginica (hijau)</strong> cenderung tumpang tindih, tetapi masih bisa dibedakan terutama lewat petal length dan petal width.</p></li>
+<li><p><strong>Sepal length</strong> &amp; <strong>sepal width</strong> tidak memberikan pemisahan yang jelas.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Hubungan antar fitur (scatter antar variabel)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Petal length</strong> vs <strong>petal width</strong>: terlihat cluster sangat jelas. <strong>Setosa</strong> benar-benar terpisah, sedangkan <strong>Versicolor</strong> dan <strong>Virginica</strong> membentuk dua kelompok yang agak <strong>overlap</strong>.</p></li>
+<li><p><strong>Sepal length</strong> vs <strong>sepal width</strong>: pemisahan antar kelas lebih sulit, banyak <strong>overlap</strong> antara <strong>Versicolor</strong> dan <strong>Virginica</strong>.</p></li>
+<li><p><strong>Sepal</strong> vs <em>Petal</em> (kombinasi silang): Petal tetap memberikan pemisahan kelas lebih baik dibandingkan sepal.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3><strong>Kesimpulan :</strong><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Setosa</strong> dapat dipisahkan dengan mudah dari dua kelas lainnya menggunakan fitur petal length dan petal width.</p></li>
+<li><p><strong>Versicolor</strong> dan <strong>Virginica</strong> sulit dipisahkan hanya dengan sepal, tetapi pemisahan jadi lebih baik ketika menggunakan fitur petal.</p></li>
+<li><p>Secara keseluruhan, fitur petal (khususnya panjang dan lebar) memiliki informasi paling kuat untuk klasifikasi species iris.</p></li>
+</ul>
+</section>
 </section>
 <section id="analisis-per-spesies">
 <h2><strong>8. Analisis Per Spesies</strong><a class="headerlink" href="#analisis-per-spesies" title="Link to this heading">#</a></h2>
@@ -667,31 +836,81 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_12540\1706288467.py:5: FutureWarning: 
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_7992\1706288467.py:5: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.boxplot(x=&quot;species&quot;, y=col, data=df, palette=&quot;Set2&quot;)
-C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_12540\1706288467.py:5: FutureWarning: 
+C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_7992\1706288467.py:5: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.boxplot(x=&quot;species&quot;, y=col, data=df, palette=&quot;Set2&quot;)
-C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_12540\1706288467.py:5: FutureWarning: 
+C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_7992\1706288467.py:5: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.boxplot(x=&quot;species&quot;, y=col, data=df, palette=&quot;Set2&quot;)
-C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_12540\1706288467.py:5: FutureWarning: 
+C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_7992\1706288467.py:5: FutureWarning: 
 
 Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
 
   sns.boxplot(x=&quot;species&quot;, y=col, data=df, palette=&quot;Set2&quot;)
 </pre></div>
 </div>
-<img alt="_images/9098466dff01adf3465b0a3c16ff454ba2f54d489d09f50e18db9580cdd9178f.png" src="_images/9098466dff01adf3465b0a3c16ff454ba2f54d489d09f50e18db9580cdd9178f.png" />
+<img alt="_images/5d4d716050542a1c780df891c9b45b088dc45b87f6feefe334824871588e2897.png" src="_images/5d4d716050542a1c780df891c9b45b088dc45b87f6feefe334824871588e2897.png" />
 </div>
 </div>
+<section id="analisis-boxplot-per-spesies">
+<h3><strong>Analisis Boxplot per Spesies :</strong><a class="headerlink" href="#analisis-boxplot-per-spesies" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Distribusi Nomor (No)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Hanya penomoran urutan data, tidak relevan untuk analisis biologis.</p></li>
+<li><p>Namun jelas tiap spesies diurutkan: <strong>Setosa</strong> (1–50), <strong>Versicolor</strong> (51–100), <strong>Virginica</strong> (101–150).</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Sepal Length (cm)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Setosa</strong> (1) memiliki sepal length paling pendek dengan median sekitar 5 cm.</p></li>
+<li><p><strong>Versicolor</strong> (2) lebih panjang, median sekitar 6 cm.</p></li>
+<li><p><strong>Virginica</strong> (3) paling panjang, median sekitar 6.5–7 cm.</p></li>
+<li><p>Terdapat overlap antara <strong>Versicolor</strong> dan <strong>Virginica</strong>, sehingga pemisahan menggunakan fitur ini agak sulit.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Sepal Width (cm)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>Setosa</strong> memiliki sepal width paling besar (median sekitar 3.4 cm).</p></li>
+<li><p><strong>Versicolor</strong> cenderung lebih kecil (median 2.8 cm).</p></li>
+<li><p><strong>Virginica</strong> berada di tengah (median 3.0 cm).</p></li>
+<li><p>Beberapa <strong>outlier</strong> muncul di <strong>ketiga</strong> kelas, tetapi <strong>sepal width</strong> cukup membantu membedakan Setosa dengan yang lain.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Petal Length (cm)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Fitur ini paling jelas memisahkan kelas:</p>
+<ul>
+<li><p><strong>Setosa</strong> sangat kecil (median 1.5 cm).</p></li>
+<li><p><strong>Versicolor</strong> sedang (median 4.2 cm).</p></li>
+<li><p><strong>Virginica</strong> besar (median 5.5 cm).</p></li>
+</ul>
+</li>
+<li><p>Hampir tidak ada overlap antar spesies, sehingga petal length sangat baik untuk klasifikasi.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3><strong>Kesimpulan :</strong><a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Sepal length</strong>: membedakan Setosa dengan dua spesies lain, tapi Versicolor &amp; Virginica overlap.</p></li>
+<li><p><strong>Sepal width</strong>: membantu membedakan Setosa, tapi kurang kuat untuk Versicolor vs Virginica.</p></li>
+<li><p><strong>Petal length</strong>: fitur paling diskriminatif, memisahkan ketiga spesies dengan sangat jelas.</p></li>
+<li><p>Secara umum, fitur <strong>petal</strong> lebih informatif dibandingkan <strong>sepal</strong> untuk klasifikasi spesies iris.</p></li>
+</ul>
+</section>
 </section>
 <section id="deteksi-outlier">
 <h2><strong>9. Deteksi Outlier</strong><a class="headerlink" href="#deteksi-outlier" title="Link to this heading">#</a></h2>
@@ -782,9 +1001,42 @@ Tidak ada outlier
 </div>
 </div>
 </div>
+<section id="penjelasan-outlier">
+<h3><strong>Penjelasan Outlier :</strong><a class="headerlink" href="#penjelasan-outlier" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Kolom No</strong>
+Tidak ada outlier (normal, karena ini cuma nomor urut).</p></li>
+<li><p><strong>Kolom sepal length (cm)</strong>
+Tidak ada nilai ekstrem → semua panjang sepal berada dalam rentang normal.</p></li>
+<li><p><strong>Kolom sepal width (cm)</strong>
+Ada 4 outlier (≈2.67% dari total data):</p></li>
+</ol>
+<ul class="simple">
+<li><p><strong>4.4, 4.1, 4.2 (lebih tinggi dari normal → outlier atas)</strong></p></li>
+<li><p><strong>2.0 (lebih rendah dari normal → outlier bawah)</strong>
+Jadi distribusi sepal width agak menyebar lebih luas, dan ada beberapa bunga dengan sepal yang sangat lebar atau sangat sempit dibanding mayoritas.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Kolom petal length (cm)</strong>
+Tidak ada outlier → data petal length cenderung stabil.</p></li>
+<li><p><strong>Kolom petal width (cm)</strong>
+Tidak ada outlier → data petal width juga stabil.</p></li>
+<li><p><strong>Kolom species</strong>
+Tidak ada outlier (ini kategori, jadi wajar).</p></li>
+</ol>
 </section>
-<section id="kesimpulan">
-<h2><strong>10. Kesimpulan</strong><a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h2>
+<section id="interpretasi">
+<h3><strong>Interpretasi</strong><a class="headerlink" href="#interpretasi" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Hanya <strong>sepal width</strong> yang punya outlier → artinya variasi ukuran lebar sepal antar spesies cukup ekstrem.
+Outlier ini bisa:</p></li>
+<li><p>Dipertahankan kalau memang mewakili kondisi nyata (misalnya bunga spesies tertentu memang lebih lebar dari yang lain).</p></li>
+<li><p>Dihapus jika tujuannya analisis statistik murni dan nilai ekstrem bisa mengganggu model (contoh regresi atau clustering).</p></li>
+</ul>
+</section>
+</section>
+<section id="id4">
+<h2><strong>10. Kesimpulan</strong><a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <ol class="arabic simple">
 <li><p>Dataset terdiri dari 150 baris data dan 5 kolom (4 numerik, 1 kategorikal).</p></li>
 <li><p>Tidak ada missing value pada dataset.</p></li>
@@ -867,15 +1119,42 @@ Tidak ada outlier
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif"><strong>1. Statistik Deskriptif</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-tiap-fitur"><strong>2. Distribusi Tiap Fitur</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#korelasi-antar-fitur"><strong>3. Korelasi Antar Fitur</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot-petal"><strong>4. Scatterplot Petal</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot-sepal"><strong>5. Scatterplot Sepal</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-tiap-fitur"><strong>2. Distribusi Tiap Fitur</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keterangan-histogram-fitur-numerik"><strong>Keterangan Histogram Fitur Numerik :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan"><strong>Ringkasan:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#korelasi-antar-fitur"><strong>3. Korelasi Antar Fitur</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hubungan-antar-fitur"><strong>Hubungan antar fitur :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan"><strong>Kesimpulan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot-petal"><strong>4. Scatterplot Petal</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-gambar"><strong>Penjelasan Gambar</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scatterplot-sepal"><strong>5. Scatterplot Sepal</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-scatterplot-sepal"><strong>Analisis Scatterplot Sepal :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><strong>Kesimpulan</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#countplot-jumlah-tiap-species"><strong>6. Countplot Jumlah Tiap Species</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairplot-semua-fitur"><strong>7. Pairplot Semua Fitur</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-per-spesies"><strong>8. Analisis Per Spesies</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier"><strong>9. Deteksi Outlier</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan"><strong>10. Kesimpulan</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pairplot-semua-fitur"><strong>7. Pairplot Semua Fitur</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-pairplot"><strong>Analisis Pairplot :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><strong>Kesimpulan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-per-spesies"><strong>8. Analisis Per Spesies</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis-boxplot-per-spesies"><strong>Analisis Boxplot per Spesies :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3"><strong>Kesimpulan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deteksi-outlier"><strong>9. Deteksi Outlier</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-outlier"><strong>Penjelasan Outlier :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi"><strong>Interpretasi</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><strong>10. Kesimpulan</strong></a></li>
 </ul>
   </nav></div>
 

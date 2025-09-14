@@ -180,7 +180,7 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="business_understanding.html">Business Problem</a></li>
+<li class="toctree-l1"><a class="reference internal" href="business_understanding.html"><strong>Business Problem</strong></a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Data Understanding</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="data_exploration.html"><strong>Data Exploration</strong></a></li>
 </ul>
@@ -384,9 +384,23 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengecek-tipe-data-dan-jenis-variabel"><strong>4. Mengecek Tipe Data dan Jenis Variabel</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif"><strong>5. Statistik Deskriptif</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-kategori-species"><strong>6. Statistik Kategori (species)</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-distribusi-kolom-numerik"><strong>7. Visualisasi Distribusi Kolom Numerik</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-distribusi-kolom-numerik"><strong>7. Visualisasi Distribusi Kolom Numerik</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keterangan-gambar"><strong>Keterangan Gambar</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-id"><strong>Distribusi id</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-sepal-length"><strong>Distribusi sepal length</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-sepal-width"><strong>Distribusi sepal width</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-petal-length"><strong>Distribusi petal length</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-petal-width"><strong>Distribusi petal width</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-species"><strong>Distribusi species</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-species-name"><strong>Distribusi species_name</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-dari-histogram"><strong>Kesimpulan dari Histogram</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-jumlah-setiap-kelas"><strong>8. Visualisasi Jumlah Setiap Kelas</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-awal-hubungan-fitur"><strong>9. Visualisasi Awal Hubungan Fitur</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-awal-hubungan-fitur"><strong>9. Visualisasi Awal Hubungan Fitur</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-gambar"><strong>Penjelasan Gambar</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insight-awal"><strong>10. Insight Awal</strong></a></li>
 </ul>
             </nav>
@@ -424,7 +438,16 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Library berhasil diimport
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;seaborn&#39;
 </pre></div>
 </div>
 </div>
@@ -477,63 +500,63 @@ Ukuran dataset: 150 baris, 7 kolom
 </div>
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_28343">
+<table id="T_f1c07">
   <thead>
     <tr>
-      <th id="T_28343_level0_col0" class="col_heading level0 col0" >id</th>
-      <th id="T_28343_level0_col1" class="col_heading level0 col1" >sepal length</th>
-      <th id="T_28343_level0_col2" class="col_heading level0 col2" >sepal width</th>
-      <th id="T_28343_level0_col3" class="col_heading level0 col3" >petal length</th>
-      <th id="T_28343_level0_col4" class="col_heading level0 col4" >petal width</th>
-      <th id="T_28343_level0_col5" class="col_heading level0 col5" >species</th>
-      <th id="T_28343_level0_col6" class="col_heading level0 col6" >species_name</th>
+      <th id="T_f1c07_level0_col0" class="col_heading level0 col0" >id</th>
+      <th id="T_f1c07_level0_col1" class="col_heading level0 col1" >sepal length</th>
+      <th id="T_f1c07_level0_col2" class="col_heading level0 col2" >sepal width</th>
+      <th id="T_f1c07_level0_col3" class="col_heading level0 col3" >petal length</th>
+      <th id="T_f1c07_level0_col4" class="col_heading level0 col4" >petal width</th>
+      <th id="T_f1c07_level0_col5" class="col_heading level0 col5" >species</th>
+      <th id="T_f1c07_level0_col6" class="col_heading level0 col6" >species_name</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_28343_row0_col0" class="data row0 col0" >1</td>
-      <td id="T_28343_row0_col1" class="data row0 col1" >5.1</td>
-      <td id="T_28343_row0_col2" class="data row0 col2" >3.5</td>
-      <td id="T_28343_row0_col3" class="data row0 col3" >1.4</td>
-      <td id="T_28343_row0_col4" class="data row0 col4" >0.2</td>
-      <td id="T_28343_row0_col5" class="data row0 col5" >1</td>
-      <td id="T_28343_row0_col6" class="data row0 col6" >setosa</td>
+      <td id="T_f1c07_row0_col0" class="data row0 col0" >1</td>
+      <td id="T_f1c07_row0_col1" class="data row0 col1" >5.1</td>
+      <td id="T_f1c07_row0_col2" class="data row0 col2" >3.5</td>
+      <td id="T_f1c07_row0_col3" class="data row0 col3" >1.4</td>
+      <td id="T_f1c07_row0_col4" class="data row0 col4" >0.2</td>
+      <td id="T_f1c07_row0_col5" class="data row0 col5" >1</td>
+      <td id="T_f1c07_row0_col6" class="data row0 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_28343_row1_col0" class="data row1 col0" >2</td>
-      <td id="T_28343_row1_col1" class="data row1 col1" >4.9</td>
-      <td id="T_28343_row1_col2" class="data row1 col2" >3.0</td>
-      <td id="T_28343_row1_col3" class="data row1 col3" >1.4</td>
-      <td id="T_28343_row1_col4" class="data row1 col4" >0.2</td>
-      <td id="T_28343_row1_col5" class="data row1 col5" >1</td>
-      <td id="T_28343_row1_col6" class="data row1 col6" >setosa</td>
+      <td id="T_f1c07_row1_col0" class="data row1 col0" >2</td>
+      <td id="T_f1c07_row1_col1" class="data row1 col1" >4.9</td>
+      <td id="T_f1c07_row1_col2" class="data row1 col2" >3.0</td>
+      <td id="T_f1c07_row1_col3" class="data row1 col3" >1.4</td>
+      <td id="T_f1c07_row1_col4" class="data row1 col4" >0.2</td>
+      <td id="T_f1c07_row1_col5" class="data row1 col5" >1</td>
+      <td id="T_f1c07_row1_col6" class="data row1 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_28343_row2_col0" class="data row2 col0" >3</td>
-      <td id="T_28343_row2_col1" class="data row2 col1" >4.7</td>
-      <td id="T_28343_row2_col2" class="data row2 col2" >3.2</td>
-      <td id="T_28343_row2_col3" class="data row2 col3" >1.3</td>
-      <td id="T_28343_row2_col4" class="data row2 col4" >0.2</td>
-      <td id="T_28343_row2_col5" class="data row2 col5" >1</td>
-      <td id="T_28343_row2_col6" class="data row2 col6" >setosa</td>
+      <td id="T_f1c07_row2_col0" class="data row2 col0" >3</td>
+      <td id="T_f1c07_row2_col1" class="data row2 col1" >4.7</td>
+      <td id="T_f1c07_row2_col2" class="data row2 col2" >3.2</td>
+      <td id="T_f1c07_row2_col3" class="data row2 col3" >1.3</td>
+      <td id="T_f1c07_row2_col4" class="data row2 col4" >0.2</td>
+      <td id="T_f1c07_row2_col5" class="data row2 col5" >1</td>
+      <td id="T_f1c07_row2_col6" class="data row2 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_28343_row3_col0" class="data row3 col0" >4</td>
-      <td id="T_28343_row3_col1" class="data row3 col1" >4.6</td>
-      <td id="T_28343_row3_col2" class="data row3 col2" >3.1</td>
-      <td id="T_28343_row3_col3" class="data row3 col3" >1.5</td>
-      <td id="T_28343_row3_col4" class="data row3 col4" >0.2</td>
-      <td id="T_28343_row3_col5" class="data row3 col5" >1</td>
-      <td id="T_28343_row3_col6" class="data row3 col6" >setosa</td>
+      <td id="T_f1c07_row3_col0" class="data row3 col0" >4</td>
+      <td id="T_f1c07_row3_col1" class="data row3 col1" >4.6</td>
+      <td id="T_f1c07_row3_col2" class="data row3 col2" >3.1</td>
+      <td id="T_f1c07_row3_col3" class="data row3 col3" >1.5</td>
+      <td id="T_f1c07_row3_col4" class="data row3 col4" >0.2</td>
+      <td id="T_f1c07_row3_col5" class="data row3 col5" >1</td>
+      <td id="T_f1c07_row3_col6" class="data row3 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_28343_row4_col0" class="data row4 col0" >5</td>
-      <td id="T_28343_row4_col1" class="data row4 col1" >5.0</td>
-      <td id="T_28343_row4_col2" class="data row4 col2" >3.6</td>
-      <td id="T_28343_row4_col3" class="data row4 col3" >1.4</td>
-      <td id="T_28343_row4_col4" class="data row4 col4" >0.2</td>
-      <td id="T_28343_row4_col5" class="data row4 col5" >1</td>
-      <td id="T_28343_row4_col6" class="data row4 col6" >setosa</td>
+      <td id="T_f1c07_row4_col0" class="data row4 col0" >5</td>
+      <td id="T_f1c07_row4_col1" class="data row4 col1" >5.0</td>
+      <td id="T_f1c07_row4_col2" class="data row4 col2" >3.6</td>
+      <td id="T_f1c07_row4_col3" class="data row4 col3" >1.4</td>
+      <td id="T_f1c07_row4_col4" class="data row4 col4" >0.2</td>
+      <td id="T_f1c07_row4_col5" class="data row4 col5" >1</td>
+      <td id="T_f1c07_row4_col6" class="data row4 col6" >setosa</td>
     </tr>
   </tbody>
 </table>
@@ -545,25 +568,52 @@ Ukuran dataset: 150 baris, 7 kolom
 <p>Mengecek tipe data tiap kolom, jumlah baris, dan ada tidaknya missing values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Melihat tipe data bawaan pandas</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+
+<span class="c1"># Kolom numerik</span>
+<span class="n">numerical_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span><span class="s1">&#39;float64&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="c1"># Kolom kategorikal (object/string atau kategori)</span>
+<span class="n">categorical_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">,</span><span class="s1">&#39;category&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="c1"># Kolom datetime</span>
+<span class="n">datetime_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime64&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Numerical Columns:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">numerical_cols</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Categorical Columns:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">categorical_cols</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Datetime Columns:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">datetime_cols</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">categorical_cols</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> unique values&quot;</span><span class="p">)</span>
+
+<span class="c1"># Statistik ringkas untuk numerik</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">numerical_cols</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+
+<span class="c1"># Statistik ringkas untuk kategorikal</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-RangeIndex: 150 entries, 0 to 149
-Data columns (total 7 columns):
- #   Column        Non-Null Count  Dtype  
----  ------        --------------  -----  
- 0   id            150 non-null    int64  
- 1   sepal length  150 non-null    float64
- 2   sepal width   150 non-null    float64
- 3   petal length  150 non-null    float64
- 4   petal width   150 non-null    float64
- 5   species       150 non-null    int32  
- 6   species_name  150 non-null    object 
-dtypes: float64(4), int32(1), int64(1), object(1)
-memory usage: 7.7+ KB
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Numerical Columns: [&#39;id&#39;, &#39;sepal length&#39;, &#39;sepal width&#39;, &#39;petal length&#39;, &#39;petal width&#39;]
+Categorical Columns: [&#39;species_name&#39;]
+Datetime Columns: []
+species_name → 3 unique values
+         id  sepal length  sepal width  petal length  petal width
+count 150.0         150.0        150.0         150.0        150.0
+mean   75.5           5.8          3.1           3.8          1.2
+std    43.4           0.8          0.4           1.8          0.8
+min     1.0           4.3          2.0           1.0          0.1
+25%    38.2           5.1          2.8           1.6          0.3
+50%    75.5           5.8          3.0           4.3          1.3
+75%   112.8           6.4          3.3           5.1          1.8
+max   150.0           7.9          4.4           6.9          2.5
+       species_name
+count           150
+unique            3
+top          setosa
+freq             50
 </pre></div>
 </div>
 </div>
@@ -759,9 +809,75 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/11af67fdf89d29dc237112df9157742654e4745f63ee82d0b4fb8fc33a49f51e.png" src="_images/11af67fdf89d29dc237112df9157742654e4745f63ee82d0b4fb8fc33a49f51e.png" />
+<img alt="_images/a80497bc16e41d0cc56b3381d98ddb3723836ee55920d7ba3090b2a18e67b6c3.png" src="_images/a80497bc16e41d0cc56b3381d98ddb3723836ee55920d7ba3090b2a18e67b6c3.png" />
 </div>
 </div>
+<section id="keterangan-gambar">
+<h3><strong>Keterangan Gambar</strong><a class="headerlink" href="#keterangan-gambar" title="Link to this heading">#</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Berikut interpretasi distribusi dari masing-masing fitur pada dataset Iris.</p>
+</div>
+</section>
+<section id="distribusi-id">
+<h3><strong>Distribusi id</strong><a class="headerlink" href="#distribusi-id" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Histogram <code class="docutils literal notranslate"><span class="pre">id</span></code> merata (flat), karena <code class="docutils literal notranslate"><span class="pre">id</span></code> hanya penomoran urut dari 1–150.</p></li>
+</ul>
+</section>
+<section id="distribusi-sepal-length">
+<h3><strong>Distribusi sepal length</strong><a class="headerlink" href="#distribusi-sepal-length" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Bentuk distribusi agak mendekati normal, dengan sebagian besar data berada pada 5–7 cm.</p></li>
+<li><p>Rentang nilai: <strong>4.3 – 7.9</strong>.</p></li>
+<li><p>Mayoritas bunga memiliki sepal panjang sedang, hanya sedikit yang ekstrem (sangat pendek atau sangat panjang).</p></li>
+</ul>
+</section>
+<section id="distribusi-sepal-width">
+<h3><strong>Distribusi sepal width</strong><a class="headerlink" href="#distribusi-sepal-width" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Distribusi agak simetris, tapi sedikit miring ke kanan (<em>positively skewed</em>).</p></li>
+<li><p>Rentang nilai: <strong>2.0 – 4.4</strong>.</p></li>
+<li><p>Ada beberapa outlier (misalnya di atas 4.0), yang perlu diperhatikan saat analisis.</p></li>
+</ul>
+</section>
+<section id="distribusi-petal-length">
+<h3><strong>Distribusi petal length</strong><a class="headerlink" href="#distribusi-petal-length" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Distribusi <strong>bimodal</strong> (ada dua puncak utama): satu di sekitar 1.5 cm (setosa), dan satu lagi sekitar 4–5.5 cm (versicolor &amp; virginica).</p></li>
+<li><p>Ini menandakan <strong>perbedaan spesies</strong> cukup jelas berdasarkan panjang petal.</p></li>
+</ul>
+</section>
+<section id="distribusi-petal-width">
+<h3><strong>Distribusi petal width</strong><a class="headerlink" href="#distribusi-petal-width" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Mirip dengan petal length, juga menunjukkan pola bimodal.</p></li>
+<li><p>Setosa punya petal sangat sempit (≤0.5 cm), sedangkan versicolor dan virginica lebih lebar (1–2.5 cm).</p></li>
+</ul>
+</section>
+<section id="distribusi-species">
+<h3><strong>Distribusi species</strong><a class="headerlink" href="#distribusi-species" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Karena ini numerik hasil encoding (<code class="docutils literal notranslate"><span class="pre">1=setosa,</span> <span class="pre">2=versicolor,</span> <span class="pre">3=virginica</span></code>), maka histogram menunjukkan tiga puncak yang sama tinggi (masing-masing 50 data).</p></li>
+<li><p>Ini menandakan dataset <strong>seimbang (balanced)</strong> antar spesies.</p></li>
+</ul>
+</section>
+<section id="distribusi-species-name">
+<h3><strong>Distribusi species_name</strong><a class="headerlink" href="#distribusi-species-name" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Visualisasi kategorikal: jumlah setosa, versicolor, virginica sama (50 masing-masing).</p></li>
+<li><p>Mengonfirmasi bahwa dataset tidak bias ke salah satu kelas.</p></li>
+</ul>
+</section>
+<section id="kesimpulan-dari-histogram">
+<h3><strong>Kesimpulan dari Histogram</strong><a class="headerlink" href="#kesimpulan-dari-histogram" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Fitur petal length dan petal width punya daya pisah yang kuat antar spesies (baik secara range maupun distribusi).</p></li>
+<li><p>Sepal length cukup variatif tapi tidak sekuat petal dalam membedakan kelas.</p></li>
+<li><p>Sepal width terlihat memiliki outlier, sehingga perlu diperhatikan saat pemodelan.</p></li>
+<li><p>Dataset sangat seimbang (50 data per spesies), sehingga cocok untuk klasifikasi.</p></li>
+</ul>
+</section>
 </section>
 <section id="visualisasi-jumlah-setiap-kelas">
 <h2><strong>8. Visualisasi Jumlah Setiap Kelas</strong><a class="headerlink" href="#visualisasi-jumlah-setiap-kelas" title="Link to this heading">#</a></h2>
@@ -769,14 +885,23 @@ Name: count, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;species&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;pastel&#39;</span><span class="p">)</span>
+
+<span class="c1"># Countplot dengan nama species_name, bukan angka</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;species_name&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;pastel&#39;</span><span class="p">)</span>
+
+<span class="c1"># Tambahkan judul</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Jumlah setiap kelas (Species)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Label sumbu</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Species&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Jumlah&quot;</span><span class="p">)</span>
+
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/1f15dfb87d96de1d3c2ae70960a0fb564a83adfe92cdad42c7ca56c2c4f0a118.png" src="_images/1f15dfb87d96de1d3c2ae70960a0fb564a83adfe92cdad42c7ca56c2c4f0a118.png" />
+<img alt="_images/781ea3b2f117723b1b566f0e3ffcd8efde5645d1924b19f08900dc4f7b20ed8c.png" src="_images/781ea3b2f117723b1b566f0e3ffcd8efde5645d1924b19f08900dc4f7b20ed8c.png" />
 </div>
 </div>
 </section>
@@ -800,9 +925,18 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/f598483a69b623b50571943bcbc17c02762cab5d06e160cfedd7821dd5b26021.png" src="_images/f598483a69b623b50571943bcbc17c02762cab5d06e160cfedd7821dd5b26021.png" />
+<img alt="_images/8ab1256fccf03ed4a5b5d0326669534cb9edf0ef84aeece24d820779fd753269.png" src="_images/8ab1256fccf03ed4a5b5d0326669534cb9edf0ef84aeece24d820779fd753269.png" />
 </div>
 </div>
+<section id="penjelasan-gambar">
+<h3><strong>Penjelasan Gambar</strong><a class="headerlink" href="#penjelasan-gambar" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>Setosa (merah)</strong> terlihat sangat terpisah dengan nilai petal length dan petal width yang rendah.</p></li>
+<li><p><strong>Versicolor (biru)</strong> dan <strong>Virginica (hijau)</strong> memiliki sebaran yang lebih berdekatan, tetapi masih dapat dipisahkan karena Virginica cenderung memiliki petal lebih panjang dan lebar.</p></li>
+<li><p>Variabel <strong>Petal Length</strong> dan <strong>Petal Width</strong> membedakan kelas (species), khususnya dalam membedakan Setosa dari dua spesies lainnya.</p></li>
+<li><p>Ini menegaskan bahwa kombinasi fitur petal merupakan predictor yang kuat untuk klasifikasi pada dataset Iris.</p></li>
+</ul>
+</section>
 </section>
 <section id="insight-awal">
 <h2><strong>10. Insight Awal</strong><a class="headerlink" href="#insight-awal" title="Link to this heading">#</a></h2>
@@ -851,7 +985,7 @@ Name: count, dtype: int64
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Business Problem</p>
+        <p class="prev-next-title"><strong>Business Problem</strong></p>
       </div>
     </a>
     <a class="right-next"
@@ -885,9 +1019,23 @@ Name: count, dtype: int64
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengecek-tipe-data-dan-jenis-variabel"><strong>4. Mengecek Tipe Data dan Jenis Variabel</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif"><strong>5. Statistik Deskriptif</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-kategori-species"><strong>6. Statistik Kategori (species)</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-distribusi-kolom-numerik"><strong>7. Visualisasi Distribusi Kolom Numerik</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-distribusi-kolom-numerik"><strong>7. Visualisasi Distribusi Kolom Numerik</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keterangan-gambar"><strong>Keterangan Gambar</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-id"><strong>Distribusi id</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-sepal-length"><strong>Distribusi sepal length</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-sepal-width"><strong>Distribusi sepal width</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-petal-length"><strong>Distribusi petal length</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-petal-width"><strong>Distribusi petal width</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-species"><strong>Distribusi species</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#distribusi-species-name"><strong>Distribusi species_name</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-dari-histogram"><strong>Kesimpulan dari Histogram</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-jumlah-setiap-kelas"><strong>8. Visualisasi Jumlah Setiap Kelas</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-awal-hubungan-fitur"><strong>9. Visualisasi Awal Hubungan Fitur</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualisasi-awal-hubungan-fitur"><strong>9. Visualisasi Awal Hubungan Fitur</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-gambar"><strong>Penjelasan Gambar</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#insight-awal"><strong>10. Insight Awal</strong></a></li>
 </ul>
   </nav></div>
