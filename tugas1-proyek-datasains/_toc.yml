@@ -8,5 +8,5 @@ chapters:
   - file: business_understanding
   - file: data_understanding
     sections:
-    - file: data_exploration
+      - file: data_exploration
   - file: data_preprocessing
