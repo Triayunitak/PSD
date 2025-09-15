@@ -382,7 +382,10 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library"><strong>1. Import Library</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset"><strong>2. Load Dataset</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-dataset"><strong>3. Informasi Dataset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-dataset"><strong>3. Informasi Dataset</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dalam-bentuk-tabel"><strong>Dalam Bentuk Tabel</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengecek-tipe-data-dan-jenis-variabel"><strong>4. Mengecek Tipe Data dan Jenis Variabel</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif"><strong>5. Statistik Deskriptif</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-kategori-species"><strong>6. Statistik Kategori (species)</strong></a></li>
@@ -422,12 +425,25 @@ document.write(`
 <p>Kita mulai dengan mengimpor library Python yang dibutuhkan: pandas untuk manipulasi data, matplotlib dan seaborn untuk visualisasi.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library yang diperlukan</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install required packages</span>
+<span class="o">%</span><span class="k">pip</span> install seaborn
+
+<span class="c1"># Import library yang diperlukan</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="c1"># Import PyCaret untuk EDA dan classification</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.classification</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.anomaly</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyCaret berhasil diimport&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyCaret tidak tersedia. Install dengan: pip install pycaret&quot;</span><span class="p">)</span>
 
 <span class="c1"># Atur style untuk visualisasi</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
@@ -438,7 +454,47 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Library berhasil diimport
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: seaborn in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (0.13.2)
+Requirement already satisfied: numpy!=1.24.0,&gt;=1.20 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (1.26.4)
+Requirement already satisfied: pandas&gt;=1.2 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (2.1.4)
+Requirement already satisfied: matplotlib!=3.6.1,&gt;=3.4 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (3.7.5)
+Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.2.1)
+Requirement already satisfied: cycler&gt;=0.10 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (4.53.0)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.4.5)
+Requirement already satisfied: packaging&gt;=20.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (24.1)
+Requirement already satisfied: pillow&gt;=6.2.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (10.3.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (3.1.2)
+Requirement already satisfied: python-dateutil&gt;=2.7 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from pandas&gt;=1.2-&gt;seaborn) (2025.1)
+Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from pandas&gt;=1.2-&gt;seaborn) (2025.1)
+Requirement already satisfied: six&gt;=1.5 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.16.0)
+Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="c1"># Import PyCaret untuk EDA dan classification</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">---&gt; </span><span class="mi">14</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.classification</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.anomaly</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">File</span> <span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Programs</span>\<span class="n">Python</span>\<span class="n">Python312</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pycaret</span>\<span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">22</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>         <span class="s2">&quot;Pycaret only supports python 3.9, 3.10, 3.11. Your actual Python version: &quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>         <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">19</span>         <span class="s2">&quot;Please UPGRADE your Python version.&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">22</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">23</span>         <span class="s2">&quot;Pycaret only supports python 3.9, 3.10, 3.11. Your actual Python version: &quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">24</span>         <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span>         <span class="s2">&quot;Please DOWNGRADE your Python version.&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="p">)</span>
+
+<span class="ne">RuntimeError</span>: (&#39;Pycaret only supports python 3.9, 3.10, 3.11. Your actual Python version: &#39;, sys.version_info(major=3, minor=12, micro=4, releaselevel=&#39;final&#39;, serial=0), &#39;Please DOWNGRADE your Python version.&#39;)
 </pre></div>
 </div>
 </div>
@@ -447,6 +503,128 @@ document.write(`
 <section id="load-dataset">
 <h2><strong>2. Load Dataset</strong><a class="headerlink" href="#load-dataset" title="Link to this heading">#</a></h2>
 <p>Dataset Iris akan dimuat dari file CSV. Pastikan file CSV berada di folder yang sama atau sesuaikan path-nya.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset Iris dari file CSV atau PyCaret</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># 1️⃣ Coba load dari file lokal</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data_iris.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+
+    <span class="c1"># 2️⃣ Konversi kolom numerik (kalau pakai koma sebagai decimal separator)</span>
+    <span class="n">numeric_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sepal length&#39;</span><span class="p">,</span> <span class="s1">&#39;sepal width&#39;</span><span class="p">,</span> <span class="s1">&#39;petal length&#39;</span><span class="p">,</span> <span class="s1">&#39;petal width&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">numeric_columns</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+            <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="c1"># 3️⃣ Mapping species (jika ada kolom Class)</span>
+    <span class="k">if</span> <span class="s1">&#39;Class&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Class&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span>
+            <span class="s1">&#39;Iris-setosa&#39;</span><span class="p">:</span> <span class="s1">&#39;setosa&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Iris-versicolor&#39;</span><span class="p">:</span> <span class="s1">&#39;versicolor&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Iris-virginica&#39;</span><span class="p">:</span> <span class="s1">&#39;virginica&#39;</span>
+        <span class="p">})</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span>
+            <span class="s1">&#39;setosa&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;versicolor&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;virginica&#39;</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="p">})</span>
+
+    <span class="c1"># 4️⃣ Rename kolom supaya konsisten dengan sklearn</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
+        <span class="s1">&#39;sepal length&#39;</span><span class="p">:</span> <span class="s1">&#39;sepal length (cm)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;sepal width&#39;</span><span class="p">:</span> <span class="s1">&#39;sepal width (cm)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;petal length&#39;</span><span class="p">:</span> <span class="s1">&#39;petal length (cm)&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;petal width&#39;</span><span class="p">:</span> <span class="s1">&#39;petal width (cm)&#39;</span>
+    <span class="p">})</span>
+
+    <span class="c1"># 5️⃣ Drop kolom yang tidak perlu</span>
+    <span class="k">if</span> <span class="s1">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Dataset Iris berhasil dimuat dari data_iris.csv&quot;</span><span class="p">)</span>
+
+<span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+    <span class="c1"># Jika file tidak ditemukan, pakai dataset bawaan PyCaret</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️ File lokal tidak ditemukan. Menggunakan dataset Iris dari PyCaret...&quot;</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Mapping species numerik</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species_num&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span>
+            <span class="s1">&#39;setosa&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;versicolor&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;virginica&#39;</span><span class="p">:</span> <span class="mi">2</span>
+        <span class="p">})</span>
+        <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;species&#39;</span><span class="p">]</span>  <span class="c1"># duplikat kolom species</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Dataset Iris berhasil dimuat dari PyCaret&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ Error: Tidak dapat memuat dataset dari PyCaret&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="c1"># 6️⃣ Info dataset</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Ukuran dataset: </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> baris, </span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> kolom&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kolom dataset: </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># 7️⃣ Preview 5 baris pertama</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Dataset Iris berhasil dimuat dari data_iris.csv
+
+Ukuran dataset: 152 baris, 1 kolom
+Kolom dataset: [&#39;id,Class,sepal length,sepal width,petal length,petal width&#39;]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id,Class,sepal length,sepal width,petal length,petal width</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>continuous,Iris-setosa Iris-versicolor Iris-vi...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>,,,,,</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1,Iris-setosa,5.1,3.5,1.4,0.2</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2,Iris-setosa,4.9,3.0,1.4,0.2</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>3,Iris-setosa,4.7,3.2,1.3,0.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="informasi-dataset">
+<h2><strong>3. Informasi Dataset</strong><a class="headerlink" href="#informasi-dataset" title="Link to this heading">#</a></h2>
+<p>Mengecek tipe data tiap kolom, jumlah baris, dan ada tidaknya missing values.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import library</span>
@@ -491,124 +669,114 @@ Ukuran dataset: 150 baris, 7 kolom
 </div>
 <div class="output text_html"><style type="text/css">
 </style>
-<table id="T_3e422">
+<table id="T_7039b">
   <thead>
     <tr>
-      <th id="T_3e422_level0_col0" class="col_heading level0 col0" >id</th>
-      <th id="T_3e422_level0_col1" class="col_heading level0 col1" >sepal length</th>
-      <th id="T_3e422_level0_col2" class="col_heading level0 col2" >sepal width</th>
-      <th id="T_3e422_level0_col3" class="col_heading level0 col3" >petal length</th>
-      <th id="T_3e422_level0_col4" class="col_heading level0 col4" >petal width</th>
-      <th id="T_3e422_level0_col5" class="col_heading level0 col5" >species</th>
-      <th id="T_3e422_level0_col6" class="col_heading level0 col6" >species_name</th>
+      <th id="T_7039b_level0_col0" class="col_heading level0 col0" >id</th>
+      <th id="T_7039b_level0_col1" class="col_heading level0 col1" >sepal length</th>
+      <th id="T_7039b_level0_col2" class="col_heading level0 col2" >sepal width</th>
+      <th id="T_7039b_level0_col3" class="col_heading level0 col3" >petal length</th>
+      <th id="T_7039b_level0_col4" class="col_heading level0 col4" >petal width</th>
+      <th id="T_7039b_level0_col5" class="col_heading level0 col5" >species</th>
+      <th id="T_7039b_level0_col6" class="col_heading level0 col6" >species_name</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td id="T_3e422_row0_col0" class="data row0 col0" >1</td>
-      <td id="T_3e422_row0_col1" class="data row0 col1" >5.1</td>
-      <td id="T_3e422_row0_col2" class="data row0 col2" >3.5</td>
-      <td id="T_3e422_row0_col3" class="data row0 col3" >1.4</td>
-      <td id="T_3e422_row0_col4" class="data row0 col4" >0.2</td>
-      <td id="T_3e422_row0_col5" class="data row0 col5" >1</td>
-      <td id="T_3e422_row0_col6" class="data row0 col6" >setosa</td>
+      <td id="T_7039b_row0_col0" class="data row0 col0" >1</td>
+      <td id="T_7039b_row0_col1" class="data row0 col1" >5.1</td>
+      <td id="T_7039b_row0_col2" class="data row0 col2" >3.5</td>
+      <td id="T_7039b_row0_col3" class="data row0 col3" >1.4</td>
+      <td id="T_7039b_row0_col4" class="data row0 col4" >0.2</td>
+      <td id="T_7039b_row0_col5" class="data row0 col5" >1</td>
+      <td id="T_7039b_row0_col6" class="data row0 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_3e422_row1_col0" class="data row1 col0" >2</td>
-      <td id="T_3e422_row1_col1" class="data row1 col1" >4.9</td>
-      <td id="T_3e422_row1_col2" class="data row1 col2" >3.0</td>
-      <td id="T_3e422_row1_col3" class="data row1 col3" >1.4</td>
-      <td id="T_3e422_row1_col4" class="data row1 col4" >0.2</td>
-      <td id="T_3e422_row1_col5" class="data row1 col5" >1</td>
-      <td id="T_3e422_row1_col6" class="data row1 col6" >setosa</td>
+      <td id="T_7039b_row1_col0" class="data row1 col0" >2</td>
+      <td id="T_7039b_row1_col1" class="data row1 col1" >4.9</td>
+      <td id="T_7039b_row1_col2" class="data row1 col2" >3.0</td>
+      <td id="T_7039b_row1_col3" class="data row1 col3" >1.4</td>
+      <td id="T_7039b_row1_col4" class="data row1 col4" >0.2</td>
+      <td id="T_7039b_row1_col5" class="data row1 col5" >1</td>
+      <td id="T_7039b_row1_col6" class="data row1 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_3e422_row2_col0" class="data row2 col0" >3</td>
-      <td id="T_3e422_row2_col1" class="data row2 col1" >4.7</td>
-      <td id="T_3e422_row2_col2" class="data row2 col2" >3.2</td>
-      <td id="T_3e422_row2_col3" class="data row2 col3" >1.3</td>
-      <td id="T_3e422_row2_col4" class="data row2 col4" >0.2</td>
-      <td id="T_3e422_row2_col5" class="data row2 col5" >1</td>
-      <td id="T_3e422_row2_col6" class="data row2 col6" >setosa</td>
+      <td id="T_7039b_row2_col0" class="data row2 col0" >3</td>
+      <td id="T_7039b_row2_col1" class="data row2 col1" >4.7</td>
+      <td id="T_7039b_row2_col2" class="data row2 col2" >3.2</td>
+      <td id="T_7039b_row2_col3" class="data row2 col3" >1.3</td>
+      <td id="T_7039b_row2_col4" class="data row2 col4" >0.2</td>
+      <td id="T_7039b_row2_col5" class="data row2 col5" >1</td>
+      <td id="T_7039b_row2_col6" class="data row2 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_3e422_row3_col0" class="data row3 col0" >4</td>
-      <td id="T_3e422_row3_col1" class="data row3 col1" >4.6</td>
-      <td id="T_3e422_row3_col2" class="data row3 col2" >3.1</td>
-      <td id="T_3e422_row3_col3" class="data row3 col3" >1.5</td>
-      <td id="T_3e422_row3_col4" class="data row3 col4" >0.2</td>
-      <td id="T_3e422_row3_col5" class="data row3 col5" >1</td>
-      <td id="T_3e422_row3_col6" class="data row3 col6" >setosa</td>
+      <td id="T_7039b_row3_col0" class="data row3 col0" >4</td>
+      <td id="T_7039b_row3_col1" class="data row3 col1" >4.6</td>
+      <td id="T_7039b_row3_col2" class="data row3 col2" >3.1</td>
+      <td id="T_7039b_row3_col3" class="data row3 col3" >1.5</td>
+      <td id="T_7039b_row3_col4" class="data row3 col4" >0.2</td>
+      <td id="T_7039b_row3_col5" class="data row3 col5" >1</td>
+      <td id="T_7039b_row3_col6" class="data row3 col6" >setosa</td>
     </tr>
     <tr>
-      <td id="T_3e422_row4_col0" class="data row4 col0" >5</td>
-      <td id="T_3e422_row4_col1" class="data row4 col1" >5.0</td>
-      <td id="T_3e422_row4_col2" class="data row4 col2" >3.6</td>
-      <td id="T_3e422_row4_col3" class="data row4 col3" >1.4</td>
-      <td id="T_3e422_row4_col4" class="data row4 col4" >0.2</td>
-      <td id="T_3e422_row4_col5" class="data row4 col5" >1</td>
-      <td id="T_3e422_row4_col6" class="data row4 col6" >setosa</td>
+      <td id="T_7039b_row4_col0" class="data row4 col0" >5</td>
+      <td id="T_7039b_row4_col1" class="data row4 col1" >5.0</td>
+      <td id="T_7039b_row4_col2" class="data row4 col2" >3.6</td>
+      <td id="T_7039b_row4_col3" class="data row4 col3" >1.4</td>
+      <td id="T_7039b_row4_col4" class="data row4 col4" >0.2</td>
+      <td id="T_7039b_row4_col5" class="data row4 col5" >1</td>
+      <td id="T_7039b_row4_col6" class="data row4 col6" >setosa</td>
     </tr>
   </tbody>
 </table>
 </div></div>
 </div>
+<section id="dalam-bentuk-tabel">
+<h3><strong>Dalam Bentuk Tabel</strong><a class="headerlink" href="#dalam-bentuk-tabel" title="Link to this heading">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variabel</p></th>
+<th class="head"><p>Tipe Data</p></th>
+<th class="head"><p>Deskripsi</p></th>
+<th class="head"><p>Satuan</p></th>
+<th class="head"><p>Contoh Nilai</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><em>sepal_length</em></p></td>
+<td><p>Numerical (Float)</p></td>
+<td><p>Panjang sepal bunga iris</p></td>
+<td><p>cm</p></td>
+<td><p>5.1, 4.9, 7.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>sepal_width</em></p></td>
+<td><p>Numerical (Float)</p></td>
+<td><p>Lebar sepal bunga iris</p></td>
+<td><p>cm</p></td>
+<td><p>3.5, 3.0, 3.2</p></td>
+</tr>
+<tr class="row-even"><td><p><em>petal_length</em></p></td>
+<td><p>Numerical (Float)</p></td>
+<td><p>Panjang petal bunga iris</p></td>
+<td><p>cm</p></td>
+<td><p>1.4, 4.7, 6.0</p></td>
+</tr>
+<tr class="row-odd"><td><p><em>petal_width</em></p></td>
+<td><p>Numerical (Float)</p></td>
+<td><p>Lebar petal bunga iris</p></td>
+<td><p>cm</p></td>
+<td><p>0.2, 1.4, 2.5</p></td>
+</tr>
+<tr class="row-even"><td><p><em>species</em></p></td>
+<td><p>Categorical (String)</p></td>
+<td><p>Spesies bunga iris</p></td>
+<td><p>-</p></td>
+<td><p>Iris-setosa, Iris-versicolor, Iris-virginica</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
-<section id="informasi-dataset">
-<h2><strong>3. Informasi Dataset</strong><a class="headerlink" href="#informasi-dataset" title="Link to this heading">#</a></h2>
-<p>Mengecek tipe data tiap kolom, jumlah baris, dan ada tidaknya missing values.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Melihat tipe data bawaan pandas</span>
-<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
-
-<span class="c1"># Kolom numerik</span>
-<span class="n">numerical_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;int64&#39;</span><span class="p">,</span><span class="s1">&#39;float64&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
-
-<span class="c1"># Kolom kategorikal (object/string atau kategori)</span>
-<span class="n">categorical_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;object&#39;</span><span class="p">,</span><span class="s1">&#39;category&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
-
-<span class="c1"># Kolom datetime</span>
-<span class="n">datetime_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime64&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Numerical Columns:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">numerical_cols</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Categorical Columns:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">categorical_cols</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Datetime Columns:&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">datetime_cols</span><span class="p">))</span>
-
-<span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">categorical_cols</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span><span class="si">}</span><span class="s2"> unique values&quot;</span><span class="p">)</span>
-
-<span class="c1"># Statistik ringkas untuk numerik</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">numerical_cols</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
-
-<span class="c1"># Statistik ringkas untuk kategorikal</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">categorical_cols</span><span class="p">]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Numerical Columns: [&#39;id&#39;, &#39;sepal length&#39;, &#39;sepal width&#39;, &#39;petal length&#39;, &#39;petal width&#39;]
-Categorical Columns: [&#39;species_name&#39;]
-Datetime Columns: []
-species_name → 3 unique values
-         id  sepal length  sepal width  petal length  petal width
-count 150.0         150.0        150.0         150.0        150.0
-mean   75.5           5.8          3.1           3.8          1.2
-std    43.4           0.8          0.4           1.8          0.8
-min     1.0           4.3          2.0           1.0          0.1
-25%    38.2           5.1          2.8           1.6          0.3
-50%    75.5           5.8          3.0           4.3          1.3
-75%   112.8           6.4          3.3           5.1          1.8
-max   150.0           7.9          4.4           6.9          2.5
-       species_name
-count           150
-unique            3
-top          setosa
-freq             50
-</pre></div>
-</div>
-</div>
-</div>
 </section>
 <section id="mengecek-tipe-data-dan-jenis-variabel">
 <h2><strong>4. Mengecek Tipe Data dan Jenis Variabel</strong><a class="headerlink" href="#mengecek-tipe-data-dan-jenis-variabel" title="Link to this heading">#</a></h2>
@@ -800,7 +968,7 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/4c531ebaf5b75cc21bd2f13a587f7b25985f7c1eadcffbfd648b31a1c8198574.png" src="_images/4c531ebaf5b75cc21bd2f13a587f7b25985f7c1eadcffbfd648b31a1c8198574.png" />
+<img alt="_images/a1ecdb4417d53bd3c49467944686bab87355fdd6494eb7650a6b1f470ef0455f.png" src="_images/a1ecdb4417d53bd3c49467944686bab87355fdd6494eb7650a6b1f470ef0455f.png" />
 </div>
 </div>
 <section id="keterangan-gambar">
@@ -892,14 +1060,7 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\Fujitsu\AppData\Local\Temp\ipykernel_11140\4260687627.py:4: FutureWarning: 
-
-Passing `palette` without assigning `hue` is deprecated and will be removed in v0.14.0. Assign the `x` variable to `hue` and set `legend=False` for the same effect.
-
-  sns.countplot(x=&#39;species_name&#39;, data=df, palette=&#39;pastel&#39;)
-</pre></div>
-</div>
-<img alt="_images/4829bbaa94e7a19d018974cbc22aa683ab64c905f5ebf9fa5b4beeeebe29166b.png" src="_images/4829bbaa94e7a19d018974cbc22aa683ab64c905f5ebf9fa5b4beeeebe29166b.png" />
+<img alt="_images/3cb59abacf318294672f2f3b492c2ee752362b81d48e06a3363e836a1d65d38b.png" src="_images/3cb59abacf318294672f2f3b492c2ee752362b81d48e06a3363e836a1d65d38b.png" />
 </div>
 </div>
 </section>
@@ -923,7 +1084,7 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/49894364c1b71c6511196086425d404146eddb34d0abd51697ac34d743434870.png" src="_images/49894364c1b71c6511196086425d404146eddb34d0abd51697ac34d743434870.png" />
+<img alt="_images/44b16f87cf4ea4cfb960f13622495cbf80407beccfd2a597f71afb9b1067787d.png" src="_images/44b16f87cf4ea4cfb960f13622495cbf80407beccfd2a597f71afb9b1067787d.png" />
 </div>
 </div>
 <section id="penjelasan-gambar">
@@ -1018,7 +1179,10 @@ Passing `palette` without assigning `hue` is deprecated and will be removed in v
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library"><strong>1. Import Library</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset"><strong>2. Load Dataset</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-dataset"><strong>3. Informasi Dataset</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#informasi-dataset"><strong>3. Informasi Dataset</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dalam-bentuk-tabel"><strong>Dalam Bentuk Tabel</strong></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengecek-tipe-data-dan-jenis-variabel"><strong>4. Mengecek Tipe Data dan Jenis Variabel</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-deskriptif"><strong>5. Statistik Deskriptif</strong></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistik-kategori-species"><strong>6. Statistik Kategori (species)</strong></a></li>

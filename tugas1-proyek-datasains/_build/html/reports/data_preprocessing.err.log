@@ -25,18 +25,18 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-# Install required packages
-%pip install seaborn
-
-# Import library yang diperlukan
+# Import libraries yang diperlukan untuk preprocessing
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 import warnings
 warnings.filterwarnings('ignore')
 
-# Import PyCaret untuk EDA dan classification
+# Import PyCaret untuk preprocessing dan modeling
 try:
     from pycaret.datasets import get_data
     from pycaret.classification import *
@@ -49,32 +49,19 @@ except ImportError:
 plt.style.use('default')
 sns.set_palette("husl")
 
-print("Library berhasil diimport")
+print("Libraries berhasil diimport untuk preprocessing")
+print("Libraries yang tersedia:")
+print("   • Pandas & NumPy: Data manipulation")
+print("   • Matplotlib & Seaborn: Visualisasi")
+print("   • Scikit-learn: Preprocessing tools")
+print("   • PyCaret: Advanced ML preprocessing")
 ------------------
 
------ stdout -----
-Requirement already satisfied: seaborn in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (0.13.2)
-Requirement already satisfied: numpy!=1.24.0,>=1.20 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (1.26.4)
-Requirement already satisfied: pandas>=1.2 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (2.1.4)
-Requirement already satisfied: matplotlib!=3.6.1,>=3.4 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (3.7.5)
-Requirement already satisfied: contourpy>=1.0.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,>=3.4->seaborn) (1.2.1)
-Requirement already satisfied: cycler>=0.10 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,>=3.4->seaborn) (0.12.1)
-Requirement already satisfied: fonttools>=4.22.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,>=3.4->seaborn) (4.53.0)
-Requirement already satisfied: kiwisolver>=1.0.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,>=3.4->seaborn) (1.4.5)
-Requirement already satisfied: packaging>=20.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,>=3.4->seaborn) (24.1)
-Requirement already satisfied: pillow>=6.2.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,>=3.4->seaborn) (10.3.0)
-Requirement already satisfied: pyparsing>=2.3.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,>=3.4->seaborn) (3.1.2)
-Requirement already satisfied: python-dateutil>=2.7 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,>=3.4->seaborn) (2.9.0.post0)
-Requirement already satisfied: pytz>=2020.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from pandas>=1.2->seaborn) (2025.1)
-Requirement already satisfied: tzdata>=2022.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from pandas>=1.2->seaborn) (2025.1)
-Requirement already satisfied: six>=1.5 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from python-dateutil>=2.7->matplotlib!=3.6.1,>=3.4->seaborn) (1.16.0)
-Note: you may need to restart the kernel to use updated packages.
-------------------
 
 [31m---------------------------------------------------------------------------[39m
 [31mRuntimeError[39m                              Traceback (most recent call last)
-[36mCell[39m[36m [39m[32mIn[1][39m[32m, line 14[39m
-[32m     12[39m [38;5;66;03m# Import PyCaret untuk EDA dan classification[39;00m
+[36mCell[39m[36m [39m[32mIn[2][39m[32m, line 14[39m
+[32m     12[39m [38;5;66;03m# Import PyCaret untuk preprocessing dan modeling[39;00m
 [32m     13[39m [38;5;28;01mtry[39;00m:
 [32m---> [39m[32m14[39m     [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mpycaret[39;00m[34;01m.[39;00m[34;01mdatasets[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m get_data
 [32m     15[39m     [38;5;28;01mfrom[39;00m[38;5;250m [39m[34;01mpycaret[39;00m[34;01m.[39;00m[34;01mclassification[39;00m[38;5;250m [39m[38;5;28;01mimport[39;00m *
