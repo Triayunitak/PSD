@@ -7,5 +7,6 @@ root: intro
 chapters:
   - file: business_understanding
   - file: data_understanding
-  - file: data_exploration
-  - file: power_bi
+    sections:
+    - file: data_exploration
+  - file: data_preprocessing
