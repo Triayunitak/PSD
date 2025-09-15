@@ -569,27 +569,7 @@ Penanganan outliers dari multi-model PyCaret (ABOD, KNN, COF)
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== LOADING DATA DAN HASIL OUTLIER DETECTION ===
-Dataset Iris berhasil dimuat dari data_iris.csv
-
-Info Dataset:
-   • Ukuran: 150 baris, 6 kolom
-   • Features: [&#39;sepal length (cm)&#39;, &#39;sepal width (cm)&#39;, &#39;petal length (cm)&#39;, &#39;petal width (cm)&#39;]
-   • Target: species (0=setosa, 1=versicolor, 2=virginica)
-
-Sample Data:
-   sepal length (cm)  sepal width (cm)  petal length (cm)  petal width (cm)  \
-0                5.1               3.5                1.4               0.2   
-1                4.9               3.0                1.4               0.2   
-2                4.7               3.2                1.3               0.2   
-3                4.6               3.1                1.5               0.2   
-4                5.0               3.6                1.4               0.2   
-
-   species species_name  
-0        0       setosa  
-1        0       setosa  
-2        0       setosa  
-3        0       setosa  
-4        0       setosa  
+Error loading data: &#39;Class&#39;
 </pre></div>
 </div>
 </div>
@@ -678,12 +658,8 @@ Sample Data:
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== OUTLIER DETECTION MENGGUNAKAN PYCARET (REAL DATA) ===
-Melakukan outlier detection dengan PyCaret...
-Models yang digunakan: ABOD, KNN, COF
-Error dalam PyCaret outlier detection: setup() got an unexpected keyword argument &#39;train_size&#39;
-Menggunakan statistical fallback method...
-Fallback statistical outlier detection completed
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== DETEKSI OUTLIER DENGAN PYCARET ===
+Data tidak tersedia
 </pre></div>
 </div>
 </div>
@@ -1017,88 +993,7 @@ Fallback statistical outlier detection completed
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== OUTLIER REMOVAL DAN IMPUTATION PROCESS ===
-
-Outliers teridentifikasi (Strong Consensus):
-   • Jumlah: 0 dari 150 data (0.0%)
-   • Indices: []
-
-STEP 1: Visualisasi Koordinat Data Original
-
-Koordinat Outliers (Strong Consensus):
-Index  Sepal_L  Sepal_W  Petal_L  Petal_W  Species 
--------------------------------------------------------
-</pre></div>
-</div>
-<img alt="_images/18b62e5c169f8776500c75a4f343a97e18db20c79b1d93bfbdf8e2d308fe293a.png" src="_images/18b62e5c169f8776500c75a4f343a97e18db20c79b1d93bfbdf8e2d308fe293a.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STEP 2: Menghapus Outliers (Set sebagai NaN)
-
-Missing values setelah outlier removal:
-   • sepal length (cm): 0 missing (0.0%)
-   • sepal width (cm): 0 missing (0.0%)
-   • petal length (cm): 0 missing (0.0%)
-   • petal width (cm): 0 missing (0.0%)
-
-STEP 3: Koordinat Data dengan Missing Values
-
-Koordinat Data Setelah Outlier Removal (NaN untuk outliers):
-Index  Sepal_L  Sepal_W  Petal_L  Petal_W  Status  
--------------------------------------------------------
-</pre></div>
-</div>
-<img alt="_images/1197390cd3c11dab6d09e4178db061cf7acb7473daa077cf70339d4862ff603b.png" src="_images/1197390cd3c11dab6d09e4178db061cf7acb7473daa077cf70339d4862ff603b.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STEP 4: Metode Imputation untuk Mengisi Missing Values
-
-Metode Imputation yang digunakan:
-   1. Mean Imputation: Menggunakan rata-rata kolom
-   2. Median Imputation: Menggunakan median kolom
-   3. Species Median: Menggunakan median per spesies
-   4. KNN Imputation: Menggunakan 5 nearest neighbors
-
-STEP 5: Koordinat Perbandingan Metode Imputation
-
-Koordinat Imputed untuk Outlier Indices:
-Method          Index  Sepal_L  Sepal_W  Petal_L  Petal_W 
-----------------------------------------------------------------------
-Mean            0      5.10     3.50     1.40     0.20    
-Median          0      5.10     3.50     1.40     0.20    
-Species Med     0      5.10     3.50     1.40     0.20    
-KNN             0      5.10     3.50     1.40     0.20    
-</pre></div>
-</div>
-<img alt="_images/c71056e57d7f0f5774cb1889de397b6ea9bb51682c090a307b532f742a10a739.png" src="_images/c71056e57d7f0f5774cb1889de397b6ea9bb51682c090a307b532f742a10a739.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>STEP 6: Evaluasi Metode Imputation
-
-Perbandingan Statistik Deskriptif (sepal length (cm)):
-Method          Mean     Std      Min      Max     
--------------------------------------------------------
-Original        5.84    0.83    4.30    7.90   
-Mean            5.84    0.83    4.30    7.90   
-Median          5.84    0.83    4.30    7.90   
-Species Med     5.84    0.83    4.30    7.90   
-KNN             5.84    0.83    4.30    7.90   
-
-METODE YANG DIPILIH: SPECIES_MEDIAN
-Alasan: Mempertahankan karakteristik biologis per spesies
-
-STEP 7: Koordinat Final Before vs After Preprocessing
-
-Perbandingan Koordinat Before vs After:
-Status       Index  Sepal_L  Sepal_W  Petal_L  Petal_W 
------------------------------------------------------------------
-</pre></div>
-</div>
-<img alt="_images/f83b4da265e9f23698d76b53c99807c5802345a345b7fd62f992e0bb1b35cd7d.png" src="_images/f83b4da265e9f23698d76b53c99807c5802345a345b7fd62f992e0bb1b35cd7d.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Summary Koordinat Changes:
-   • Original outliers: 0 points
-   • Converted to missing values, then imputed
-   • Imputation method: species_median
-   • All 150 coordinate points preserved
-
-PREPROCESSING OUTLIER SELESAI!
-   • Outliers removed: 0 data points
-   • Imputation method: Species-based median
-   • Dataset integrity: Maintained (150 samples)
-   • Ready for next preprocessing steps
+Tidak dapat melakukan outlier removal karena data atau hasil outlier tidak tersedia
 </pre></div>
 </div>
 </div>
@@ -1255,75 +1150,7 @@ PREPROCESSING OUTLIER SELESAI!
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== FEATURE SCALING DAN ENGINEERING DENGAN PYCARET ===
-
-Analisis Distribusi Fitur untuk Scaling:
-   • sepal length: Mean=5.84, Std=0.83, Skew=0.31
-   • sepal width: Mean=3.05, Std=0.43, Skew=0.33
-   • petal length: Mean=3.76, Std=1.76, Skew=-0.27
-   • petal width: Mean=1.20, Std=0.76, Skew=-0.10
-
-Setting up PyCaret environment untuk preprocessing...
-PyCaret setup error: setup() got an unexpected keyword argument &#39;feature_interaction&#39;
-Menggunakan manual scaling methods sebagai fallback...
-Menggunakan manual feature scaling...
-
-Perbandingan Hasil Scaling:
-Perbandingan Manual Scaling (sepal length (cm)):
-Method          Mean     Std      Min      Max      Range   
------------------------------------------------------------------
-Standard        -0.000  1.003   -1.870  2.492   4.362  
-Minmax          0.429   0.230   0.000   1.000   1.000  
-Robust          0.033   0.637   -1.154  1.615   2.769  
-None            5.843   0.828   4.300   7.900   3.600  
-
-FEATURE ENGINEERING (Manual):
-Manual Feature Engineering Completed:
-   • Original features: 4
-   • Engineered features: 7
-   • Total features: 11
-
-METODE YANG DIPILIH: STANDARD
-Deskripsi: StandardScaler (Mean=0, Std=1)
-
-Manual Dataset Ready for Split:
-   • Total data: (150, 19)
-   • Features: 11
-   • Will split in next step
-
-Dataset siap untuk modeling phase
-   • sepal width: Mean=3.05, Std=0.43, Skew=0.33
-   • petal length: Mean=3.76, Std=1.76, Skew=-0.27
-   • petal width: Mean=1.20, Std=0.76, Skew=-0.10
-
-Setting up PyCaret environment untuk preprocessing...
-PyCaret setup error: setup() got an unexpected keyword argument &#39;feature_interaction&#39;
-Menggunakan manual scaling methods sebagai fallback...
-Menggunakan manual feature scaling...
-
-Perbandingan Hasil Scaling:
-Perbandingan Manual Scaling (sepal length (cm)):
-Method          Mean     Std      Min      Max      Range   
------------------------------------------------------------------
-Standard        -0.000  1.003   -1.870  2.492   4.362  
-Minmax          0.429   0.230   0.000   1.000   1.000  
-Robust          0.033   0.637   -1.154  1.615   2.769  
-None            5.843   0.828   4.300   7.900   3.600  
-
-FEATURE ENGINEERING (Manual):
-Manual Feature Engineering Completed:
-   • Original features: 4
-   • Engineered features: 7
-   • Total features: 11
-
-METODE YANG DIPILIH: STANDARD
-Deskripsi: StandardScaler (Mean=0, Std=1)
-
-Manual Dataset Ready for Split:
-   • Total data: (150, 19)
-   • Features: 11
-   • Will split in next step
-
-Dataset siap untuk modeling phase
+Tidak dapat melakukan feature scaling karena data processed tidak tersedia
 </pre></div>
 </div>
 </div>
@@ -1488,54 +1315,7 @@ Dataset siap untuk modeling phase
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== TRAIN-TEST SPLIT DAN PERSIAPAN FINAL DENGAN PYCARET ===
-Melakukan manual train-test split:
-Dataset Preparation:
-   • Total samples: 150
-   • Features: 11
-   • Target classes: 3 (setosa=0, versicolor=1, virginica=2)
-   • Train set: 120 samples
-   • Test set: 30 samples
-
-Distribusi Kelas:
-Class        Train Count  Train %    Test Count  Test %  
------------------------------------------------------------------
-setosa       40           33.3     % 10          33.3   %
-versicolor   40           33.3     % 10          33.3   %
-virginica    40           33.3     % 10          33.3   %
-
-Preprocessing Information:
-   • Outlier treatment: consensus_based_removal
-   • Scaling method: manual
-   • Total features: 11
-   • Random state: 42
-
-Sample Data Final (Train Set - First 5 rows):
-     sepal length (cm)  petal length (cm)  petal_area  total_area
-8            -1.748856          -1.341272    1.761059    2.384283
-106          -1.143017           0.421564    0.277861    1.743177
-76            1.159173           0.592162    0.156745   -0.524575
-9            -1.143017          -1.284407    1.855261    1.733592
-89           -0.416010           0.137236    0.018283    0.551596
-
-Target Labels (Train Set - First 10):
-[0, 2, 1, 0, 1, 2, 1, 2, 2, 2]
-
-PERSIAPAN UNTUK PYCARET MODELING:
-   • df_pycaret: (120, 12) (untuk training &amp; validation)
-   • df_pycaret_test: (30, 12) (untuk final evaluation)
-   • Target column: &#39;species&#39;
-   • Feature columns: 11 features
-
-SUMMARY PREPROCESSING:
-   • Objective: Multi-class classification (3 classes)
-   • Data quality: High (outliers handled dengan PyCaret)
-   • Preprocessing: MANUAL pipeline
-   • Features: 11 total features
-   • Class balance: Good (stratified split maintained)
-   • Ready for: PyCaret automated ML pipeline
-
-PREPROCESSING DENGAN PYCARET COMPLETED!
-Dataset siap untuk modeling dengan PyCaret
+Tidak dapat melakukan train-test split karena dataset final tidak tersedia
 </pre></div>
 </div>
 </div>
@@ -1583,124 +1363,25 @@ Dataset siap untuk modeling dengan PyCaret
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>================================================================================
-           SUMMARY DATA PREPROCESSING DENGAN PYCARET
-================================================================================
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==================================================
+        SUMMARY DATA PREPROCESSING
+==================================================
 
-INTEGRASI PYCARET UNTUK REAL DATA PROCESSING:
-   ✓ Outlier detection menggunakan PyCaret anomaly detection models
-   ✓ ABOD, KNN, COF models untuk robust outlier identification
-   ✓ Consensus approach untuk treatment strategy
-   ✓ PyCaret preprocessing pipeline untuk scaling &amp; feature engineering
+YANG SUDAH DILAKUKAN:
+   ✓ Load dataset Iris (150 data)
+   ✓ Deteksi outlier dengan 3 model (ABOD, KNN, COF)
+   ✓ Hapus outlier dan isi dengan imputation
+   ✓ Scaling dan feature engineering
+   ✓ Split data train-test
 
-PYCARET PREPROCESSING PIPELINE YANG DILAKUKAN:
-   1. Data Loading &amp; Quality Check
-      • Dataset Iris: 150 samples, 4 original features
-      • No missing values, no duplicates
-      • Balanced classes (50 samples each)
+LANGKAH SELANJUTNYA:
+   1. Modeling dengan PyCaret
+   2. Evaluasi performa model
+   3. Pilih model terbaik
 
-   2. PyCaret Anomaly Detection
-      • ABOD (Angle-based Outlier Detection)
-      • KNN (K-Nearest Neighbors anomaly detection)
-      • COF (Connectivity-based Outlier Factor)
-      • Real-time consensus analysis untuk robust treatment
+⚠ Jalankan semua cell preprocessing dulu
 
-   3. Outlier Removal &amp; Imputation
-      • Multi-model consensus untuk outlier identification
-      • Species-based median imputation
-      • Visualization-rich preprocessing pipeline
-      • Data integrity maintained
-
-   4. PyCaret Feature Processing
-      • Z-score normalization (StandardScaler)
-      • Automated feature interaction creation
-      • Automated feature ratio engineering
-      • Multicollinearity removal
-      • Stratified train-test split
-
-FINAL DATASET CHARACTERISTICS:
-   • Preprocessing method: MANUAL
-   • Train samples: 120
-   • Test samples: 30
-   • Features: 11
-   • Classes: 3 (setosa, versicolor, virginica)
-   • Data quality: High (PyCaret processed &amp; validated)
-
-TECHNICAL SPECIFICATIONS:
-   • Outlier detection: PyCaret multi-model ensemble
-   • Preprocessing: PyCaret automated pipeline
-   • Feature engineering: PyCaret automated + manual domain-specific
-   • Cross-validation ready: Built-in stratified sampling
-   • Production ready: Complete preprocessing pipeline
-
-NEXT STEPS - PYCARET MODELING PHASE:
-   1. PyCaret Classification Setup
-      • Environment sudah ter-setup dari preprocessing
-      • Data sudah siap untuk compare_models()
-      • Built-in cross-validation &amp; metrics
-
-   2. Automated Model Comparison
-      • compare_models() untuk model selection
-      • Automated hyperparameter tuning
-      • Performance ranking &amp; evaluation
-      • Feature importance analysis
-
-   3. Model Optimization &amp; Tuning
-      • tune_model() untuk best performers
-      • ensemble_model() untuk model combining
-      • calibrate_model() untuk probability calibration
-      • Advanced optimization techniques
-
-   4. Model Evaluation &amp; Validation
-      • evaluate_model() untuk comprehensive analysis
-      • Built-in validation plots &amp; metrics
-      • predict_model() pada test set
-      • Performance visualization &amp; interpretation
-
-   5. Model Deployment Preparation
-      • finalize_model() untuk production model
-      • deploy_model() options tersedia
-      • Complete pipeline serialization
-      • API deployment ready
-
-PYCARET ADVANTAGES YANG DIGUNAKAN:
-   • Automated preprocessing pipeline
-   • Built-in outlier detection algorithms
-   • Automated feature engineering
-   • Comprehensive model comparison
-   • Production-ready deployment pipeline
-
-AVAILABLE DATASETS FOR MODELING:
-   ✓ df_pycaret: PyCaret-ready training data
-   ✓ df_pycaret_test: Hold-out test set untuk final evaluation
-   ✓ preprocessing_info: Complete pipeline metadata
-   ✓ PyCaret environment: Ready for immediate modeling
-
-COMPLETE PYCARET WORKFLOW READY:
-   • Data Understanding: ✓ Completed
-   • Data Preprocessing: ✓ Completed dengan PyCaret
-   • Outlier Detection: ✓ Multi-model PyCaret approach
-   • Feature Engineering: ✓ Automated + Manual
-   • Ready for Modeling: ✓ PyCaret environment setup
-
-REKOMENDATION UNTUK NEXT NOTEBOOK:
-   1. Modeling dengan PyCaret:
-      • compare_models() untuk quick model comparison
-      • Focus pada top 3-5 performing models
-      • Automated tuning &amp; ensemble methods
-   2. Model Evaluation:
-      • Comprehensive evaluation plots
-      • Feature importance analysis
-      • Model interpretation &amp; explainability
-   3. Production Deployment:
-      • finalize_model() best performer
-      • API deployment preparation
-      • Complete documentation
-
-================================================================================
-            PYCARET PREPROCESSING COMPLETED
-               READY FOR MODELING PHASE
-================================================================================
+==================================================
 </pre></div>
 </div>
 </div>
