@@ -1,4 +1,4 @@
-# Introduction
+# **Introduction**
 
 Hello 👋, my name is **Tria Yunita Krismiyanto**, a 5th-semester student of **Informatics Engineering – Universitas Trunojoyo Madura**, currently taking the class **Data Science Project (IF5B)**.  
 
