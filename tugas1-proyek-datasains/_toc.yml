@@ -10,3 +10,5 @@ chapters:
     sections:
       - file: data_exploration
   - file: data_preprocessing
+  - file: power_bi
+  - file: e_coli
