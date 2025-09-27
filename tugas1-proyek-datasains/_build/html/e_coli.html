@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -480,18 +480,28 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.decomposition</span><span class="w"> </span><span class="kn">import</span> <span class="n">PCA</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_engine</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>   id_protein  feature1  feature2  feature3  feature4  feature5  feature6  \
+0   AAT_ECOLI      0.49      0.29      0.48       0.5      0.56      0.24   
+1  ACEA_ECOLI      0.07      0.40      0.48       0.5      0.54      0.35   
+2  ACEK_ECOLI      0.56      0.40      0.48       0.5      0.49      0.37   
+3  ACKA_ECOLI      0.59      0.49      0.48       0.5      0.52      0.45   
+4   ADI_ECOLI      0.23      0.32      0.48       0.5      0.55      0.25   
 
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;sqlalchemy&#39;
+   feature7 class_label  
+0      0.35          cp  
+1      0.44          cp  
+2      0.46          cp  
+3      0.36          cp  
+4      0.35          cp  
 </pre></div>
 </div>
+<img alt="_images/e37b6c996590cedd9337de0e97a269bb35a674ff981715580631a6c75e40d11b.png" src="_images/e37b6c996590cedd9337de0e97a269bb35a674ff981715580631a6c75e40d11b.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Distribusi kelas sebelum balancing: {&#39;cp&#39;: 143, &#39;im&#39;: 77, &#39;imL&#39;: 2, &#39;imS&#39;: 2, &#39;imU&#39;: 35, &#39;om&#39;: 20, &#39;omL&#39;: 5, &#39;pp&#39;: 52}
+Jumlah sampel sebelum balancing: 336
+Jumlah sampel sesudah balancing: 1144
+</pre></div>
+</div>
+<img alt="_images/f4b5600ae204aced429ca86eb72c8bdebda916a8ac378c0cc9aa7d7a8ccc3089.png" src="_images/f4b5600ae204aced429ca86eb72c8bdebda916a8ac378c0cc9aa7d7a8ccc3089.png" />
 </div>
 </div>
 <p>Dalam proyek ini, dataset Ecoli yang digunakan memiliki distribusi kelas yang sangat tidak seimbang. Sebagai contoh, beberapa kelas minoritas ekstrem hanya memiliki 2–5 sampel, sedangkan kelas mayoritas memiliki lebih dari 100 sampel:</p>
