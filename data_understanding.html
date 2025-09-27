@@ -462,47 +462,28 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: seaborn in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (0.13.2)
-Requirement already satisfied: numpy!=1.24.0,&gt;=1.20 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (1.26.4)
-Requirement already satisfied: pandas&gt;=1.2 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (2.1.4)
-Requirement already satisfied: matplotlib!=3.6.1,&gt;=3.4 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from seaborn) (3.7.5)
-Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.2.1)
-Requirement already satisfied: cycler&gt;=0.10 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (0.12.1)
-Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (4.53.0)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.4.5)
-Requirement already satisfied: packaging&gt;=20.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (24.1)
-Requirement already satisfied: pillow&gt;=6.2.0 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (10.3.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (3.1.2)
-Requirement already satisfied: python-dateutil&gt;=2.7 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (2.9.0.post0)
-Requirement already satisfied: pytz&gt;=2020.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from pandas&gt;=1.2-&gt;seaborn) (2025.1)
-Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from pandas&gt;=1.2-&gt;seaborn) (2025.1)
-Requirement already satisfied: six&gt;=1.5 in c:\users\fujitsu\appdata\local\programs\python\python312\lib\site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.16.0)
-Note: you may need to restart the kernel to use updated packages.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 24.0 -&gt; 25.2
+[notice] To update, run: python.exe -m pip install --upgrade pip
 </pre></div>
 </div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="c1"># Import PyCaret untuk EDA dan classification</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">14</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_data</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.classification</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.anomaly</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-
-<span class="n">File</span> <span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Programs</span>\<span class="n">Python</span>\<span class="n">Python312</span>\<span class="n">Lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pycaret</span>\<span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">22</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span>         <span class="s2">&quot;Pycaret only supports python 3.9, 3.10, 3.11. Your actual Python version: &quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>         <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span>         <span class="s2">&quot;Please UPGRADE your Python version.&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span>     <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">12</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">22</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span>         <span class="s2">&quot;Pycaret only supports python 3.9, 3.10, 3.11. Your actual Python version: &quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span>         <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span>         <span class="s2">&quot;Please DOWNGRADE your Python version.&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">26</span>     <span class="p">)</span>
-
-<span class="ne">RuntimeError</span>: (&#39;Pycaret only supports python 3.9, 3.10, 3.11. Your actual Python version: &#39;, sys.version_info(major=3, minor=12, micro=4, releaselevel=&#39;final&#39;, serial=0), &#39;Please DOWNGRADE your Python version.&#39;)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: seaborn in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (0.13.2)
+Requirement already satisfied: numpy!=1.24.0,&gt;=1.20 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from seaborn) (1.26.4)
+Requirement already satisfied: pandas&gt;=1.2 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from seaborn) (2.1.4)
+Requirement already satisfied: matplotlib!=3.6.1,&gt;=3.4 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from seaborn) (3.7.5)
+Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.3.3)
+Requirement already satisfied: cycler&gt;=0.10 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (0.12.1)
+Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (4.59.2)
+Requirement already satisfied: kiwisolver&gt;=1.0.1 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.4.9)
+Requirement already satisfied: packaging&gt;=20.0 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (25.0)
+Requirement already satisfied: pillow&gt;=6.2.0 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (11.3.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (3.2.4)
+Requirement already satisfied: python-dateutil&gt;=2.7 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from pandas&gt;=1.2-&gt;seaborn) (2025.2)
+Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from pandas&gt;=1.2-&gt;seaborn) (2025.2)
+Requirement already satisfied: six&gt;=1.5 in c:\users\fujitsu\appdata\local\programs\python\python311\lib\site-packages (from python-dateutil&gt;=2.7-&gt;matplotlib!=3.6.1,&gt;=3.4-&gt;seaborn) (1.17.0)
+Note: you may need to restart the kernel to use updated packages.
+PyCaret berhasil diimport
+Library berhasil diimport
 </pre></div>
 </div>
 </div>
