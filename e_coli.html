@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -364,7 +364,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -380,6 +382,15 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detail"><strong>Detail</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan"><strong>Kesimpulan</strong> :</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -443,7 +454,7 @@ document.write(`
 <span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Distribusi kelas sebelum balancing:&quot;</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">counts</span><span class="p">)))</span>
 
-<span class="c1"># === SMOTE untuk penyeimbangan data ===</span>
+<span class="c1"># === SMOTE untuk penyeimbangan data ===    </span>
 <span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">X_res</span><span class="p">,</span> <span class="n">y_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
@@ -504,15 +515,92 @@ Jumlah sampel sesudah balancing: 1144
 <img alt="_images/f4b5600ae204aced429ca86eb72c8bdebda916a8ac378c0cc9aa7d7a8ccc3089.png" src="_images/f4b5600ae204aced429ca86eb72c8bdebda916a8ac378c0cc9aa7d7a8ccc3089.png" />
 </div>
 </div>
-<p>Dalam proyek ini, dataset Ecoli yang digunakan memiliki distribusi kelas yang sangat tidak seimbang. Sebagai contoh, beberapa kelas minoritas ekstrem hanya memiliki 2–5 sampel, sedangkan kelas mayoritas memiliki lebih dari 100 sampel:</p>
-<p>{‘cp’: 143, ‘im’: 77, ‘imL’: 2, ‘imS’: 2, ‘imU’: 35, ‘om’: 20, ‘omL’: 5, ‘pp’: 52}</p>
-<p>Awalnya, penyeimbangan data dicoba menggunakan ADASYN, karena metode ini dapat membuat sampel synthetic yang fokus pada titik-titik minoritas yang sulit dipelajari (hard-to-learn). Namun, ADASYN memerlukan jumlah sampel minoritas minimal 3 untuk mencari tetangga dari kelas mayoritas.</p>
-<p>Dalam dataset ini, kelas imL dan imS hanya memiliki 2 sampel, sehingga ADASYN gagal mengeksekusi proses penyeimbangan dan menghasilkan error:</p>
-<p>RuntimeError: Not any neighbours belong to the majority class…</p>
-<p>Untuk mengatasi hal ini, dipilih SMOTE (Synthetic Minority Over-sampling Technique) sebagai metode penyeimbangan. SMOTE tetap bisa bekerja untuk kelas minoritas yang sangat kecil dengan cara:</p>
-<p>Membuat sampel synthetic dengan menginterpolasi antara titik minoritas dan tetangga terdekatnya.</p>
-<p>Memungkinkan pengaturan k_neighbors secara manual, sehingga dapat disesuaikan dengan jumlah sampel minoritas (dalam kasus ini, k_neighbors=1).</p>
-<p>Dengan SMOTE, semua kelas minoritas, termasuk yang memiliki sangat sedikit sampel, dapat dibuatkan sampel synthetic dengan aman tanpa error, sehingga dataset menjadi lebih seimbang dan siap untuk analisis atau pemodelan berikutnya.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># hitung distribusi sebelum balancing</span>
+<span class="n">unique</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dist_before</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">unique</span><span class="p">),</span> <span class="n">counts</span><span class="p">))</span>
+
+<span class="c1"># hitung distribusi sesudah balancing</span>
+<span class="n">unique_res</span><span class="p">,</span> <span class="n">counts_res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_res</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dist_after</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">le</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">unique_res</span><span class="p">),</span> <span class="n">counts_res</span><span class="p">))</span>
+
+<span class="c1"># === DIAGRAM DISTRIBUSI KELAS SEBELUM BALANCING ===</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">dist_before</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">dist_before</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;skyblue&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribusi kelas sebelum balancing&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Kelas&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Jumlah sampel&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># === DIAGRAM DISTRIBUSI KELAS SESUDAH BALANCING ===</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">dist_after</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">dist_after</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Distribusi kelas sesudah balancing (SMOTE)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Kelas&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Jumlah sampel&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/31a7696c3bad091654afd051bf892bf52884f0c8b4ed0aefa7fe70444a089d2a.png" src="_images/31a7696c3bad091654afd051bf892bf52884f0c8b4ed0aefa7fe70444a089d2a.png" />
+<img alt="_images/ec045b31f922a8680c153d57fb94cb7942147292e45b20d6d1bdbf59c1733ae7.png" src="_images/ec045b31f922a8680c153d57fb94cb7942147292e45b20d6d1bdbf59c1733ae7.png" />
+</div>
+</div>
+<section id="detail">
+<h2><strong>Detail</strong><a class="headerlink" href="#detail" title="Link to this heading">#</a></h2>
+<p>Dataset Ecoli yang digunakan memiliki distribusi kelas yang <strong>sangat tidak seimbang</strong>. Sebagai contoh, beberapa kelas <strong>minoritas ekstrem hanya memiliki 2–5 sampel</strong>, sedangkan kelas <strong>mayoritas memiliki lebih dari 100 sampel</strong>: <strong>{‘cp’: 143, ‘im’: 77, ‘imL’: 2, ‘imS’: 2, ‘imU’: 35, ‘om’: 20, ‘omL’: 5, ‘pp’: 52}</strong></p>
+<p>Penyeimbangan data dicoba menggunakan ADASYN, karena metode ini dapat membuat sampel synthetic yang fokus pada titik-titik minoritas yang sulit dipelajari (<em><strong>hard-to-learn</strong></em>). Namun, <strong>ADASYN memerlukan jumlah sampel minoritas minimal 3</strong> untuk mencari tetangga dari kelas mayoritas.</p>
+<p>Dalam dataset ini, kelas <strong>imL dan imS hanya memiliki 2 sampel</strong>, sehingga <strong>ADASYN gagal mengeksekusi proses</strong> penyeimbangan dan menghasilkan error:</p>
+<p>“RuntimeError: Not any neighbours belong to the majority class…”</p>
+<p>Untuk mengatasi hal ini, dipilih <strong>SMOTE (Synthetic Minority Over-sampling Technique)</strong> sebagai metode penyeimbangan. SMOTE tetap bisa bekerja untuk kelas minoritas yang sangat kecil dengan cara:</p>
+<ul class="simple">
+<li><p>Membuat sampel synthetic dengan menginterpolasi antara titik minoritas dan tetangga terdekatnya.</p></li>
+<li><p>Memungkinkan pengaturan k_neighbors secara manual, sehingga dapat disesuaikan dengan jumlah sampel minoritas (dalam kasus ini, k_neighbors=1).</p></li>
+<li><p>Dengan SMOTE, semua kelas minoritas, termasuk yang memiliki sangat sedikit sampel, dapat dibuatkan sampel synthetic dengan aman tanpa error, sehingga dataset menjadi lebih seimbang dan siap untuk analisis atau pemodelan berikutnya.</p></li>
+</ul>
+<p><strong>Hasilnya</strong>, distribusi kelas menjadi sepenuhnya seimbang, di mana setiap kelas memiliki jumlah sampel yang sama (143 sampel per kelas). Diagram distribusi sesudah balancing menunjukkan bahwa semua kelas kini memiliki representasi yang setara, sehingga dataset lebih siap digunakan untuk analisis dan pemodelan.</p>
+</section>
+<section id="kesimpulan">
+<h2><strong>Kesimpulan</strong> :<a class="headerlink" href="#kesimpulan" title="Link to this heading">#</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Distribusi Kelas Sangat Tidak Seimbang (Imbalanced Dataset)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Dari data awal terlihat bahwa kelas mayoritas <strong>(cp = 143)</strong> jauh lebih <strong>dominan</strong> dibanding kelas <strong>minoritas</strong> ekstrem <strong>(imL = 2, imS = 2, omL = 5)</strong>.</p></li>
+<li><p>Ketidakseimbangan ini berpotensi besar menyebabkan model machine learning bias ke kelas mayoritas.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Keterbatasan ADASYN</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>ADASYN gagal diterapkan karena kelas dengan jumlah sampel &lt; 3 (misalnya imL dan imS).</p></li>
+<li><p>Error terjadi karena algoritma butuh minimal beberapa tetangga untuk interpolasi.</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Solusi dengan SMOTE (k_neighbors=1)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>SMOTE berhasil diterapkan karena memungkinkan interpolasi dengan hanya satu tetangga.</p></li>
+<li><p>Hal ini membuat kelas minoritas dengan hanya 2–5 sampel tetap bisa diperbanyak tanpa error.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Perubahan Distribusi Kelas</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Jumlah data bertambah dari 336 → 1144 sampel.</p></li>
+<li><p>Semua kelas diseimbangkan, sehingga dataset menjadi lebih representatif untuk pelatihan model.</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p><strong>Hasil PCA (Principal Component Analysis)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Sebelum balancing (gambar 1): titik data minoritas tersebar sangat sedikit dan sulit terlihat strukturnya.</p></li>
+<li><p>Sesudah balancing dengan SMOTE (gambar 2): titik synthetic (marker “x”) muncul berdekatan dengan data asli, membentuk cluster yang lebih seimbang antar kelas.</p></li>
+<li><p>Distribusi hasil SMOTE bisa terlihat agak linear/teratur pada kelas minoritas ekstrem, karena interpolasi dari sedikit titik sumber.</p></li>
+</ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -560,6 +648,22 @@ Jumlah sampel sesudah balancing: 1144
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detail"><strong>Detail</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan"><strong>Kesimpulan</strong> :</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
