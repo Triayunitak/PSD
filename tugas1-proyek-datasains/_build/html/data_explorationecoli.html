@@ -185,8 +185,10 @@
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="data_preprocessing.html"><strong>PrepocessingData</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="e_coli.html"><strong>E. coli Protein PCA &amp; ADASYN Implementation</strong></a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Data Exploration</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="e_coli.html"><strong>E. coli Protein PCA &amp; ADASYN Implementation</strong></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><strong>Data Exploration</strong></a></li>
+</ul>
+</details></li>
 </ul>
 
     </div>
@@ -382,8 +384,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-hasil-yang-kamu-dapat"><strong>Ringkasan hasil yang kamu dapat</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-praktis"><strong>Kesimpulan praktis</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-hasil-yang-kamu-dapat"><strong>Ringkasan hasil yang kamu dapat</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-praktis"><strong>Kesimpulan praktis</strong></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -396,7 +400,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-exploration">
-<h1>Data Exploration<a class="headerlink" href="#data-exploration" title="Link to this heading">#</a></h1>
+<h1><strong>Data Exploration</strong><a class="headerlink" href="#data-exploration" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -734,15 +738,15 @@ weighted avg       0.93      0.93      0.93       344
 <li><p>Bagging juga memperbaiki performa signifikan — menunjukkan ensemble lebih stabil di task ini.</p></li>
 <li><p>Naive Bayes (asumsi kondisional independen) kurang cocok untuk beberapa karakteristik data (interaksi fitur), sehingga peningkatannya relatif moderat.</p></li>
 </ul>
-</section>
 <section id="kesimpulan-praktis">
-<h2><strong>Kesimpulan praktis</strong><a class="headerlink" href="#kesimpulan-praktis" title="Link to this heading">#</a></h2>
+<h3><strong>Kesimpulan praktis</strong><a class="headerlink" href="#kesimpulan-praktis" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Hasil saat ini menunjukkan SMOTE “membantu” performa semua model, terutama ensemble (RandomForest, Bagging).</p></li>
 <li><p>Namun hasil sesudah SMOTE kemungkinan over-optimistic karena SMOTE dilakukan sebelum pembagian train/test → evaluasi ulang penting.</p></li>
 <li><p>Naive Bayes lebih sederhana dan ada kenaikan, tapi ensemble (Random Forest / Bagging) memberikan hasil jauh lebih baik pada data yang diseimbangkan.</p></li>
 <li><p>ADASYN sebelumnya gagal di dataset asli karena sejumlah kelas memiliki sangat sedikit sampel (2 atau kurang). Jika dipaksa, perlu sesuaikan n_neighbors atau kumpulkan lebih banyak data.</p></li>
 </ul>
+</section>
 </section>
 </section>
 
@@ -801,8 +805,10 @@ weighted avg       0.93      0.93      0.93       344
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-hasil-yang-kamu-dapat"><strong>Ringkasan hasil yang kamu dapat</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-praktis"><strong>Kesimpulan praktis</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ringkasan-hasil-yang-kamu-dapat"><strong>Ringkasan hasil yang kamu dapat</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-praktis"><strong>Kesimpulan praktis</strong></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

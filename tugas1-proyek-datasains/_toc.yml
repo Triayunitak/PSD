@@ -11,5 +11,5 @@ chapters:
       - file: data_exploration
   - file: data_preprocessing
   - file: e_coli
-  - file: conclusion
-  - file: data_explorationecoli
+    sections:
+        - file: data_explorationecoli
