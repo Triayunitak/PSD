@@ -186,14 +186,8 @@
 </ul>
 </details></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>PrepocessingData</strong></a></li>
-
-
-
-
-
-
 <li class="toctree-l1"><a class="reference internal" href="e_coli.html"><strong>E. coli Protein PCA &amp; ADASYN Implementation</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="data_explorationecoli.html"><strong>Data Exploration</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="data_explorationecoli.html">Data Exploration</a></li>
 </ul>
 
     </div>
@@ -389,15 +383,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>PrepocessingData</strong></a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries-dan-setup-environment">1. Import Libraries dan Setup Environment</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-dan-hasil-outlier-detection">2. Load Data dan Hasil Outlier Detection</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-removal-dan-imputation-dengan-visualisasi">3. Outlier Removal dan Imputation dengan Visualisasi</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-scaling-dan-engineering">4. Feature Scaling dan Engineering</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split-dan-persiapan-final">5. Train-Test Split dan Persiapan Final</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-dan-next-steps">6. Summary dan Next Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries-dan-setup-environment">1. Import Libraries dan Setup Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-dan-hasil-outlier-detection">2. Load Data dan Hasil Outlier Detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-removal-dan-imputation-dengan-visualisasi">3. Outlier Removal dan Imputation dengan Visualisasi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-scaling-dan-engineering">4. Feature Scaling dan Engineering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split-dan-persiapan-final">5. Train-Test Split dan Persiapan Final</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-dan-next-steps">6. Summary dan Next Steps</a></li>
 </ul>
-
             </nav>
         </div>
     </div>
@@ -408,7 +400,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="prepocessingdata">
+  <section class="tex2jax_ignore mathjax_ignore" id="prepocessingdata">
 <h1><strong>PrepocessingData</strong><a class="headerlink" href="#prepocessingdata" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -433,9 +425,8 @@ Penanganan outliers dari multi-model PyCaret (ABOD, KNN, COF)
 </div>
 </div>
 </div>
-</section>
 <section id="import-libraries-dan-setup-environment">
-<h1>1. Import Libraries dan Setup Environment<a class="headerlink" href="#import-libraries-dan-setup-environment" title="Link to this heading">#</a></h1>
+<h2>1. Import Libraries dan Setup Environment<a class="headerlink" href="#import-libraries-dan-setup-environment" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import libraries yang diperlukan untuk preprocessing</span>
@@ -485,7 +476,7 @@ Libraries yang tersedia:
 </div>
 </section>
 <section id="load-data-dan-hasil-outlier-detection">
-<h1>2. Load Data dan Hasil Outlier Detection<a class="headerlink" href="#load-data-dan-hasil-outlier-detection" title="Link to this heading">#</a></h1>
+<h2>2. Load Data dan Hasil Outlier Detection<a class="headerlink" href="#load-data-dan-hasil-outlier-detection" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load dataset Iris dengan hasil outlier detection dari DataUnderstanding</span>
@@ -653,7 +644,7 @@ Data tidak tersedia
 </div>
 </section>
 <section id="outlier-removal-dan-imputation-dengan-visualisasi">
-<h1>3. Outlier Removal dan Imputation dengan Visualisasi<a class="headerlink" href="#outlier-removal-dan-imputation-dengan-visualisasi" title="Link to this heading">#</a></h1>
+<h2>3. Outlier Removal dan Imputation dengan Visualisasi<a class="headerlink" href="#outlier-removal-dan-imputation-dengan-visualisasi" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Outlier Removal dan Imputation Process</span>
@@ -987,7 +978,7 @@ Tidak dapat melakukan outlier removal karena data atau hasil outlier tidak terse
 </div>
 </section>
 <section id="feature-scaling-dan-engineering">
-<h1>4. Feature Scaling dan Engineering<a class="headerlink" href="#feature-scaling-dan-engineering" title="Link to this heading">#</a></h1>
+<h2>4. Feature Scaling dan Engineering<a class="headerlink" href="#feature-scaling-dan-engineering" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feature Scaling dan Engineering menggunakan PyCaret</span>
@@ -1144,7 +1135,7 @@ Tidak dapat melakukan feature scaling karena data processed tidak tersedia
 </div>
 </section>
 <section id="train-test-split-dan-persiapan-final">
-<h1>5. Train-Test Split dan Persiapan Final<a class="headerlink" href="#train-test-split-dan-persiapan-final" title="Link to this heading">#</a></h1>
+<h2>5. Train-Test Split dan Persiapan Final<a class="headerlink" href="#train-test-split-dan-persiapan-final" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train-Test Split dan Persiapan Dataset untuk Modeling dengan PyCaret</span>
@@ -1309,7 +1300,7 @@ Tidak dapat melakukan train-test split karena dataset final tidak tersedia
 </div>
 </section>
 <section id="summary-dan-next-steps">
-<h1>6. Summary dan Next Steps<a class="headerlink" href="#summary-dan-next-steps" title="Link to this heading">#</a></h1>
+<h2>6. Summary dan Next Steps<a class="headerlink" href="#summary-dan-next-steps" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SUMMARY PREPROCESSING SEDERHANA</span>
@@ -1373,6 +1364,7 @@ LANGKAH SELANJUTNYA:
 </div>
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -1439,15 +1431,13 @@ LANGKAH SELANJUTNYA:
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>PrepocessingData</strong></a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries-dan-setup-environment">1. Import Libraries dan Setup Environment</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-dan-hasil-outlier-detection">2. Load Data dan Hasil Outlier Detection</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-removal-dan-imputation-dengan-visualisasi">3. Outlier Removal dan Imputation dengan Visualisasi</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-scaling-dan-engineering">4. Feature Scaling dan Engineering</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split-dan-persiapan-final">5. Train-Test Split dan Persiapan Final</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-dan-next-steps">6. Summary dan Next Steps</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries-dan-setup-environment">1. Import Libraries dan Setup Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-data-dan-hasil-outlier-detection">2. Load Data dan Hasil Outlier Detection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outlier-removal-dan-imputation-dengan-visualisasi">3. Outlier Removal dan Imputation dengan Visualisasi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-scaling-dan-engineering">4. Feature Scaling dan Engineering</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-test-split-dan-persiapan-final">5. Train-Test Split dan Persiapan Final</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary-dan-next-steps">6. Summary dan Next Steps</a></li>
 </ul>
-
   </nav></div>
 
 </div></div>
