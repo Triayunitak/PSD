@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="D:\masterprog\XAMPP\htdocs\PSD\tugas1-proyek-datasains\.venv"
+VIRTUAL_ENV="D:\masterprog\XAMPP2\htdocs\PSD\tugas1-proyek-datasains\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
