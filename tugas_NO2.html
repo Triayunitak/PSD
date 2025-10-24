@@ -387,8 +387,21 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengumpulkan-data-dan-dijadikan-csv"><strong>1. Mengumpulkan data dan dijadikan CSV</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memprosessing-data-jika-ada-missing-values-dengan-interpolasi"><strong>2.Memprosessing data jika ada missing values  dengan interpolasi</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memprosessing-data-jika-ada-missing-values-dengan-interpolasi"><strong>2. Memprosessing data jika ada missing values  dengan interpolasi</strong></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan"><strong>Penjelasan:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membentuk-data-supervised"><strong>3. Membentuk Data Supervised</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><strong>Penjelasan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melakukan-normalisai-data-min-max-atau-zscore-standar-scale-di-sklearn"><strong>4. Melakukan normalisai data (min-max atau zscore (standar scale di sklearn))</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><strong>Penjelasan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-model-dengan-k-nn-regression"><strong>5. Membuat model dengan K-NN regression</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-langkah"><strong>Penjelasan Langkah :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil"><strong>Hasil :</strong></a></li>
 </ul>
 </li>
 </ul>
@@ -536,7 +549,7 @@ document.write(`
 </div>
 </section>
 <section id="memprosessing-data-jika-ada-missing-values-dengan-interpolasi">
-<h2><strong>2.Memprosessing data jika ada missing values  dengan interpolasi</strong><a class="headerlink" href="#memprosessing-data-jika-ada-missing-values-dengan-interpolasi" title="Link to this heading">#</a></h2>
+<h2><strong>2. Memprosessing data jika ada missing values  dengan interpolasi</strong><a class="headerlink" href="#memprosessing-data-jika-ada-missing-values-dengan-interpolasi" title="Link to this heading">#</a></h2>
 <p>Mengisi missing values dengan interpolasi waktu (time-based interpolation) agar datanya tetap konsisten untuk analisis.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -726,6 +739,385 @@ dtype: int64
 </ul>
 </section>
 </section>
+<section id="membentuk-data-supervised">
+<h2><strong>3. Membentuk Data Supervised</strong><a class="headerlink" href="#membentuk-data-supervised" title="Link to this heading">#</a></h2>
+<p>Mengubah data deret waktu (time series) menjadi data supervised learning, yaitu dengan membuat pasangan:</p>
+<ul class="simple">
+<li><p>Input (X): nilai NO₂ pada waktu sebelumnya</p></li>
+<li><p>Target (y): nilai NO₂ pada waktu berikutnya</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># --- Load data bersih hasil interpolasi ---</span>
+<span class="n">during_clean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_clean.csv&quot;</span><span class="p">)</span>
+<span class="n">post_clean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_post_covid_clean.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Pastikan kolom waktu diubah jadi datetime</span>
+<span class="n">during_clean</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">during_clean</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>
+<span class="n">post_clean</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">post_clean</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>
+
+<span class="c1"># --- Fungsi bantu untuk ubah time series ke supervised ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_supervised</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_col</span><span class="si">}</span><span class="s1">_lag</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="c1"># Ubah data menjadi format supervised dengan 1 lag (bisa diganti ke 2–3 lag kalau mau)</span>
+<span class="n">during_supervised</span> <span class="o">=</span> <span class="n">make_supervised</span><span class="p">(</span><span class="n">during_clean</span><span class="p">)</span>
+<span class="n">post_supervised</span> <span class="o">=</span> <span class="n">make_supervised</span><span class="p">(</span><span class="n">post_clean</span><span class="p">)</span>
+
+<span class="c1"># --- Simpan hasil ke CSV ---</span>
+<span class="n">during_supervised</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_supervised.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">post_supervised</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;no2_post_covid_supervised.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Data supervised berhasil dibuat dan disimpan:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- no2_during_covid_supervised.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- no2_post_covid_supervised.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Tampilkan contoh data ---</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📋 Contoh data supervised (During COVID):&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">during_supervised</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Data supervised berhasil dibuat dan disimpan:
+- no2_during_covid_supervised.csv
+- no2_post_covid_supervised.csv
+
+📋 Contoh data supervised (During COVID):
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NO2_lag1</th>
+      <th>NO2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.000019</td>
+      <td>0.000026</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.000026</td>
+      <td>0.000025</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.000025</td>
+      <td>0.000037</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.000037</td>
+      <td>0.000036</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.000036</td>
+      <td>0.000036</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id1">
+<h3><strong>Penjelasan :</strong><a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Kolom NO2_lag1 → nilai NO₂ pada waktu sebelumnya (t-1)</p></li>
+<li><p>Kolom NO2 → nilai NO₂ pada waktu sekarang (t)</p></li>
+<li><p>Setiap baris menunjukkan pasangan data yang bisa digunakan untuk prediksi deret waktu (time series) — misalnya memprediksi kadar NO₂ berdasarkan data sebelumnya.</p></li>
+</ul>
+</section>
+</section>
+<section id="melakukan-normalisai-data-min-max-atau-zscore-standar-scale-di-sklearn">
+<h2><strong>4. Melakukan normalisai data (min-max atau zscore (standar scale di sklearn))</strong><a class="headerlink" href="#melakukan-normalisai-data-min-max-atau-zscore-standar-scale-di-sklearn" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Min-Max Scaling: ubah data ke rentang [0, 1]</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="c1"># --- Load data supervised hasil langkah 3 ---</span>
+<span class="n">df_supervised</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_supervised.csv&quot;</span><span class="p">)</span>  <span class="c1"># atau post_covid_supervised.csv</span>
+
+<span class="c1"># Pisahkan fitur (X) dan target (y)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df_supervised</span><span class="p">[[</span><span class="s1">&#39;NO2_lag1&#39;</span><span class="p">]]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_supervised</span><span class="p">[[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]]</span>
+
+<span class="c1"># --- Normalisasi dengan Min-Max (pakai dua scaler terpisah) ---</span>
+<span class="n">scaler_X</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">scaler_y</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">y_scaled</span> <span class="o">=</span> <span class="n">scaler_y</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Gabungkan hasil ke DataFrame baru</span>
+<span class="n">df_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;NO2_lag1_scaled&#39;</span><span class="p">:</span> <span class="n">X_scaled</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+    <span class="s1">&#39;NO2_scaled&#39;</span><span class="p">:</span> <span class="n">y_scaled</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+<span class="p">})</span>
+
+<span class="c1"># Simpan ke file CSV</span>
+<span class="n">df_scaled</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_supervised_scaled.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Normalisasi selesai dan disimpan sebagai &#39;no2_during_covid_supervised_scaled.csv&#39;&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df_scaled</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Normalisasi selesai dan disimpan sebagai &#39;no2_during_covid_supervised_scaled.csv&#39;
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>NO2_lag1_scaled</th>
+      <th>NO2_scaled</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.316152</td>
+      <td>0.392084</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.392084</td>
+      <td>0.382544</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.382544</td>
+      <td>0.522623</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.522623</td>
+      <td>0.505241</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.505241</td>
+      <td>0.505399</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<section id="id2">
+<h3><strong>Penjelasan :</strong><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Semua nilai berada pada rentang 0–1, artinya proses scaling berhasil.</p></li>
+<li><p>Tidak ada nilai di luar rentang (negatif atau lebih dari 1), jadi tidak terjadi error atau outlier setelah normalisasi.</p></li>
+<li><p>Kolom NO2_lag1_scaled akan digunakan sebagai fitur input (X), sedangkan
+NO2_scaled sebagai target output (y).</p></li>
+</ul>
+</section>
+</section>
+<section id="membuat-model-dengan-k-nn-regression">
+<h2><strong>5. Membuat model dengan K-NN regression</strong><a class="headerlink" href="#membuat-model-dengan-k-nn-regression" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Melakukan experiment dengan beberapa fitur (menentukan berapa lag data : berkaitan dengan no 3)</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># --- Load data supervised hasil normalisasi ---</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_supervised_scaled.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Eksperimen dengan beberapa jumlah lag ---</span>
+<span class="k">for</span> <span class="n">lag</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔹 Eksperimen dengan lag = </span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Buat ulang data supervised sesuai jumlah lag</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">make_supervised</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s1">&#39;NO2_scaled&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_col</span><span class="si">}</span><span class="s1">_lag</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span>
+
+    <span class="n">df_supervised</span> <span class="o">=</span> <span class="n">make_supervised</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">df_supervised</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NO2_scaled&#39;</span><span class="p">])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">df_supervised</span><span class="p">[</span><span class="s1">&#39;NO2_scaled&#39;</span><span class="p">]</span>
+
+    <span class="c1"># --- Split data: 80% train, 20% test ---</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+
+    <span class="c1"># --- Inisialisasi dan training model KNN ---</span>
+    <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsRegressor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+    <span class="c1"># --- Prediksi dan evaluasi ---</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📉 MSE: </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📈 R²: </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># --- Visualisasi hasil prediksi vs aktual ---</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Aktual&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Prediksi&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Perbandingan Aktual vs Prediksi (lag=</span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Index Waktu&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;NO₂ (scaled)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔹 Eksperimen dengan lag = 1
+📉 MSE: 0.022075
+📈 R²: 0.1866
+</pre></div>
+</div>
+<img alt="_images/c8daf19df60b662d82af6becdf2cb5c9da57ca288f859060bdac7763bfdef62d.png" src="_images/c8daf19df60b662d82af6becdf2cb5c9da57ca288f859060bdac7763bfdef62d.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔹 Eksperimen dengan lag = 2
+📉 MSE: 0.020924
+📈 R²: 0.2290
+</pre></div>
+</div>
+<img alt="_images/76090a39eb9635d75a691d88cc1b36afe28a0aaa39c62d3c0edad55078120fa3.png" src="_images/76090a39eb9635d75a691d88cc1b36afe28a0aaa39c62d3c0edad55078120fa3.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔹 Eksperimen dengan lag = 3
+📉 MSE: 0.020415
+📈 R²: 0.2478
+</pre></div>
+</div>
+<img alt="_images/122098f77125225d4f8066147f8ba382ab14432248072f9c15816868b3e27819.png" src="_images/122098f77125225d4f8066147f8ba382ab14432248072f9c15816868b3e27819.png" />
+</div>
+</div>
+<section id="penjelasan-langkah">
+<h3><strong>Penjelasan Langkah :</strong><a class="headerlink" href="#penjelasan-langkah" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Eksperimen Lag</strong>
+3 variasi lag (lag=1,2,3).</p></li>
+</ol>
+<ul class="simple">
+<li><p>Lag 1 = model hanya lihat nilai NO₂ sehari sebelumnya</p></li>
+<li><p>Lag 2/3 = model lihat 2–3 hari sebelumnya untuk memprediksi nilai saat ini</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Split Data</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Data dibagi menjadi 80% training dan 20% testing</p></li>
+<li><p>shuffle=False karena ini data time series (urutan waktu harus dijaga)</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Model</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Menggunakan KNeighborsRegressor(n_neighbors=3)
+artinya prediksi didasarkan pada rata-rata dari 3 titik data terdekat</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p><strong>Evaluasi</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>MSE (Mean Squared Error) → seberapa besar kesalahan prediksi</p></li>
+<li><p>R² (R-squared) → seberapa baik model menjelaskan variasi data
+(semakin mendekati 1, semakin bagus)</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p><strong>Visualisasi</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Grafik menunjukkan perbandingan antara nilai aktual dan hasil prediksi</p></li>
+<li><p>Pola yang mirip menunjukkan model mampu menangkap tren data dengan baik</p></li>
+</ul>
+</section>
+<section id="hasil">
+<h3><strong>Hasil :</strong><a class="headerlink" href="#hasil" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Lag = 1</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>MSE = 0.0221
+Artinya, rata-rata selisih kuadrat antara hasil prediksi dan data asli masih cukup tinggi.</p></li>
+<li><p>R² = 0.1866
+Artinya model hanya bisa menjelaskan sekitar 18,6% variasi data aktual.
+Dengan kata lain, model ini belum terlalu baik karena hanya melihat 1 data sebelumnya (lag 1) untuk memprediksi data berikutnya.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Lag = 2</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>MSE = 0.0209 (lebih kecil dari sebelumnya)</p></li>
+<li><p>R² = 0.2290 (meningkat jadi sekitar 22,9%)</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Lag = 3</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>MSE = 0.0204</p></li>
+<li><p>R² = 0.2478
+Artinya model dengan lag=3 memiliki performa terbaik di antara tiga percobaan.</p></li>
+</ul>
+<p><strong>Kesimpulan Umum</strong></p>
+<ul class="simple">
+<li><p>Menambah jumlah lag (dari 1 ke 3) meningkatkan akurasi model.</p></li>
+<li><p>Namun peningkatannya masih kecil, sehingga data ini mungkin butuh fitur tambahan (seperti suhu, kecepatan angin, atau hari keberapa dalam minggu) agar prediksi lebih akurat.</p></li>
+<li><p>Nilai R² &lt; 0.3 menunjukkan model masih belum cukup baik, tapi arah perbaikan sudah terlihat jelas.</p></li>
+</ul>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -784,8 +1176,21 @@ dtype: int64
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mengumpulkan-data-dan-dijadikan-csv"><strong>1. Mengumpulkan data dan dijadikan CSV</strong></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memprosessing-data-jika-ada-missing-values-dengan-interpolasi"><strong>2.Memprosessing data jika ada missing values  dengan interpolasi</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#memprosessing-data-jika-ada-missing-values-dengan-interpolasi"><strong>2. Memprosessing data jika ada missing values  dengan interpolasi</strong></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan"><strong>Penjelasan:</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membentuk-data-supervised"><strong>3. Membentuk Data Supervised</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><strong>Penjelasan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melakukan-normalisai-data-min-max-atau-zscore-standar-scale-di-sklearn"><strong>4. Melakukan normalisai data (min-max atau zscore (standar scale di sklearn))</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><strong>Penjelasan :</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-model-dengan-k-nn-regression"><strong>5. Membuat model dengan K-NN regression</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#penjelasan-langkah"><strong>Penjelasan Langkah :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil"><strong>Hasil :</strong></a></li>
 </ul>
 </li>
 </ul>
