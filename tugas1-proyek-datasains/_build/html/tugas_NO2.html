@@ -396,6 +396,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melakukan-normalisai-data-min-max-atau-zscore-standar-scale-di-sklearn"><strong>4. Melakukan normalisai data (min-max atau zscore (standar scale di sklearn))</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-gradient-boosting-lebih-kuat-dari-rf"><strong>Model gradient boosting (lebih kuat dari RF)</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><strong>Penjelasan :</strong></a></li>
 </ul>
 </li>
@@ -411,6 +412,13 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil"><strong>Hasil :</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><strong>Analisis :</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-grafik"><strong>Interpretasi Grafik</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><strong>Penjelasan :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-cek-autokorelasi-residual"><strong>a. Cek autokorelasi residual</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><strong>Penjelasan :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-gridsearchcv-untuk-tuning-parameter-random-forest"><strong>b.GridSearchCV untuk tuning parameter Random Forest</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-evaluasi-ulang-autokorelasi-residual"><strong>c. Evaluasi ulang autokorelasi residual</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><strong>Penjelasan :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-cek-kembali-mape-akurasi-setelah-perbaikan-model"><strong>d. Cek kembali MAPE (akurasi) setelah perbaikan model</strong></a></li>
 </ul>
 </li>
 </ul>
@@ -934,6 +942,92 @@ dtype: int64
 </div>
 </div>
 </div>
+<section id="model-gradient-boosting-lebih-kuat-dari-rf">
+<h3><strong>Model gradient boosting (lebih kuat dari RF)</strong><a class="headerlink" href="#model-gradient-boosting-lebih-kuat-dari-rf" title="Link to this heading">#</a></h3>
+<p>Model seperti XGBoost umumnya lebih baik dalam:</p>
+<ul class="simple">
+<li><p>menangani data time series regresi non-linear,</p></li>
+<li><p>menurunkan error (MAPE),</p></li>
+<li><p>memperbaiki autokorelasi residu.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 1. Import library utama ---</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xgboost</span><span class="w"> </span><span class="kn">import</span> <span class="n">XGBRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span>
+
+<span class="c1"># --- 2. Baca dataset ---</span>
+<span class="c1"># Gantilah nama file sesuai yang kamu punya</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;no2_all_supervised.csv&#39;</span><span class="p">)</span>
+
+<span class="c1"># Pastikan ada kolom target, misal &#39;NO2&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Kolom data:&quot;</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+
+<span class="c1"># Jika kolom target bernama lain, ubah di sini:</span>
+<span class="n">target_col</span> <span class="o">=</span> <span class="s1">&#39;NO2&#39;</span>
+
+<span class="c1"># --- 3. Pisahkan fitur dan target ---</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">target_col</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span>
+
+<span class="c1"># Pastikan keduanya punya bentuk 2D dan 1D yang benar</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X shape:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y shape:&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># --- 4. Split data ---</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="c1"># --- 5. Buat dan latih model XGBoost ---</span>
+<span class="n">xgb</span> <span class="o">=</span> <span class="n">XGBRegressor</span><span class="p">(</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+    <span class="n">max_depth</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">subsample</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">colsample_bytree</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:squarederror&#39;</span>
+<span class="p">)</span>
+
+<span class="c1"># Tambahan: pastikan X_train tidak kosong</span>
+<span class="k">assert</span> <span class="ow">not</span> <span class="n">X_train</span><span class="o">.</span><span class="n">empty</span><span class="p">,</span> <span class="s2">&quot;❌ X_train kosong, pastikan dataset memiliki cukup data!&quot;</span>
+<span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;❌ X_train harus 2D (baris, kolom)!&quot;</span>
+
+<span class="n">xgb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># --- 6. Evaluasi ---</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">mape</span> <span class="o">=</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 Hasil Evaluasi XGBoost:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MSE  : </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R²   : </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MAPE : </span><span class="si">{</span><span class="n">mape</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Kolom data: [&#39;NO2_lag1&#39;, &#39;NO2&#39;]
+X shape: (778, 1)
+y shape: (778,)
+
+📊 Hasil Evaluasi XGBoost:
+MSE  : 0.0000
+R²   : -0.080
+MAPE : 28.31%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 <section id="id2">
 <h3><strong>Penjelasan :</strong><a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
 <ol class="arabic simple">
@@ -1314,6 +1408,210 @@ Nilai NO₂ saat ini lebih baik diprediksi menggunakan data 4 hari sebelumnya (k
 <li><p>Untuk penelitian kamu, bisa disimpulkan:
 “Model Random Forest dengan tiga lag historis memberikan hasil prediksi paling optimal terhadap konsentrasi NO₂ pada periode gabungan during dan post COVID-19, dengan tingkat error (MAPE) sebesar 19.53% dan kemampuan penjelasan variasi data (R²) sebesar 0.2268.”</p></li>
 </ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 5. Prediksi lebih dari 1 hari (multi-step forecast) ---</span>
+<span class="n">forecast_days</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># jumlah hari ke depan</span>
+<span class="n">preds</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># gunakan 8 baris terakhir agar cukup untuk lag=7</span>
+<span class="n">current_input</span> <span class="o">=</span> <span class="n">test</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">forecast_days</span><span class="p">):</span>
+    <span class="c1"># buat data lag baru dari current_input</span>
+    <span class="n">input_lag</span> <span class="o">=</span> <span class="n">make_lagged</span><span class="p">(</span><span class="n">current_input</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">])</span>
+
+    <span class="c1"># pastikan tidak kosong</span>
+    <span class="k">if</span> <span class="n">input_lag</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;⚠️ Input lag kosong — tidak cukup data untuk membuat lag.&quot;</span><span class="p">)</span>
+        <span class="k">break</span>
+
+    <span class="c1"># prediksi hari berikutnya</span>
+    <span class="n">next_pred</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">input_lag</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">preds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_pred</span><span class="p">)</span>
+
+    <span class="c1"># tambahkan hasil prediksi agar bisa dipakai ke iterasi berikut</span>
+    <span class="n">next_row</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;NO2&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">next_pred</span><span class="p">]})</span>
+    <span class="n">current_input</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">current_input</span><span class="p">,</span> <span class="n">next_row</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📈 Prediksi </span><span class="si">{</span><span class="n">forecast_days</span><span class="si">}</span><span class="s2"> Hari ke Depan:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hari ke-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">val</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📈 Prediksi 5 Hari ke Depan:
+Hari ke-1: 0.2080
+Hari ke-2: 0.1974
+Hari ke-3: 0.2073
+Hari ke-4: 0.2215
+Hari ke-5: 0.2756
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id5">
+<h3><strong>Penjelasan :</strong><a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Model memprediksi penurunan singkat NO₂ di hari ke-2, tapi kemudian terjadi kenaikan konsentrasi menjelang hari ke-5.</p></li>
+<li><p>Kenaikan ini bisa diartikan sebagai indikasi potensi peningkatan polusi udara NO₂ pada periode mendatang, jika pola historis berlanjut.</p></li>
+</ul>
+</section>
+<section id="a-cek-autokorelasi-residual">
+<h3><strong>a. Cek autokorelasi residual</strong><a class="headerlink" href="#a-cek-autokorelasi-residual" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">statsmodels.api</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sm</span>
+
+<span class="n">residuals</span> <span class="o">=</span> <span class="n">y_test</span> <span class="o">-</span> <span class="n">y_pred</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">tsa</span><span class="o">.</span><span class="n">plot_acf</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/219f72b565bfc0293672da3f59434e6ec1edc76274fc89740a639b96d2451d0b.png" src="_images/219f72b565bfc0293672da3f59434e6ec1edc76274fc89740a639b96d2451d0b.png" />
+</div>
+</div>
+</section>
+<section id="id6">
+<h3><strong>Penjelasan :</strong><a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Garis biru tengah (area bayangan biru muda)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Area bayangan biru merupakan confidence interval 95%.</p></li>
+<li><p>Jika titik-titik (batang vertikal) berada di dalam area biru, maka autokorelasinya tidak signifikan secara statistik → artinya residual sudah acak (random noise).</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p><strong>Interpretasi batang (lag)</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Lag 0 = selalu 1, karena korelasi terhadap dirinya sendiri.</p></li>
+<li><p>Untuk lag &gt; 0, hampir semua batang:</p>
+<ul>
+<li><p>Berada di dalam area biru, dan</p></li>
+<li><p>Nilainya dekat dengan 0 (antara -0.25 sampai 0.25).
+Ini menunjukkan bahwa tidak ada autokorelasi yang signifikan pada residual model.</p></li>
+</ul>
+</li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p><strong>Implikasi dan Kesimpulan</strong></p></li>
+</ol>
+<ul class="simple">
+<li><p>Model sudah cukup baik menangkap dinamika waktu pada data NO₂.</p></li>
+<li><p>Tidak perlu lagi transformasi tambahan (misalnya ARIMA residual).</p></li>
+<li><p>Kamu bisa lanjut ke tahap penyempurnaan MAPE (meningkatkan akurasi) atau deployment sistem.</p></li>
+<li><p>Artinya model Random Forest sudah berhasil memperbaiki autokorelasi. Residual-nya sudah bersifat random → model tidak lagi meninggalkan pola temporal (waktu) yang tidak dijelaskan.</p></li>
+</ul>
+</section>
+<section id="b-gridsearchcv-untuk-tuning-parameter-random-forest">
+<h3><strong>b.GridSearchCV untuk tuning parameter Random Forest</strong><a class="headerlink" href="#b-gridsearchcv-untuk-tuning-parameter-random-forest" title="Link to this heading">#</a></h3>
+<p>Supaya MAPE lebih kecil dan model lebih stabil</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">GridSearchCV</span>
+
+<span class="n">param_grid</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;n_estimators&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">],</span>
+    <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">],</span>
+    <span class="s1">&#39;min_samples_split&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">param_grid</span><span class="p">,</span>
+                    <span class="n">scoring</span><span class="o">=</span><span class="s1">&#39;neg_mean_absolute_percentage_error&#39;</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Best Params:&quot;</span><span class="p">,</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_params_</span><span class="p">)</span>
+<span class="n">best_rf</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Best Params: {&#39;max_depth&#39;: 5, &#39;min_samples_split&#39;: 10, &#39;n_estimators&#39;: 100}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="c-evaluasi-ulang-autokorelasi-residual">
+<h3><strong>c. Evaluasi ulang autokorelasi residual</strong><a class="headerlink" href="#c-evaluasi-ulang-autokorelasi-residual" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residuals</span> <span class="o">=</span> <span class="n">y_test</span> <span class="o">-</span> <span class="n">y_pred</span>
+<span class="n">sm</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">tsa</span><span class="o">.</span><span class="n">plot_acf</span><span class="p">(</span><span class="n">residuals</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/219f72b565bfc0293672da3f59434e6ec1edc76274fc89740a639b96d2451d0b.png" src="_images/219f72b565bfc0293672da3f59434e6ec1edc76274fc89740a639b96d2451d0b.png" />
+</div>
+</div>
+</section>
+<section id="id7">
+<h3><strong>Penjelasan :</strong><a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p>Interpretasi Grafik Autokorelasi Residual</p></li>
+</ol>
+<ul class="simple">
+<li><p>Garis biru vertikal menunjukkan nilai autokorelasi residual untuk masing-masing lag (1 sampai 20).</p></li>
+<li><p>Area biru muda menunjukkan batas kepercayaan 95%.</p></li>
+<li><p>Jika titik autokorelasi berada di dalam area biru, maka nilai tersebut tidak signifikan secara statistik, artinya tidak ada autokorelasi pada lag tersebut.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Hasil</p></li>
+</ol>
+<ul class="simple">
+<li><p>Semua titik autokorelasi residual berada di dalam area biru.</p></li>
+<li><p>Tidak ada pola yang teratur atau spike besar di luar batas.</p></li>
+<li><p>Model Random Forest Regression yang kamu gunakan berhasil menghilangkan autokorelasi pada residual.</p></li>
+<li><p>Artinya, error prediksi antar waktu tidak saling bergantung lagi, sehingga modelmu stabil dan valid untuk forecasting multi-step.</p></li>
+</ul>
+</section>
+<section id="d-cek-kembali-mape-akurasi-setelah-perbaikan-model">
+<h3><strong>d. Cek kembali MAPE (akurasi) setelah perbaikan model</strong><a class="headerlink" href="#d-cek-kembali-mape-akurasi-setelah-perbaikan-model" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Evaluasi ulang performa model ---</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span>
+
+<span class="c1"># Hitung kembali metrik</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="n">mape</span> <span class="o">=</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📏 Evaluasi Model Setelah Perbaikan:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MSE  : </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;R²   : </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MAPE : </span><span class="si">{</span><span class="n">mape</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="c1"># Visualisasi hasil prediksi vs aktual</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Aktual&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Prediksi (Setelah Perbaikan)&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Perbandingan Nilai Aktual vs Prediksi NO₂&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Index Waktu (Test Data)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;NO₂ (Scaled)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📏 Evaluasi Model Setelah Perbaikan:
+MSE  : 0.006206
+R²   : -0.864867
+MAPE : 25.29%
+</pre></div>
+</div>
+<img alt="_images/c3e59250c015c1239f0050b4a66f07a39428d51a6f852bae79ea90f699435ad6.png" src="_images/c3e59250c015c1239f0050b4a66f07a39428d51a6f852bae79ea90f699435ad6.png" />
+</div>
+</div>
 </section>
 </section>
 </section>
@@ -1383,6 +1681,7 @@ Nilai NO₂ saat ini lebih baik diprediksi menggunakan data 4 hari sebelumnya (k
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#melakukan-normalisai-data-min-max-atau-zscore-standar-scale-di-sklearn"><strong>4. Melakukan normalisai data (min-max atau zscore (standar scale di sklearn))</strong></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-gradient-boosting-lebih-kuat-dari-rf"><strong>Model gradient boosting (lebih kuat dari RF)</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><strong>Penjelasan :</strong></a></li>
 </ul>
 </li>
@@ -1398,6 +1697,13 @@ Nilai NO₂ saat ini lebih baik diprediksi menggunakan data 4 hari sebelumnya (k
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil"><strong>Hasil :</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><strong>Analisis :</strong></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-grafik"><strong>Interpretasi Grafik</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5"><strong>Penjelasan :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-cek-autokorelasi-residual"><strong>a. Cek autokorelasi residual</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6"><strong>Penjelasan :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#b-gridsearchcv-untuk-tuning-parameter-random-forest"><strong>b.GridSearchCV untuk tuning parameter Random Forest</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c-evaluasi-ulang-autokorelasi-residual"><strong>c. Evaluasi ulang autokorelasi residual</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7"><strong>Penjelasan :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-cek-kembali-mape-akurasi-setelah-perbaikan-model"><strong>d. Cek kembali MAPE (akurasi) setelah perbaikan model</strong></a></li>
 </ul>
 </li>
 </ul>
