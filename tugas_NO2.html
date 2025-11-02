@@ -404,7 +404,13 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis"><strong>Analisis</strong>:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-umum"><strong>Kesimpulan Umum</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-model-dengan-random-forest-regressor"><strong>6. Membuat model dengan Random Forest Regressor</strong></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil"><strong>Hasil :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><strong>Analisis :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-grafik"><strong>Interpretasi Grafik</strong></a></li>
 </ul>
 </li>
 </ul>
@@ -861,61 +867,69 @@ dtype: int64
 <h2><strong>4. Melakukan normalisai data (min-max atau zscore (standar scale di sklearn))</strong><a class="headerlink" href="#melakukan-normalisai-data-min-max-atau-zscore-standar-scale-di-sklearn" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p>Min-Max Scaling: ubah data ke rentang [0, 1]</p></li>
+<li><p>Menggabungkan <strong>no2_during_covid_supervised.csv</strong> dan <strong>no2_post_covid_supervised.csv</strong> jadi satu dataset berurutan waktu <strong>no2_all_supervised.csv</strong></p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- GABUNGKAN DAN NORMALISASI DATA (DURING + POST) ---</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
 
-<span class="c1"># --- Load data supervised ---</span>
-<span class="n">df_supervised</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_supervised.csv&quot;</span><span class="p">)</span>
+<span class="c1"># --- 1. Load data supervised dari kedua periode ---</span>
+<span class="n">during_supervised</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_supervised.csv&quot;</span><span class="p">)</span>
+<span class="n">post_supervised</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_post_covid_supervised.csv&quot;</span><span class="p">)</span>
 
-<span class="c1"># Pisahkan fitur (X) dan target (y)</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">df_supervised</span><span class="p">[[</span><span class="s1">&#39;NO2_lag1&#39;</span><span class="p">]]</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">df_supervised</span><span class="p">[[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]]</span>
+<span class="c1"># Gabungkan data jadi satu dataframe</span>
+<span class="n">df_all</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">during_supervised</span><span class="p">,</span> <span class="n">post_supervised</span><span class="p">],</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1"># --- Bagi data jadi train dan test ---</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="c1"># Simpan versi mentah (belum dinormalisasi)</span>
+<span class="n">df_all</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;no2_all_supervised.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Data during + post digabung → no2_all_supervised.csv&quot;</span><span class="p">)</span>
 
-<span class="c1"># --- Normalisasi hanya pakai data training ---</span>
+<span class="c1"># --- 2. Pisahkan fitur (X) dan target (y) ---</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df_all</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_all</span><span class="p">[[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]]</span>
+
+<span class="c1"># --- 3. Split data manual: 80% train, 20% test (berdasarkan urutan waktu) ---</span>
+<span class="n">split_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.8</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">split_idx</span><span class="p">],</span> <span class="n">X</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">split_idx</span><span class="p">:]</span>
+<span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">split_idx</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">split_idx</span><span class="p">:]</span>
+
+<span class="c1"># --- 4. Normalisasi hanya berdasarkan data TRAIN ---</span>
 <span class="n">scaler_X</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
 <span class="n">scaler_y</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
 
+<span class="c1"># Fit hanya di train</span>
 <span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
 <span class="n">y_train_scaled</span> <span class="o">=</span> <span class="n">scaler_y</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
 
-<span class="c1"># --- Gunakan scaler yang sama untuk transformasi data test ---</span>
+<span class="c1"># Transform test menggunakan scaler dari train</span>
 <span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 <span class="n">y_test_scaled</span> <span class="o">=</span> <span class="n">scaler_y</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span>
 
-<span class="c1"># --- Simpan hasil ke DataFrame ---</span>
-<span class="n">train_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;NO2_lag1_scaled&#39;</span><span class="p">:</span> <span class="n">X_train_scaled</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-    <span class="s1">&#39;NO2_scaled&#39;</span><span class="p">:</span> <span class="n">y_train_scaled</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-<span class="p">})</span>
+<span class="c1"># --- 5. Simpan hasil ke file CSV ---</span>
+<span class="n">train_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">train_scaled</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train_scaled</span>
 
-<span class="n">test_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">&#39;NO2_lag1_scaled&#39;</span><span class="p">:</span> <span class="n">X_test_scaled</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
-    <span class="s1">&#39;NO2_scaled&#39;</span><span class="p">:</span> <span class="n">y_test_scaled</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-<span class="p">})</span>
+<span class="n">test_scaled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">test_scaled</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_test_scaled</span>
 
-<span class="c1"># --- Simpan ke file CSV ---</span>
-<span class="n">train_scaled</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_train_scaled.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="n">test_scaled</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_test_scaled.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">train_scaled</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;no2_all_train_scaled.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">test_scaled</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;no2_all_test_scaled.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Normalisasi dilakukan dengan benar (fit di train, transform di test)&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;📁 File disimpan sebagai:&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - no2_during_covid_train_scaled.csv&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - no2_during_covid_test_scaled.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ Normalisasi berhasil dilakukan (fit di train, transform di test)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;📁 File tersimpan sebagai:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - no2_all_train_scaled.csv&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot; - no2_all_test_scaled.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Normalisasi dilakukan dengan benar (fit di train, transform di test)
-📁 File disimpan sebagai:
- - no2_during_covid_train_scaled.csv
- - no2_during_covid_test_scaled.csv
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>✅ Data during + post digabung → no2_all_supervised.csv
+✅ Normalisasi berhasil dilakukan (fit di train, transform di test)
+📁 File tersimpan sebagai:
+ - no2_all_train_scaled.csv
+ - no2_all_test_scaled.csv
 </pre></div>
 </div>
 </div>
@@ -950,101 +964,134 @@ dtype: int64
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">MinMaxScaler</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Evaluasi KNN Regression dengan Lag 1–7 ---</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="c1"># --- Load data supervised ---</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_during_covid_supervised.csv&quot;</span><span class="p">)</span>
+<span class="c1"># --- 1. Load Data Normalisasi ---</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_all_train_scaled.csv&quot;</span><span class="p">)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_all_test_scaled.csv&quot;</span><span class="p">)</span>
 
-<span class="c1"># --- Eksperimen dengan beberapa jumlah lag ---</span>
-<span class="k">for</span> <span class="n">lag</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🔹 Eksperimen dengan lag = </span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># --- 2. Fungsi Membuat Lag Dataset ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_lagged</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_col</span><span class="si">}</span><span class="s1">_lag</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
 
-    <span class="c1"># Buat ulang data supervised sesuai jumlah lag</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">make_supervised</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_col</span><span class="si">}</span><span class="s1">_lag</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">data</span>
+<span class="c1"># --- 3. Fungsi Evaluasi Model KNN ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_knn_for_lag</span><span class="p">(</span><span class="n">lag</span><span class="p">):</span>
+    <span class="n">train_lagged</span> <span class="o">=</span> <span class="n">make_lagged</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">)</span>
+    <span class="n">test_lagged</span> <span class="o">=</span> <span class="n">make_lagged</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">)</span>
 
-    <span class="n">df_supervised</span> <span class="o">=</span> <span class="n">make_supervised</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">train_lagged</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">])</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">train_lagged</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">test_lagged</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">])</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">test_lagged</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span>
 
-    <span class="c1"># Pisahkan fitur (X) dan target (y)</span>
-    <span class="n">X</span> <span class="o">=</span> <span class="n">df_supervised</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">])</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">df_supervised</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span>
-
-    <span class="c1"># --- Split data: 80% train, 20% test ---</span>
-    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
-        <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span>
-    <span class="p">)</span>
-
-    <span class="c1"># --- Normalisasi hanya dengan fit di train ---</span>
-    <span class="n">scaler_X</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
-    <span class="n">scaler_y</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
-
-    <span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-    <span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-
-    <span class="n">y_train_scaled</span> <span class="o">=</span> <span class="n">scaler_y</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">y_test_scaled</span> <span class="o">=</span> <span class="n">scaler_y</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-
-    <span class="c1"># --- Inisialisasi dan training model KNN ---</span>
     <span class="n">knn</span> <span class="o">=</span> <span class="n">KNeighborsRegressor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">y_train_scaled</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+    <span class="n">knn</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 
-    <span class="c1"># --- Prediksi dan evaluasi ---</span>
-    <span class="n">y_pred_scaled</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">knn</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">mape</span> <span class="o">=</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
-    <span class="c1"># Hitung metrik evaluasi</span>
-    <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test_scaled</span><span class="p">,</span> <span class="n">y_pred_scaled</span><span class="p">)</span>
-    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test_scaled</span><span class="p">,</span> <span class="n">y_pred_scaled</span><span class="p">)</span>
-    <span class="n">mape</span> <span class="o">=</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">y_test_scaled</span><span class="p">,</span> <span class="n">y_pred_scaled</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 HASIL EVALUASI KNN (Lag = </span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔹 MSE  : </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔹 R²   : </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔹 MAPE : </span><span class="si">{</span><span class="n">mape</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📉 MSE: </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📈 R²: </span><span class="si">{</span><span class="n">r2</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 MAPE: </span><span class="si">{</span><span class="n">mape</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-
-    <span class="c1"># --- Visualisasi hasil prediksi vs aktual ---</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test_scaled</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Aktual&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred_scaled</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Prediksi&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Perbandingan Aktual vs Prediksi (lag=</span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Index Waktu&#39;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;NO₂ (scaled)&#39;</span><span class="p">)</span>
+    <span class="c1"># Visualisasi</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Aktual&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Prediksi (KNN, lag=</span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prediksi NO₂ (KNN Regression, lag=</span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Index Waktu (Test Data)&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;NO₂ (Scaled)&quot;</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;lag&quot;</span><span class="p">:</span> <span class="n">lag</span><span class="p">,</span> <span class="s2">&quot;MSE&quot;</span><span class="p">:</span> <span class="n">mse</span><span class="p">,</span> <span class="s2">&quot;R2&quot;</span><span class="p">:</span> <span class="n">r2</span><span class="p">,</span> <span class="s2">&quot;MAPE&quot;</span><span class="p">:</span> <span class="n">mape</span><span class="p">}</span>
+
+<span class="c1"># --- 4. Jalankan Evaluasi untuk Lag 1–7 ---</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">evaluate_knn_for_lag</span><span class="p">(</span><span class="n">lag</span><span class="p">)</span> <span class="k">for</span> <span class="n">lag</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)]</span>
+
+<span class="c1"># --- 5. Rekapitulasi Hasil Evaluasi ---</span>
+<span class="n">results_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📈 Rangkuman Hasil Evaluasi KNN Regression:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">results_df</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔹 Eksperimen dengan lag = 1
-📉 MSE: 0.036108
-📈 R²: 0.1866
-📊 MAPE: 66.20%
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 HASIL EVALUASI KNN (Lag = 1)
+🔹 MSE  : 0.003208
+🔹 R²   : 0.0353
+🔹 MAPE : 21.89%
 </pre></div>
 </div>
-<img alt="_images/4501ac10fa55ac1f507a3f1d1df96e7f2e5e3f13fb0727652a6669c02385870d.png" src="_images/4501ac10fa55ac1f507a3f1d1df96e7f2e5e3f13fb0727652a6669c02385870d.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔹 Eksperimen dengan lag = 2
-📉 MSE: 0.034225
-📈 R²: 0.2290
-📊 MAPE: 62.18%
+<img alt="_images/6547d5ce8e682d0c3610f68622ace29d79b436346769f39d05af00c1395915ba.png" src="_images/6547d5ce8e682d0c3610f68622ace29d79b436346769f39d05af00c1395915ba.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 HASIL EVALUASI KNN (Lag = 2)
+🔹 MSE  : 0.003398
+🔹 R²   : -0.0181
+🔹 MAPE : 22.69%
 </pre></div>
 </div>
-<img alt="_images/1199d3f0cd307184710daddbfdac74606a1762028a2265e1cef87fe9acb1d622.png" src="_images/1199d3f0cd307184710daddbfdac74606a1762028a2265e1cef87fe9acb1d622.png" />
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>🔹 Eksperimen dengan lag = 3
-📉 MSE: 0.033392
-📈 R²: 0.2478
-📊 MAPE: 54.84%
+<img alt="_images/45e164af4c90b6220168e1375320fcdc122c0d6349f6f199f523db6425cd9e78.png" src="_images/45e164af4c90b6220168e1375320fcdc122c0d6349f6f199f523db6425cd9e78.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 HASIL EVALUASI KNN (Lag = 3)
+🔹 MSE  : 0.003338
+🔹 R²   : 0.0017
+🔹 MAPE : 20.39%
 </pre></div>
 </div>
-<img alt="_images/62db47ae60cfcd494e65b5bb204a4f27174aa8c1da1c7a8ecefd3f5497bb34b0.png" src="_images/62db47ae60cfcd494e65b5bb204a4f27174aa8c1da1c7a8ecefd3f5497bb34b0.png" />
+<img alt="_images/f9315862e81995161284e06719f1c9599d09f40ae5fd68ab841eaf80d2fb4170.png" src="_images/f9315862e81995161284e06719f1c9599d09f40ae5fd68ab841eaf80d2fb4170.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 HASIL EVALUASI KNN (Lag = 4)
+🔹 MSE  : 0.003183
+🔹 R²   : 0.0471
+🔹 MAPE : 20.29%
+</pre></div>
+</div>
+<img alt="_images/9322b2ca40f3eaaed2a63587c692fa1edaae71e09c94483f36d7f8e6953bb9bb.png" src="_images/9322b2ca40f3eaaed2a63587c692fa1edaae71e09c94483f36d7f8e6953bb9bb.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 HASIL EVALUASI KNN (Lag = 5)
+🔹 MSE  : 0.003224
+🔹 R²   : 0.0309
+🔹 MAPE : 21.46%
+</pre></div>
+</div>
+<img alt="_images/932e230bc478f63ea80f81aaec29a2903327182922bfb00a6e4b0e1693958a95.png" src="_images/932e230bc478f63ea80f81aaec29a2903327182922bfb00a6e4b0e1693958a95.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 HASIL EVALUASI KNN (Lag = 6)
+🔹 MSE  : 0.003876
+🔹 R²   : -0.1664
+🔹 MAPE : 22.33%
+</pre></div>
+</div>
+<img alt="_images/ded941c4a0c5a4a28d30b4caf357408640b93c470d65452f77f80fd19f08de07.png" src="_images/ded941c4a0c5a4a28d30b4caf357408640b93c470d65452f77f80fd19f08de07.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 HASIL EVALUASI KNN (Lag = 7)
+🔹 MSE  : 0.004004
+🔹 R²   : -0.2031
+🔹 MAPE : 23.41%
+</pre></div>
+</div>
+<img alt="_images/88a4a7bd936185b4ec3e219f24bbb3f043eab7e1b0bb596a9539549a8a7c6c35.png" src="_images/88a4a7bd936185b4ec3e219f24bbb3f043eab7e1b0bb596a9539549a8a7c6c35.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📈 Rangkuman Hasil Evaluasi KNN Regression:
+   lag       MSE        R2       MAPE
+0    1  0.003208  0.035318  21.891401
+1    2  0.003398 -0.018146  22.689767
+2    3  0.003338  0.001671  20.388410
+3    4  0.003183  0.047056  20.287565
+4    5  0.003224  0.030933  21.460059
+5    6  0.003876 -0.166370  22.327710
+6    7  0.004004 -0.203116  23.407815
+</pre></div>
+</div>
 </div>
 </div>
 <section id="id3">
@@ -1062,20 +1109,30 @@ dtype: int64
 </ul>
 <p><strong>Intrepertasi Grafik :</strong></p>
 <ul class="simple">
-<li><p>Garis biru (Aktual) menunjukkan fluktuasi nilai NO₂ sebenarnya.</p></li>
-<li><p>Garis oranye (Prediksi) mulai mengikuti bentuk pola aktual ketika lag meningkat.</p></li>
-<li><p><strong>Pada lag = 1</strong>, prediksi masih agak tertinggal atau tidak stabil (terlalu halus).</p></li>
-<li><p><strong>Pada lag = 2</strong>, pola prediksi mulai lebih mendekati tren aktual.</p></li>
-<li><p><strong>Pada lag = 3</strong>, hasil prediksi sudah lebih sinkron dengan pola perubahan nilai NO₂ aktual, artinya model lebih mampu menangkap dinamika antar hari sebelumnya.</p></li>
+<li><p>Grafik per lag menunjukkan jarak antara garis aktual dan prediksi.</p></li>
+<li><p>Pada lag 1–2, model gagal menangkap fluktuasi tajam NO₂ (prediksi cenderung rata).</p></li>
+<li><p>Lag 4 menampilkan pola yang lebih sinkron — puncak dan lembah prediksi lebih sejajar dengan nilai aktual.</p></li>
+<li><p>Lag &gt;5, prediksi mulai melenceng dan kehilangan pola temporal.</p></li>
+<li><p>Nilai MSE (Mean Squared Error) relatif stabil di sekitar 0.003–0.004, artinya tingkat kesalahan model tidak banyak berubah antar lag.</p></li>
+<li><p>R² menunjukkan seberapa besar variasi data yang bisa dijelaskan model (semakin mendekati 1 → semakin baik).</p>
+<ul>
+<li><p>Terbaik pada lag 4 (R² = 0.047) → artinya model paling mampu mengikuti pola aktual saat melihat data 4 hari sebelumnya.</p></li>
+</ul>
+</li>
+<li><p>MAPE (Mean Absolute Percentage Error) menunjukkan rata-rata kesalahan persentase.</p>
+<ul>
+<li><p>Terendah pada lag 4 (20.28%), berarti prediksi model paling akurat saat mempertimbangkan 4 hari terakhir.</p></li>
+</ul>
+</li>
 </ul>
 <p><strong>Langkah :</strong></p>
 <ol class="arabic simple">
-<li><p><strong>Eksperimen Lag</strong>
-3 variasi lag (lag=1,2,3).</p></li>
+<li><p><strong>Eksperimen Lag</strong></p></li>
 </ol>
 <ul class="simple">
-<li><p>Lag 1 = model hanya lihat nilai NO₂ sehari sebelumnya</p></li>
-<li><p>Lag 2/3 = model lihat 2–3 hari sebelumnya untuk memprediksi nilai saat ini</p></li>
+<li><p>Lag 1 → Model hanya melihat 1 hari sebelumnya (NO2_lag1) untuk memprediksi nilai hari ini.</p></li>
+<li><p>Lag 2 → Model melihat 2 hari sebelumnya (NO2_lag1, NO2_lag2).</p></li>
+<li><p>Lag 3 → Model melihat 3 hari sebelumnya (NO2_lag1, NO2_lag2, NO2_lag3).</p></li>
 </ul>
 <ol class="arabic simple" start="2">
 <li><p><strong>Split Data</strong></p></li>
@@ -1092,7 +1149,7 @@ dtype: int64
 artinya prediksi didasarkan pada rata-rata dari 3 titik data terdekat</p></li>
 </ul>
 <ol class="arabic simple" start="4">
-<li><p><strong>Evaluasi</strong></p></li>
+<li><p><strong>Evaluasi Model</strong></p></li>
 </ol>
 <ul class="simple">
 <li><p>MSE (Mean Squared Error) → seberapa besar kesalahan prediksi</p></li>
@@ -1114,41 +1171,149 @@ artinya prediksi didasarkan pada rata-rata dari 3 titik data terdekat</p></li>
 <li><p><strong>MSE (Mean Squared Error)</strong> semakin kecil → artinya error kuadrat rata-rata semakin kecil → prediksi makin mendekati nilai aktual.</p></li>
 <li><p><strong>R² (koefisien determinasi)</strong> model semakin baik dalam menjelaskan variasi data seiring bertambahnya lag.</p></li>
 <li><p><strong>MAPE (Mean Absolute Percentage Error)</strong> menurun signifikan (66% → 54%) → model makin akurat secara persentase. MAPE &gt; 50% menandakan prediksi masih jauh dari sangat akurat. Hal ini wajar untuk model baseline seperti KNN dengan sedikit fitur temporal.</p></li>
-<li><p>Model K-NN Regression berhasil memprediksi nilai NO₂ satu hari ke depan, dengan peningkatan performa saat mempertimbangkan lebih banyak hari sebelumnya (lag 3 lebih baik daripada lag 1 dan 2).</p></li>
-<li><p>Hasil evaluasi menunjukkan adanya hubungan temporal antara nilai NO₂ hari ini dengan beberapa hari sebelumnya.</p></li>
+<li><p>Pola menunjukkan bahwa menambah lag hingga 4 hari membantu model mengenali tren waktu (karena KNN butuh konteks tetangga yang cukup dekat).</p></li>
+<li><p>Namun setelah lag &gt; 5, performa menurun drastis (R² negatif, MAPE naik).
+→ Ini menunjukkan overfitting ringan karena semakin banyak lag menambah noise, bukan informasi relevan.</p></li>
 </ul>
+<section id="kesimpulan-umum">
+<h3><strong>Kesimpulan Umum</strong><a class="headerlink" href="#kesimpulan-umum" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Lag terbaik: lag = 4</p></li>
+<li><p>Alasan: R² tertinggi dan MAPE terendah → model paling mampu menangkap tren tanpa kehilangan stabilitas.</p></li>
+<li><p>Makna praktis:
+Nilai NO₂ saat ini lebih baik diprediksi menggunakan data 4 hari sebelumnya (konteks waktu pendek lebih relevan).</p></li>
+<li><p>Namun: performa KNN masih tergolong moderat (R² kecil ≈ 0.05) → artinya hubungan antar waktu tidak linear kuat, cocok untuk model yang lebih kompleks (mis. Random Forest atau LSTM).</p></li>
+</ul>
+</section>
+</section>
+<section id="membuat-model-dengan-random-forest-regressor">
+<h2><strong>6. Membuat model dengan Random Forest Regressor</strong><a class="headerlink" href="#membuat-model-dengan-random-forest-regressor" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Bisa menangkap hubungan non-linear,</p></li>
+<li><p>Tidak butuh asumsi distribusi data,</p></li>
+<li><p>Lebih stabil terhadap noise dibanding KNN.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Random Forest Regression (Lag 1–7) ---</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_absolute_percentage_error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># --- 1. Load Data Normalisasi ---</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_all_train_scaled.csv&quot;</span><span class="p">)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;no2_all_test_scaled.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 2. Fungsi Membuat Lag Dataset ---</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">make_lagged</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s1">&#39;NO2&#39;</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">data</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">target_col</span><span class="si">}</span><span class="s1">_lag</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+    <span class="n">data</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">target_col</span><span class="p">]</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span>
+
+<span class="c1"># --- 3. Evaluasi Tiap Lag ---</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">lag</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">train_lagged</span> <span class="o">=</span> <span class="n">make_lagged</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">)</span>
+    <span class="n">test_lagged</span> <span class="o">=</span> <span class="n">make_lagged</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">)</span>
+
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">train_lagged</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">])</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">train_lagged</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">test_lagged</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">])</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">test_lagged</span><span class="p">[</span><span class="s1">&#39;NO2&#39;</span><span class="p">]</span>
+
+    <span class="n">rf</span> <span class="o">=</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">rf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">rf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="n">mape</span> <span class="o">=</span> <span class="n">mean_absolute_percentage_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s1">&#39;lag&#39;</span><span class="p">:</span> <span class="n">lag</span><span class="p">,</span> <span class="s1">&#39;MSE&#39;</span><span class="p">:</span> <span class="n">mse</span><span class="p">,</span> <span class="s1">&#39;R2&#39;</span><span class="p">:</span> <span class="n">r2</span><span class="p">,</span> <span class="s1">&#39;MAPE&#39;</span><span class="p">:</span> <span class="n">mape</span><span class="p">})</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Aktual&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;Prediksi (RF, lag=</span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Prediksi NO₂ (Random Forest, lag=</span><span class="si">{</span><span class="n">lag</span><span class="si">}</span><span class="s1">)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Index Waktu (Test Data)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;NO₂ (Scaled)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># --- 4. Rangkuman Hasil ---</span>
+<span class="n">df_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">📊 Rangkuman Hasil Evaluasi Random Forest Regression:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_results</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/1341380bfb1930df23c0c1ca0d7eba398fb574bcd0fd71295fd636e426f5d8d5.png" src="_images/1341380bfb1930df23c0c1ca0d7eba398fb574bcd0fd71295fd636e426f5d8d5.png" />
+<img alt="_images/4258db87673df9ef2e6475ae3e1b10902deef1ef1dde8d2c0dbb09fbd282e45a.png" src="_images/4258db87673df9ef2e6475ae3e1b10902deef1ef1dde8d2c0dbb09fbd282e45a.png" />
+<img alt="_images/3a1330c3995ed4c66d32bcd245cd4f836ba1b15f93145fe5b68038250b68cf0c.png" src="_images/3a1330c3995ed4c66d32bcd245cd4f836ba1b15f93145fe5b68038250b68cf0c.png" />
+<img alt="_images/47c7698b893961bb85a439d6ab252f9e4c41dca8ca924732c6dd49bf1b58f3d8.png" src="_images/47c7698b893961bb85a439d6ab252f9e4c41dca8ca924732c6dd49bf1b58f3d8.png" />
+<img alt="_images/1894a9dc9f9375539b6b53439e6b91d051ca1f3c752e897356276c0e45565380.png" src="_images/1894a9dc9f9375539b6b53439e6b91d051ca1f3c752e897356276c0e45565380.png" />
+<img alt="_images/f78ec89551bf857b366bdb7bc4a376451e0e8e4e46e6631caa5c53a9cdcc7eb0.png" src="_images/f78ec89551bf857b366bdb7bc4a376451e0e8e4e46e6631caa5c53a9cdcc7eb0.png" />
+<img alt="_images/1c093997c6154d01863a74ed9789554b759a08b95dfdb531d5be167186f3bb81.png" src="_images/1c093997c6154d01863a74ed9789554b759a08b95dfdb531d5be167186f3bb81.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>📊 Rangkuman Hasil Evaluasi Random Forest Regression:
+   lag       MSE        R2       MAPE
+0    1  0.003424 -0.029744  23.115009
+1    2  0.002883  0.136238  20.809577
+2    3  0.002585  0.226761  19.533612
+3    4  0.002667  0.201540  19.804547
+4    5  0.002832  0.148662  20.184515
+5    6  0.003122  0.060484  20.991863
+6    7  0.006206 -0.864867  25.286752
+</pre></div>
+</div>
+</div>
+</div>
 <section id="hasil">
 <h3><strong>Hasil :</strong><a class="headerlink" href="#hasil" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>R² tertinggi pada lag 3 (0.2267) → model menjelaskan 22.6% variasi data aktual.</p></li>
+<li><p>MAPE terendah juga pada lag 3 (19.53%) → kesalahan rata-rata hanya ±19%.</p></li>
+<li><p>Setelah lag 3, performa mulai menurun → model mulai overfit.</p></li>
+<li><p>Lag 7 menunjukkan penurunan ekstrem (R² negatif besar, MAPE tinggi) → noise dominan, model gagal generalisasi.</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3><strong>Analisis :</strong><a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Random Forest mampu menangkap hubungan non-linear antar lag dengan lebih baik dibanding KNN.</p></li>
+<li><p>Peningkatan performa dari lag 1 → 3 menunjukkan bahwa model memanfaatkan pola 3 hari terakhir secara optimal.</p></li>
+<li><p>Setelah itu (lag &gt;3), informasi tambahan malah memperburuk hasil karena tumpang tindih antar fitur waktu (redundansi).</p></li>
+</ul>
+</section>
+<section id="interpretasi-grafik">
+<h3><strong>Interpretasi Grafik</strong><a class="headerlink" href="#interpretasi-grafik" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Pada lag 3, garis prediksi mendekati garis aktual dengan pola naik-turun yang lebih sinkron.</p></li>
+<li><p>Model dapat meniru bentuk fluktuasi konsentrasi NO₂, terutama puncak dan penurunan tajam.</p></li>
+<li><p>Lag 7 menunjukkan deviasi besar — prediksi menjadi terlalu halus (flattening), kehilangan detail variasi waktu.</p></li>
+</ul>
+<p><strong>Kesimpulan Akhir</strong></p>
 <ol class="arabic simple">
-<li><p><strong>Lag = 1</strong></p></li>
+<li><p>Model terbaik: Random Forest dengan lag = 3</p>
+<ul class="simple">
+<li><p>MSE paling kecil</p></li>
+<li><p>R² tertinggi</p></li>
+<li><p>MAPE terendah</p></li>
+<li><p>Grafik paling stabil dan mengikuti tren aktual</p></li>
+</ul>
+</li>
+<li><p>Tren peningkatan akurasi seiring bertambahnya lag menunjukkan bahwa konsentrasi NO₂ dipengaruhi oleh nilai beberapa hari sebelumnya.</p></li>
+<li><p>Random Forest Regression secara keseluruhan lebih akurat daripada KNN, karena mampu menangkap pola non-linier dan interaksi antar lag.</p></li>
+<li><p>Untuk penelitian kamu, bisa disimpulkan:
+“Model Random Forest dengan tiga lag historis memberikan hasil prediksi paling optimal terhadap konsentrasi NO₂ pada periode gabungan during dan post COVID-19, dengan tingkat error (MAPE) sebesar 19.53% dan kemampuan penjelasan variasi data (R²) sebesar 0.2268.”</p></li>
 </ol>
-<ul class="simple">
-<li><p>MSE = 0.036108</p></li>
-<li><p>R² = 0.1866
-Model cukup lemah — error besar, hanya menjelaskan 18.6% variasi data.</p></li>
-</ul>
-<ol class="arabic simple" start="2">
-<li><p><strong>Lag = 2</strong></p></li>
-</ol>
-<ul class="simple">
-<li><p>MSE = 0.034225</p></li>
-<li><p>R² = 0.2290
-Sedikit membaik; menambah 1 hari sebelumnya membantu mengenali pola.</p></li>
-</ul>
-<ol class="arabic simple" start="3">
-<li><p><strong>Lag = 3</strong></p></li>
-</ol>
-<ul class="simple">
-<li><p>MSE = 0.033392</p></li>
-<li><p>R² = 0.2478
-Kinerja terbaik; kesalahan turun, akurasi naik ~25% variasi terjelaskan.</p></li>
-</ul>
-<p><strong>Kesimpulan Umum</strong></p>
-<ul class="simple">
-<li><p>Prediksi satu hari ke depan sudah berjalan sesuai tujuan utama.</p></li>
-<li><p>Penambahan lag memperbaiki performa model karena memberikan informasi historis lebih kaya.</p></li>
-<li><p>Akurasi masih moderat (MAPE &gt; 50%) — KNN cenderung kurang optimal untuk pola data waktu (time series) yang kompleks, terutama jika fluktuasi harian tinggi.</p></li>
-</ul>
 </section>
 </section>
 </section>
@@ -1226,7 +1391,13 @@ Kinerja terbaik; kesalahan turun, akurasi naik ~25% variasi terjelaskan.</p></li
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analisis"><strong>Analisis</strong>:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-umum"><strong>Kesimpulan Umum</strong></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#membuat-model-dengan-random-forest-regressor"><strong>6. Membuat model dengan Random Forest Regressor</strong></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hasil"><strong>Hasil :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4"><strong>Analisis :</strong></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interpretasi-grafik"><strong>Interpretasi Grafik</strong></a></li>
 </ul>
 </li>
 </ul>
