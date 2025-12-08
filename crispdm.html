@@ -1,0 +1,971 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Nama Proyek : Melakukan klasifikasi time series pada dataset DucksAndGeese &#8212; PSD</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'crispdm';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Prediksi Nilai NO2 Satu Hari Kedepan dengan KNN Regression" href="tugas_NO2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/nita.png" class="logo__image only-light" alt="PSD - Home"/>
+    <script>document.write(`<img src="_static/nita.png" class="logo__image only-dark" alt="PSD - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="business_understanding.html"><strong>Business Problem</strong></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="data_understanding.html"><strong>Data Understanding</strong></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_exploration.html"><strong>Data Exploration</strong></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="data_preprocessing.html"><strong>PrepocessingData</strong></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="e_coli.html"><strong>E. coli Protein PCA &amp; ADASYN Implementation</strong></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_explorationecoli.html"><strong>Data Exploration</strong></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_prauts.html"><strong>Penjelasan Tugas Pra-UTS</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_NO2.html"><strong>Prediksi Nilai NO2 Satu Hari Kedepan dengan KNN Regression</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Nama Proyek : <strong>Melakukan klasifikasi time series pada dataset DucksAndGeese</strong></a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fcrispdm.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/crispdm.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Nama Proyek : Melakukan klasifikasi time series pada dataset DucksAndGeese</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-crisp-dm-cross-industry-standard-process-for-data-mining">A. <strong>CRISP-DM</strong> (Cross-Industry Standard Process for Data Mining)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="nama-proyek-melakukan-klasifikasi-time-series-pada-dataset-ducksandgeese">
+<h1>Nama Proyek : <strong>Melakukan klasifikasi time series pada dataset DucksAndGeese</strong><a class="headerlink" href="#nama-proyek-melakukan-klasifikasi-time-series-pada-dataset-ducksandgeese" title="Link to this heading">#</a></h1>
+<section id="a-crisp-dm-cross-industry-standard-process-for-data-mining">
+<h2>A. <strong>CRISP-DM</strong> (Cross-Industry Standard Process for Data Mining)<a class="headerlink" href="#a-crisp-dm-cross-industry-standard-process-for-data-mining" title="Link to this heading">#</a></h2>
+<p>1.<strong>Business Understanding</strong> (Pemahaman Bisnis)</p>
+<p>1.1 Latar Belakang
+Dataset DucksAndGeese berasal dari UEA Time Series Archive dan berisi sinyal time-series yang mewakili 5 (lima) spesies berbeda yang terdiri dari beberapa jenis bebek (2 Duck) dan beberapa jenis angsa (3 Geese).
+Permasalahan: mengklasifikasikan sinyal tersebut ke kategori yang benar.</p>
+<p>1.2 Tujuan Proyek
+Membangun model time series classification yang dapat mengklasifikasikan sinyal audio menjadi 5 spesies burung:</p>
+<ul class="simple">
+<li><p>Black-bellied Whistling Duck</p></li>
+<li><p>Canadian Goose</p></li>
+<li><p>Greylag Goose</p></li>
+<li><p>Pink-footed Goose</p></li>
+<li><p>White-faced Whistling Duck
+Ini adalah klasifikasi multiclass (5 kelas).</p></li>
+</ul>
+<p>1.3 Manfaat</p>
+<ul class="simple">
+<li><p>Penggunaan dalam bioacoustic identification</p></li>
+<li><p>Sistem monitoring fauna otomatis</p></li>
+<li><p>Klasifikasi otomatis berbasis machine learning tanpa memerlukan pemeriksaan manual/intervensi manusia</p></li>
+</ul>
+<p>1.4 Kriteria kesuksesan
+Model dikatakan berhasil jika mencapai:</p>
+<ul class="simple">
+<li><p>Accuracy ≥ 85% untuk baseline</p></li>
+<li><p>F1-score per kelas ≥ 80%</p></li>
+<li><p>Aplikasi Streamlit berjalan lancar dan mampu menerima input serta menampilkan prediksi dan confidence score</p></li>
+</ul>
+<p>2.<strong>Data Understanding</strong> (Pemahaman Data)</p>
+<p>2.1 Gambaran Umum Dataset
+Dataset DucksAndGeese merupakan univariate time series audio yang digunakan untuk mengklasifikasikan lima spesies bebek/angsa berdasarkan bentuk gelombang suara. Dataset ini merupakan versi univariate dari dataset multivariate DuckDuckGeese.</p>
+<p>Tabel Spesifikasi Dataset</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Properti</p></th>
+<th class="head"><p>Nilai</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Train Size</p></td>
+<td><p>50</p></td>
+</tr>
+<tr class="row-odd"><td><p>Test Size</p></td>
+<td><p>50</p></td>
+</tr>
+<tr class="row-even"><td><p>Total Instances</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-odd"><td><p>Time Series Length</p></td>
+<td><p>236,784 data points per sample</p></td>
+</tr>
+<tr class="row-even"><td><p>Number of Classes</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-odd"><td><p>Dimensions</p></td>
+<td><p>1 (audio waveform univariate)</p></td>
+</tr>
+<tr class="row-even"><td><p>Datatype</p></td>
+<td><p>AUDIO (raw waveform)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sample rate setelah preprocessing</p></td>
+<td><p>44,100 Hz</p></td>
+</tr>
+<tr class="row-even"><td><p>Sumber</p></td>
+<td><p><a class="reference external" href="http://www.xenocanto.com">www.xenocanto.com</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Tabel Label Kelas</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Label</p></th>
+<th class="head"><p>Spesies</p></th>
+<th class="head"><p>Jumlah</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Black-bellied Whistling Duck</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Canadian Goose</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Greylag Goose</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Pink-footed Goose</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>White-faced Whistling Duck</p></td>
+<td><p>20</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>2.2 Asal-usul Dataset
+Dataset ini merupakan hasil kurasi dari audio asli yang diambil dari <a class="reference external" href="http://www.xenocanto.com">www.xenocanto.com</a>, yaitu platform komunitas ornithology (suara burung).</p>
+<p>Menurut dokumentasi:</p>
+<ul class="simple">
+<li><p>Rekaman suara berasal dari kategori kualitas A atau B → berarti suara cukup bersih.</p></li>
+<li><p>Karena beda-beda sampel rate (misalnya 48kHz, 96kHz, 22kHz), maka semua audio downsampled ke 44,100 Hz.</p></li>
+<li><p>Setelah itu, dilakukan truncation ke panjang 236,784 data point karena:</p>
+<ul>
+<li><p>panjang aslinya bervariasi</p></li>
+<li><p>panjang tersebut adalah “shortest series length” dari seluruh rekaman</p></li>
+</ul>
+</li>
+<li><p>Dataset sudah menyediakan TRAIN (50) dan TEST (50). Untuk pengembangan, split ulang TRAIN menjadi train / validation (mis. 80/20) untuk tuning hyperparameter dan memilih model sebelum uji pada TEST final.</p></li>
+</ul>
+<p>Ini berarti, setiap instance adalah rekaman audio berdurasi ± 5.37 detik (236,784 / 44,100). Dengan kalkulasi 236,784 samples / 44,100 Hz ≈ 5.37 detik audio.</p>
+<p>2.3 Struktur Data di Dalam File .ts
+Setelah membuka file TRAIN dan TEST:</p>
+<ul class="simple">
+<li><p>Format: TS format (UEA standard)</p></li>
+<li><p>Setiap baris berisi:
+v1, v2, v3, …, v236784 : classLabel</p></li>
+<li><p>Data bertipe float (amplitudo audio).
+ex : 0.0012, -0.0031, 0.0042, … , -0.0008 : 3. Artinya data tersebut adalah Pink-footed Goose.</p></li>
+</ul>
+<p>2.4 Karakteristik Data
+2.4.1 Univariate Long Sequence</p>
+<ul class="simple">
+<li><p>Panjang data sangat besar (236k points) → model deep learning cocok, tapi perlu:</p>
+<ul>
+<li><p>Downsampling</p></li>
+<li><p>Segmenting</p></li>
+</ul>
+</li>
+<li><p>CNN/ResNet/FCN khusus TSC</p></li>
+</ul>
+<p>2.4.2 Balanced Classes
+Semua kelas masing-masing 20 sampel, sehingga:</p>
+<ul class="simple">
+<li><p>Tidak perlu balancing</p></li>
+<li><p>Micro-F1 = Macro-F1 ≈ akurat</p></li>
+</ul>
+<p>2.4.3 High Variability
+Karena suara burung:</p>
+<ul class="simple">
+<li><p>Bentuk gelombang sangat bervariasi</p></li>
+<li><p>Banyak noise lingkungan</p></li>
+<li><p>High-frequency chirp/whistle patterns</p></li>
+</ul>
+<p>2.4.4 Data Challenges</p>
+<ul class="simple">
+<li><p>Ukuran input besar → memory heavy</p></li>
+<li><p>Harus distandardisasi (z-score)</p></li>
+<li><p>Perlu filtering (bandpass 300–8000 Hz)</p></li>
+<li><p>Potensial cropping / feature extraction (MFCC optional)</p></li>
+</ul>
+<p>2.5 EDA (Exploratory Data Analysis)
+2.5.1 Struktur Dataset</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>File</p></th>
+<th class="head"><p>Isi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>DucksAndGeese_TRAIN.ts</p></td>
+<td><p>50 instance, univariate, labeled</p></td>
+</tr>
+<tr class="row-odd"><td><p>DucksAndGeese_TEST.ts</p></td>
+<td><p>50 instance, univariate, labeled</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>2.5.2 Basic Stats</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Statistik</p></th>
+<th class="head"><p>Nilai</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Total sample</p></td>
+<td><p>100</p></td>
+</tr>
+<tr class="row-odd"><td><p>Panjang time series</p></td>
+<td><p>236,784 point per sample</p></td>
+</tr>
+<tr class="row-even"><td><p>Channel</p></td>
+<td><p>1 (mono)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Durasi estimasi</p></td>
+<td><p>5.37 detik per sample</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>2.5.3 Distribusi Label
+Semua kelas memiliki 20 sampel → balanced.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Label</p></th>
+<th class="head"><p>Nama Spesies</p></th>
+<th class="head"><p>Jumlah</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Black-bellied Whistling Duck</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Canadian Goose</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Greylag Goose</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Pink-footed Goose</p></td>
+<td><p>20</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>White-faced Whistling Duck</p></td>
+<td><p>20</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>2.5.4 Visualisasi Waveform
+Tujuan EDA pada audio time series:</p>
+<ul class="simple">
+<li><p>melihat noise</p></li>
+<li><p>melihat pola amplitudo</p></li>
+<li><p>melihat perbedaan antar spesies
+Untuk setiap kelas, ambil 1 contoh → plot waveform.</p></li>
+</ul>
+<p>Insight yang diharapkan:</p>
+<ol class="arabic simple">
+<li><p>Canadian Goose → nada lebih rendah (gelombang besar &amp; lambat)</p></li>
+<li><p>Whistling Duck → suara nyaring (gelombang cepat &amp; rapat)</p></li>
+<li><p>Greylag Goose → tone cenderung clustering</p></li>
+</ol>
+<p>2.5.5 Analisis Statistik per Kelas
+Hitung:</p>
+<ul class="simple">
+<li><p>mean amplitude</p></li>
+<li><p>standard deviation</p></li>
+<li><p>zero crossing count</p></li>
+<li><p>RMS energy
+ex :    | Kelas | Mean | Std  | ZeroCrossRate   | RMS |
+|——-|——|——|—————- |—–|
+| 0     | …    | …    | …               | …   |</p></li>
+</ul>
+<p>3.<strong>Data Preparation</strong> / Preprocessing</p>
+<p>Karena time series audio mentah tidak efisien untuk ML klasik, langkah preprocessing wajib jelas.
+3.1 Normalisasi Sinyal
+Setiap sequence dinormalisasi:
+X_norm = (X - mean) / std
+Gunanya:</p>
+<ul class="simple">
+<li><p>mengurangi perbedaan amplitude antar recording</p></li>
+<li><p>mempercepat training</p></li>
+</ul>
+<p>3.2 Downsampling (Opsional Tapi Direkomendasikan)
+Dari 44.1 kHz → 16 kHz atau 8 kHz
+Manfaat:</p>
+<ul class="simple">
+<li><p>memperkecil data 3×</p></li>
+<li><p>mempercepat model</p></li>
+<li><p>tidak menghilangkan informasi signifikan (karena suara burung mostly &lt; 10 kHz)</p></li>
+</ul>
+<p>3.3 Feature Extraction (Ini inti pipeline cepat)
+Ekstraksi fitur dari audio:
+a. MFCC (Mel-frequency Cepstral Coefficients)</p>
+<ul class="simple">
+<li><p>paling populer untuk audio classification</p></li>
+<li><p>biasanya 13–40 coefficient</p></li>
+</ul>
+<p>b. Zero Crossing Rate (ZCR)</p>
+<ul class="simple">
+<li><p>mencerminkan frekuensi suara</p></li>
+<li><p>duck whistling biasanya memiliki ZCR lebih besar</p></li>
+</ul>
+<p>c. Spectral Centroid</p>
+<ul class="simple">
+<li><p>menentukan “kecerahan” suara</p></li>
+</ul>
+<p>d. RMS Energy</p>
+<ul class="simple">
+<li><p>melihat power sinyal
+Hasil akhirnya berupa tabel fitur seperti:
+| mfcc1  | mfcc2  | …  | ZCR | centroid | RMS  | label  |
+|——–|——–|—-|—–|———-|——|——–|</p></li>
+</ul>
+<p>3.4 Transformasi ke Domain Frekuensi
+Untuk sinyal audio burung, representasi frekuensi lebih deskriptif dibanding waveform mentah.
+Metode yang digunakan:</p>
+<ol class="arabic simple">
+<li><p>STFT (Short-Time Fourier Transform)</p></li>
+</ol>
+<ul class="simple">
+<li><p>menghasilkan spectrogram (time × frequency)</p></li>
+<li><p>visual representation yang sangat informatif</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Log-Mel Spectrogram</p></li>
+</ol>
+<ul class="simple">
+<li><p>dasar untuk CNN audio</p></li>
+<li><p>cocok untuk perbedaan tonal antar spesies</p></li>
+</ul>
+<p>3.5 Final Feature Set
+Fitur yang dikumpulkan untuk model ML klasik:
++————————-+———————————————-+
+| Kelompok Fitur          | Penjelasan                                   |
++————————-+———————————————-+
+| MFCC (13–40)            | inti identifikasi suara                      |
+| Spectral Centroid       | kecerahan suara                              |
+| Spectral Bandwidth      | lebar frekuensi                              |
+| Zero Crossing Rate      | jumlah transisi 0                            |
+| RMS Energy              | power sinyal audio                           |
+| Roll-off frequency      | energi kumulatif musik                       |
++————————-+———————————————-+
+Total fitur biasanya 40–60 per sample → cukup kecil untuk ML klasik seperti Random Forest.</p>
+<p>3.6 Split Data
+Dataset asli menyediakan:</p>
+<ul class="simple">
+<li><p>TRAIN = 50</p></li>
+<li><p>TEST = 50
+Pada TRAIN dilakukan split ulang:</p></li>
+<li><p>80% Train</p></li>
+<li><p>20% Validation
+Untuk hyperparameter tuning sebelum testing final.</p></li>
+</ul>
+<p>4.<strong>Modeling</strong> (Pemodelan)
+4.1 Model yang digunakan
+a. Model Utama = Random Forest</p>
+<ul class="simple">
+<li><p>sangat stabil untuk dataset kecil (100 sampel)</p></li>
+<li><p>robust terhadap noisy features</p></li>
+<li><p>tidak sensitif terhadap feature scaling</p></li>
+<li><p>training cepat</p></li>
+</ul>
+<p>b. Model Alternatif = XGBoost</p>
+<ul class="simple">
+<li><p>performa tinggi pada dataset kecil–menengah</p></li>
+<li><p>lebih kuat menangani struktur non-linear</p></li>
+<li><p>dapat outperform Random Forest pada banyak kasus audio tabular</p></li>
+</ul>
+<p>c. Baseline model: KNN</p>
+<ul class="simple">
+<li><p>sebagai pembanding sederhana</p></li>
+<li><p>Bagus sebagai minimum viable classifier</p></li>
+</ul>
+<p>4.2 Pipeline Model :
+Raw Audio → Preprocessing → Feature Extraction → ML Model → Prediksi Kelas</p>
+<p>Pipeline yang tepat untuk dataset UEA time series berbasis audio karena dataset DucksAndGeese adalah raw waveform panjang (236k points), maka:</p>
+<ul class="simple">
+<li><p>Preprocessing → normalisasi, downsampling</p></li>
+<li><p>Feature extraction → MFCC, ZCR, Spectral features</p></li>
+<li><p>Model → RF, XGB, KNN</p></li>
+</ul>
+<p>4.3 Output Model</p>
+<ul class="simple">
+<li><p>prediksi salah satu dari 5 kelas spesies burung (0–4 → nama spesies)</p></li>
+<li><p>confidence probability untuk UI Streamlit (soft voting atau predict_proba)</p></li>
+<li><p>Untuk Streamlit:</p>
+<ul>
+<li><p>waveform plot</p></li>
+<li><p>spectrogram plot</p></li>
+<li><p>hasil prediksi utama</p></li>
+<li><p>confidence chart</p></li>
+</ul>
+</li>
+</ul>
+<p>5.<strong>Evaluation</strong> (Evaluasi)</p>
+<p>Menggunakan test set resmi (50 sample).
+5.1 Metrik Evaluasi:</p>
+<ol class="arabic simple">
+<li><p>Accuracy ≥ 85%</p></li>
+<li><p>Classification Report ;</p></li>
+</ol>
+<ul class="simple">
+<li><p>precision</p></li>
+<li><p>recall</p></li>
+<li><p>f1-score per kelas ≥ 80%</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>Confusion Matrix</p></li>
+</ol>
+<p>5.2 Evaluasi Model
+Langkah evaluasi:</p>
+<ul class="simple">
+<li><p>Train pada TRAIN (80%)</p></li>
+<li><p>Validasi di VAL (20%) untuk:</p>
+<ul>
+<li><p>parameter tuning RF (trees, depth)</p></li>
+<li><p>XGBoost tuning (eta, max_depth)</p></li>
+</ul>
+</li>
+<li><p>Final test pada TEST (50 sampel)</p></li>
+</ul>
+<p>5.3 Insight evaluasi yang ditulis</p>
+<ul class="simple">
+<li><p>apakah goose vs duck mudah dibedakan</p></li>
+<li><p>kelas mana yang sering tertukar</p></li>
+<li><p>misclassification karena:</p>
+<ul>
+<li><p>overlap frekuensi</p></li>
+<li><p>noise</p></li>
+</ul>
+</li>
+</ul>
+<p>6.<strong>Deployment</strong> (Streamlit)</p>
+<p>6.1 Tampilan Streamlit</p>
+<ol class="arabic simple">
+<li><p>Input</p></li>
+</ol>
+<ul class="simple">
+<li><p>upload audio .wav</p></li>
+<li><p>Periksa : rate, length (truncation kalau perlu)</p></li>
+<li><p>model akan melakukan preprocessing otomatis (normalisasi, downsampling, ekstraksi MFCC)</p></li>
+<li><p>fitur diekstrak (MFCC, ZCR, dll)</p></li>
+<li><p>Deploy model yang telah ditraining (pickle)</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Output</p></li>
+</ol>
+<ul class="simple">
+<li><p>waveform plot</p></li>
+<li><p>MFCC heatmap (opsional)</p></li>
+<li><p>prediksi spesies</p></li>
+<li><p>confidence score</p></li>
+<li><p>penjelasan model</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>Struktur Streamlit</p></li>
+</ol>
+<ul class="simple">
+<li><p>Home → deskripsi proyek</p></li>
+<li><p>EDA → plot waveform &amp; tabel statistik</p></li>
+<li><p>Model → prediksi audio upload</p></li>
+<li><p>About Dataset</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p>File Deployment
+/streamlit_app.py
+/model.pkl
+/preprocessing.py
+/feature_extraction.py</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="tugas_NO2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>Prediksi Nilai NO2 Satu Hari Kedepan dengan KNN Regression</strong></p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-crisp-dm-cross-industry-standard-process-for-data-mining">A. <strong>CRISP-DM</strong> (Cross-Industry Standard Process for Data Mining)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
