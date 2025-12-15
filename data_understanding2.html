@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Business Problem &#8212; PSD</title>
+    <title>Data Understanding &#8212; PSD</title>
   
   
   
@@ -57,11 +57,11 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'business_understanding';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'data_understanding2';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data Understanding" href="data_understanding.html" />
-    <link rel="prev" title="Introduction" href="intro.html" />
+    <link rel="next" title="EDA" href="eda.html" />
+    <link rel="prev" title="PROYEK UAS" href="crispdm.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -180,7 +180,7 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#"><strong>Business Problem</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="business_understanding.html"><strong>Business Problem</strong></a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="data_understanding.html"><strong>Data Understanding</strong></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="data_exploration.html"><strong>Data Exploration</strong></a></li>
 </ul>
@@ -192,8 +192,8 @@
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="tugas_prauts.html"><strong>Penjelasan Tugas Pra-UTS</strong></a></li>
 <li class="toctree-l1"><a class="reference internal" href="tugas_NO2.html"><strong>Prediksi Nilai NO2 Satu Hari Kedepan dengan KNN Regression</strong></a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="crispdm.html"><strong>PROYEK UAS</strong></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="data_understanding2.html"><strong>Data Understanding</strong></a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="crispdm.html"><strong>PROYEK UAS</strong></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><strong>Data Understanding</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="eda.html"><strong>EDA</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="data_preparation2.html"><strong>Data Preparation</strong></a></li>
 <li class="toctree-l2"><a class="reference internal" href="modeling.html"><strong>1. Import Library</strong></a></li>
@@ -278,7 +278,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fbusiness_understanding.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fdata_understanding2.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -308,7 +308,7 @@
       
       
       
-      <li><a href="_sources/business_understanding.md" target="_blank"
+      <li><a href="_sources/data_understanding2.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -318,7 +318,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -392,7 +392,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Business Problem</h1>
+    <h1>Data Understanding</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -402,10 +402,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang">Latar Belakang</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permasalahan-utama">Permasalahan Utama</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-bisnis">Tujuan Bisnis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat-yang-diharapkan">Manfaat yang Diharapkan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library"><strong>1. Import Library</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset-train-test"><strong>2. Load Dataset TRAIN &amp; TEST</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cek-total-data-panjang-sinyal"><strong>3. Cek Total Data &amp; Panjang Sinyal</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cek-jumlah-kelas-balance-data"><strong>4. Cek Jumlah Kelas &amp; Balance Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-data"><strong>5. Bentuk Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-waveform-12-per-kelas"><strong>6. Plot Waveform (1–2 per Kelas)</strong></a></li>
 </ul>
             </nav>
         </div>
@@ -417,54 +419,139 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="business-problem">
-<h1><strong>Business Problem</strong><a class="headerlink" href="#business-problem" title="Link to this heading">#</a></h1>
-<section id="latar-belakang">
-<h2>Latar Belakang<a class="headerlink" href="#latar-belakang" title="Link to this heading">#</a></h2>
-<p>Identifikasi spesies bunga iris biasanya dilakukan oleh ahli botani secara manual, yaitu dengan mengamati karakteristik fisik bunga seperti panjang dan lebar sepal maupun petal.<br />
-Metode manual ini memiliki keterbatasan karena:</p>
-<ul class="simple">
-<li><p>Memakan waktu,</p></li>
-<li><p>Membutuhkan keahlian khusus,</p></li>
-<li><p>Rentan menimbulkan kesalahan akibat keterbatasan manusia.</p></li>
-</ul>
-<p>Dalam konteks <strong>penelitian, perdagangan bunga, maupun pendidikan</strong>, dibutuhkan sistem yang mampu melakukan klasifikasi spesies bunga secara <strong>otomatis, akurat, dan konsisten</strong>.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="data-understanding">
+<h1><strong>Data Understanding</strong><a class="headerlink" href="#data-understanding" title="Link to this heading">#</a></h1>
+<section id="import-library">
+<h2><strong>1. Import Library</strong><a class="headerlink" href="#import-library" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">aeon.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_classification</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AEON OK&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AEON OK
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<hr class="docutils" />
-<section id="permasalahan-utama">
-<h2>Permasalahan Utama<a class="headerlink" href="#permasalahan-utama" title="Link to this heading">#</a></h2>
-<p><strong>Bagaimana cara mengklasifikasikan spesies bunga iris secara otomatis</strong> (Iris-setosa, Iris-versicolor, Iris-virginica) berdasarkan ukuran:</p>
-<ul class="simple">
-<li><p>Sepal length</p></li>
-<li><p>Sepal width</p></li>
-<li><p>Petal length</p></li>
-<li><p>Petal width</p></li>
-</ul>
-<p>Sehingga proses identifikasi dapat:</p>
-<ul class="simple">
-<li><p>✅ Lebih akurat dibandingkan metode manual</p></li>
-<li><p>✅ Lebih efisien dari sisi waktu dan tenaga</p></li>
-<li><p>✅ Lebih konsisten karena berbasis algoritma pembelajaran mesin, bukan persepsi individu</p></li>
-</ul>
+<section id="load-dataset-train-test">
+<h2><strong>2. Load Dataset TRAIN &amp; TEST</strong><a class="headerlink" href="#load-dataset-train-test" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">aeon.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_classification</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">load_classification</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DucksAndGeese&quot;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span>
+    <span class="n">extract_path</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">,</span>
+    <span class="n">load_equal_length</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load_classification</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DucksAndGeese&quot;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+    <span class="n">extract_path</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">,</span>
+    <span class="n">load_equal_length</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train:&quot;</span><span class="p">,</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test :&quot;</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train: (50, 1, 236784)
+Test : (50, 1, 236784)
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<hr class="docutils" />
-<section id="tujuan-bisnis">
-<h2>Tujuan Bisnis<a class="headerlink" href="#tujuan-bisnis" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>Mengembangkan model klasifikasi yang mampu mengidentifikasi spesies bunga iris secara otomatis dengan akurasi tinggi.</p></li>
-<li><p>Menciptakan solusi berbasis data untuk mendukung proses identifikasi botani dalam skala penelitian, pendidikan, maupun industri.</p></li>
-<li><p>Menyediakan sistem yang dapat menjadi acuan pengembangan teknologi serupa dalam bidang pertanian, konservasi, maupun perdagangan bunga.</p></li>
-</ul>
+<section id="cek-total-data-panjang-sinyal">
+<h2><strong>3. Cek Total Data &amp; Panjang Sinyal</strong><a class="headerlink" href="#cek-total-data-panjang-sinyal" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">total_samples</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">signal_length</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total data :&quot;</span><span class="p">,</span> <span class="n">total_samples</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Panjang tiap audio :&quot;</span><span class="p">,</span> <span class="n">signal_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total data : 100
+Panjang tiap audio : 236784
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<hr class="docutils" />
-<section id="manfaat-yang-diharapkan">
-<h2>Manfaat yang Diharapkan<a class="headerlink" href="#manfaat-yang-diharapkan" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p><strong>Efisiensi</strong> → mempercepat proses identifikasi tanpa harus selalu melibatkan tenaga ahli.</p></li>
-<li><p><strong>Akurasi Tinggi</strong> → mengurangi kesalahan identifikasi yang berpotensi merugikan dalam penelitian atau perdagangan.</p></li>
-<li><p><strong>Konsistensi</strong> → memberikan hasil identifikasi yang stabil dan objektif.</p></li>
-<li><p><strong>Skalabilitas</strong> → pendekatan ini dapat diperluas untuk klasifikasi spesies tanaman lain di masa depan.</p></li>
-</ul>
+<section id="cek-jumlah-kelas-balance-data">
+<h2><strong>4. Cek Jumlah Kelas &amp; Balance Data</strong><a class="headerlink" href="#cek-jumlah-kelas-balance-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kelas </span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> sample&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Kelas black-bellied_whistling_duck : 10 sample
+Kelas canadian_goose : 10 sample
+Kelas greylag_goose : 10 sample
+Kelas pink-footed_goose : 10 sample
+Kelas white-faced_whistling_duck : 10 sample
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bentuk-data">
+<h2><strong>5. Bentuk Data</strong><a class="headerlink" href="#bentuk-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tipe data :&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape sample :&quot;</span><span class="p">,</span> <span class="n">sample</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tipe data : &lt;class &#39;numpy.ndarray&#39;&gt;
+Shape sample : (1, 236784)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="plot-waveform-12-per-kelas">
+<h2><strong>6. Plot Waveform (1–2 per Kelas)</strong><a class="headerlink" href="#plot-waveform-12-per-kelas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Waveform sample - Class: </span><span class="si">{</span><span class="n">y_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time Index&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/8c1a4b72da9bc08d0278d6d5fbd503806715f96c662e81ba5665fec6d995508c.png" src="_images/8c1a4b72da9bc08d0278d6d5fbd503806715f96c662e81ba5665fec6d995508c.png" />
+</div>
+</div>
 </section>
 </section>
 
@@ -499,20 +586,20 @@ Metode manual ini memiliki keterbatasan karena:</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="intro.html"
+       href="crispdm.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><strong>Introduction</strong></p>
+        <p class="prev-next-title"><strong>PROYEK UAS</strong></p>
       </div>
     </a>
     <a class="right-next"
-       href="data_understanding.html"
+       href="eda.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><strong>Data Understanding</strong></p>
+        <p class="prev-next-title"><strong>EDA</strong></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -532,10 +619,12 @@ Metode manual ini memiliki keterbatasan karena:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#latar-belakang">Latar Belakang</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permasalahan-utama">Permasalahan Utama</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tujuan-bisnis">Tujuan Bisnis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#manfaat-yang-diharapkan">Manfaat yang Diharapkan</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-library"><strong>1. Import Library</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-dataset-train-test"><strong>2. Load Dataset TRAIN &amp; TEST</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cek-total-data-panjang-sinyal"><strong>3. Cek Total Data &amp; Panjang Sinyal</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cek-jumlah-kelas-balance-data"><strong>4. Cek Jumlah Kelas &amp; Balance Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bentuk-data"><strong>5. Bentuk Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-waveform-12-per-kelas"><strong>6. Plot Waveform (1–2 per Kelas)</strong></a></li>
 </ul>
   </nav></div>
 
