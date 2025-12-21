@@ -500,15 +500,11 @@ Permasalahan ini termasuk dalam klasifikasi multikelas (<em>multiclass classific
 <tr class="row-even"><td><p>Sumber</p></td>
 <td><p><a class="reference external" href="http://www.xenocanto.com">www.xenocanto.com</a></p></td>
 </tr>
-<tr class="row-odd"><td><p>Dengan asumsi <em>sample rate</em> 44.100 Hz, setiap rekaman memiliki durasi sekitar:</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td><p>236.784 / 44.100 ≈ 5,37 detik</p></td>
-<td><p></p></td>
-</tr>
 </tbody>
 </table>
 </div>
+<p>Dengan asumsi <em>sample rate</em> 44.100 Hz, setiap rekaman memiliki durasi sekitar:
+236.784 / 44.100 ≈ 5,37 detik</p>
 <p>Tabel Kelas dan Distribusi Label</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -538,13 +534,10 @@ Permasalahan ini termasuk dalam klasifikasi multikelas (<em>multiclass classific
 <td><p>White-faced Whistling Duck</p></td>
 <td><p>20</p></td>
 </tr>
-<tr class="row-odd"><td><p>Karena jumlah data tiap kelas sama, dataset tidak mengalami <em>class imbalance</em>, sehingga tidak diperlukan teknik <em>oversampling</em> atau <em>undersampling</em> pada tahap <em>preprocessing</em>.</p></td>
-<td><p></p></td>
-<td><p></p></td>
-</tr>
 </tbody>
 </table>
 </div>
+<p>Karena jumlah data tiap kelas sama, dataset tidak mengalami <em>class imbalance</em>, sehingga tidak diperlukan teknik <em>oversampling</em> atau <em>undersampling</em> pada tahap <em>preprocessing</em>.</p>
 <p><strong>2.2 Asal-usul dan Proses Pembentukan Data</strong></p>
 <p>Berdasarkan dokumentasi <strong>UEA Archive</strong>:</p>
 <ul class="simple">
@@ -712,394 +705,328 @@ ex :    | Kelas | Mean | Std  | ZeroCrossRate   | RMS |
 |——-|——|——|—————- |—–|
 | 0     | …    | …    | …               | …   |</p></li>
 </ul>
-<p><strong>3. <em>Data Preparation</em> / Preprocessing</strong></p>
-<p>Tahap Data Preparation bertujuan untuk mengubah sinyal audio mentah (<em>raw waveform</em>) menjadi representasi fitur yang lebih ringkas, informatif, dan efisien untuk proses pemodelan <em>machine learning</em>. Karena data berupa <em>time series audio</em> berdimensi sangat besar, <em>preprocessing</em> menjadi tahap krusial dalam <em>pipeline</em> penelitian ini.</p>
-<p><strong>3.1 Normalisasi Sinyal</strong></p>
-<p>Setiap sinyal audio dinormalisasi menggunakan <em>z-score normalization</em>:
-X_norm = (X - μ​) / σ
-dengan:</p>
+<p><strong>3. Data Preparation (Persiapan Data)</strong></p>
+<p>Tahap <em>Data Preparation</em> bertujuan untuk menyiapkan data time series numerik agar dapat digunakan secara efektif oleh algoritma <em>machine learning</em>. Dataset <strong>DucksAndGeese</strong> tidak menyediakan file audio mentah (misalnya WAV/MP3), melainkan sinyal audio yang telah direpresentasikan dalam bentuk <strong>time series numerik satu dimensi</strong> dengan panjang yang seragam. Oleh karena itu, seluruh proses <em>preprocessing</em> dan <em>feature extraction</em> disesuaikan dengan karakteristik data tersebut.</p>
+<p><strong>3.1 Karakteristik Input Data</strong></p>
+<p>Setiap instance data memiliki karakteristik sebagai berikut:</p>
 <ul class="simple">
-<li><p>μ = nilai rata-rata sinyal</p></li>
-<li><p>σ = standar deviasi sinyal</p></li>
+<li><p>Bentuk data: <em>univariate time series</em> numerik</p></li>
+<li><p>Panjang sinyal: 236.784 titik waktu</p></li>
+<li><p>Jumlah kelas: 5 spesies burung (balanced)</p></li>
+<li><p>Tidak tersedia audio mentah atau metadata perekaman tambahan</p></li>
 </ul>
-<p>Gunanya:</p>
-<ul class="simple">
-<li><p>mengurangi perbedaan amplitude antar <em>recording</em></p></li>
-<li><p>Menghindari dominasi nilai ekstrem</p></li>
-<li><p>Mempercepat konvergensi model
-Normalisasi dilakukan per <em>instance</em>, sehingga setiap rekaman memiliki skala amplitudo yang sebanding.</p></li>
-</ul>
-<p><strong>3.2 <em>Downsampling</em></strong></p>
-<p>Dataset telah memiliki <em>sample rate</em> 44.100 Hz, namun pada penelitian ini <em>downsampling</em> bersifat opsional dan hanya dilakukan apabila diperlukan untuk efisiensi komputasi, mengingat dataset <strong>DucksAndGeese</strong> telah melalui <strong>preprocessing</strong> dasar berupa penyeragaman <em>sample rate</em> menjadi 44.100 Hz oleh peneliti sebelumnya.</p>
-<p>Manfaat:</p>
-<ul class="simple">
-<li><p>Mengurangi ukuran data secara signifikan</p></li>
-<li><p>Mempercepat proses ekstraksi fitur</p></li>
-<li><p>Suara burung umumnya berada pada rentang frekuensi &lt; 10 kHz, sehingga informasi utama tetap terjaga
-<em>Downsampling</em> hanya dilakukan apabila dibutuhkan untuk efisiensi komputasi dan tidak mengubah label atau struktur kelas.</p></li>
-</ul>
-<p><strong>3.3 <em>Feature Extraction</em></strong></p>
-<p>Karena penggunaan waveform mentah tidak efisien untuk algoritma machine learning klasik, dilakukan ekstraksi fitur audio yang merepresentasikan karakteristik temporal dan spektral sinyal. Ekstraksi fitur dari audio:</p>
+<p>Dengan kondisi ini, pendekatan yang paling rasional adalah mengekstraksi fitur numerik yang ringkas namun informatif untuk merepresentasikan karakteristik suara burung.</p>
+<p><strong>3.2 Feature Extraction</strong></p>
+<p>Karena penggunaan seluruh sinyal time series secara langsung tidak efisien untuk algoritma <em>machine learning</em> klasik, dilakukan proses ekstraksi fitur untuk mereduksi dimensi data sekaligus mempertahankan informasi penting.</p>
+<p>Fitur yang diekstraksi terdiri dari 16 fitur numerik sebagai berikut:</p>
 <ol class="arabic simple">
-<li><p>MFCC (<em>Mel-frequency Cepstral Coefficients</em>)
-MFCC digunakan sebagai fitur utama karena efektif merepresentasikan karakteristik suara.</p></li>
-</ol>
+<li><p><strong>MFCC (Mel-frequency Cepstral Coefficients)</strong></p>
 <ul class="simple">
 <li><p>Jumlah koefisien: 13</p></li>
-<li><p>Mewakili pola spektral yang relevan dengan persepsi suara</p></li>
+<li><p>Merepresentasikan karakteristik spektral utama suara burung</p></li>
 </ul>
-<ol class="arabic simple" start="2">
-<li><p><em>Zero Crossing Rate</em> (ZCR)
-ZCR mengukur jumlah transisi sinyal melewati nol.</p></li>
-</ol>
+</li>
+<li><p><strong>Zero Crossing Rate (ZCR)</strong></p>
 <ul class="simple">
-<li><p>Menggambarkan karakter frekuensi suara</p></li>
-<li><p>Suara whistling cenderung memiliki ZCR lebih tinggi</p></li>
+<li><p>Mengukur frekuensi perubahan tanda sinyal</p></li>
+<li><p>Mencerminkan karakteristik temporal suara</p></li>
 </ul>
-<ol class="arabic simple" start="3">
-<li><p><em>Spectral Centroid</em>
-Menunjukkan pusat massa spektrum frekuensi.</p></li>
-</ol>
+</li>
+<li><p><strong>RMS Energy</strong></p>
 <ul class="simple">
-<li><p>menentukan “kecerahan” suara</p></li>
+<li><p>Mengukur energi rata-rata sinyal</p></li>
+<li><p>Merepresentasikan intensitas suara</p></li>
 </ul>
-<ol class="arabic simple" start="4">
-<li><p><em>RMS Energy</em>
-Mengukur energi rata-rata sinyal.</p></li>
-</ol>
+</li>
+<li><p><strong>Spectral Centroid</strong></p>
 <ul class="simple">
-<li><p>melihat power sinyal
-Hasil akhirnya berupa tabel fitur seperti:
-| mfcc1  | mfcc2  | …  | ZCR | centroid | RMS  | label  |
-|——–|——–|—-|—–|———-|——|——–|</p></li>
+<li><p>Menunjukkan pusat massa spektrum frekuensi</p></li>
+<li><p>Berkaitan dengan tingkat “kecerahan” suara</p></li>
 </ul>
-<p><strong>3.4 Transformasi ke Domain Frekuensi</strong></p>
-<p>Untuk sinyal audio burung, representasi frekuensi lebih deskriptif dibanding waveform mentah.
-Metode yang digunakan:</p>
-<ol class="arabic simple">
-<li><p>STFT (<em>Short-Time Fourier Transform</em>)
-STFT digunakan untuk menghasilkan spectrogram, yang merepresentasikan perubahan frekuensi terhadap waktu.</p></li>
+</li>
 </ol>
-<ul class="simple">
-<li><p>Memberikan gambaran struktur temporal–frekuensial suara</p></li>
-</ul>
-<ol class="arabic simple" start="2">
-<li><p><em>Log-Mel Spectrogram</em>
-Log-Mel spectrogram digunakan karena:</p></li>
-</ol>
-<ul class="simple">
-<li><p>Lebih sesuai dengan persepsi pendengaran manusia</p></li>
-<li><p>Banyak digunakan pada klasifikasi audio
-Representasi ini juga dapat digunakan sebagai dasar pengembangan model berbasis CNN, meskipun pada penelitian ini fokus utama tetap pada fitur numerik.</p></li>
-</ul>
-<p><strong>3.5 <em>Final Feature Set</em></strong></p>
-<p>Berdasarkan proses ekstraksi fitur, fitur akhir yang digunakan untuk pemodelan machine learning adalah sebagai berikut:</p>
+<p>Hasil ekstraksi fitur disusun dalam bentuk matriks fitur tabular dengan struktur sebagai berikut:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Fitur</p></th>
-<th class="head"><p>Jumlah</p></th>
-<th class="head"><p>Deskripsi</p></th>
+<tr class="row-odd"><th class="head"><p>mfcc1</p></th>
+<th class="head"><p>mfcc2</p></th>
+<th class="head"><p>…</p></th>
+<th class="head"><p>mfcc13</p></th>
+<th class="head"><p>ZCR</p></th>
+<th class="head"><p>RMS</p></th>
+<th class="head"><p>Centroid</p></th>
+<th class="head"><p>label</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>MFCC</p></td>
-<td><p>13</p></td>
-<td><p>Karakteristik spektral suara</p></td>
-</tr>
-<tr class="row-odd"><td><p>Zero Crossing Rate</p></td>
-<td><p>1</p></td>
-<td><p>Kecepatan perubahan sinyal</p></td>
-</tr>
-<tr class="row-even"><td><p>RMS Energy</p></td>
-<td><p>1</p></td>
-<td><p>Intensitas suara</p></td>
-</tr>
-<tr class="row-odd"><td><p>Spectral Centroid</p></td>
-<td><p>1</p></td>
-<td><p>Kecerahan suara</p></td>
+<tr class="row-even"><td><p>3.3 Feature Normalization</p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>Total fitur per instance adalah 16 fitur. Jumlah ini dipilih agar model machine learning klasik dapat bekerja secara efisien tanpa kehilangan informasi penting dari sinyal audio.</p>
-<p><strong>3.6 <em>Split Data</em></strong></p>
+<p>Untuk menyamakan skala antar fitur numerik dan meningkatkan stabilitas proses pelatihan model, dilakukan normalisasi menggunakan <em>z-score normalization</em>:</p>
+<p>[ X_{norm} = \frac{X - \mu}{\sigma} ]</p>
+<p>Normalisasi dilakukan pada <strong>fitur hasil ekstraksi</strong>, bukan pada sinyal mentah, dengan parameter (\mu) dan (\sigma) dihitung dari data latih. Proses ini bertujuan untuk:</p>
+<ul class="simple">
+<li><p>Menghindari dominasi fitur tertentu</p></li>
+<li><p>Mempercepat konvergensi model</p></li>
+<li><p>Meningkatkan performa model berbasis jarak
+3.4 Data Splitting</p></li>
+</ul>
+<p>Dataset dibagi menjadi beberapa subset sebagai berikut:</p>
 <ol class="arabic simple">
-<li><p>Dataset asli menyediakan:</p></li>
-</ol>
+<li><p>Dataset asli:</p>
 <ul class="simple">
-<li><p>TRAIN = 50</p></li>
-<li><p>TEST = 50</p></li>
-</ul>
-<ol class="arabic simple" start="2">
-<li><p>Pada TRAIN dilakukan split ulang:</p></li>
-</ol>
-<ul class="simple">
-<li><p>80% Train</p></li>
-<li><p>20% Validation</p></li>
-</ul>
-<ol class="arabic simple" start="3">
-<li><p>Validation set digunakan untuk:</p></li>
-</ol>
-<ul class="simple">
-<li><p>tuning hyperparameter</p></li>
-<li><p>pemilihan model terbaik
-Setelah model optimal diperoleh, evaluasi akhir dilakukan menggunakan TEST set untuk memastikan performa model yang objektif.</p></li>
-</ul>
-<p><strong>4.<em>Modeling</em> (Pemodelan)</strong></p>
-<p>Tahap pemodelan bertujuan untuk membangun dan mengevaluasi model <strong>machine learning</strong> yang mampu mengklasifikasikan spesies burung berdasarkan fitur audio hasil ekstraksi. Model yang digunakan merupakan algoritma <strong>machine learning</strong> klasik yang sesuai untuk dataset berukuran kecil dengan fitur numerik hasil <em>feature extraction</em>.</p>
-<p><strong>4.1 Model yang digunakan</strong></p>
-<ol class="arabic simple">
-<li><p>Model Utama = Random Forest
-Random Forest dipilih sebagai model utama karena memiliki performa yang stabil pada dataset berukuran kecil dan menengah, serta mampu menangani data dengan karakteristik non-linear. Alasan pemilihan:</p></li>
-</ol>
-<ul class="simple">
-<li><p>sangat stabil untuk dataset kecil (100 sampel)</p></li>
-<li><p><em>robust</em> terhadap <em>noisy features</em></p></li>
-<li><p>tidak sensitif terhadap <em>feature scaling</em></p></li>
-<li><p>mampu menangkap hubungan non-linear antar fitur</p></li>
-<li><p><em>training</em> cepat</p></li>
-</ul>
-<p>Random Forest bekerja dengan membangun beberapa <em>decision tree</em> dan menggabungkan hasil prediksinya melalui mekanisme <em>ensemble</em>, sehingga mengurangi risiko <em>overfitting</em>.</p>
-<ol class="arabic simple" start="2">
-<li><p>Model Alternatif = XGBoost
-XGBoost digunakan sebagai model alternatif untuk dibandingkan dengan Random Forest. Alasan pemilihan:</p></li>
-</ol>
-<ul class="simple">
-<li><p>performa tinggi pada dataset kecil–menengah</p></li>
-<li><p>lebih kuat menangani struktur non-linear</p></li>
-<li><p>dapat outperform Random Forest pada banyak kasus audio tabular</p></li>
-</ul>
-<p>Model ini digunakan untuk mengevaluasi apakah pendekatan boosting mampu memberikan performa lebih baik dibandingkan pendekatan bagging pada Random Forest.</p>
-<ol class="arabic simple" start="3">
-<li><p>Baseline model: KNN
-KNN digunakan sebagai baseline classifier. Alasan pemilihan:</p></li>
-</ol>
-<ul class="simple">
-<li><p>sebagai pembanding sederhana</p></li>
-<li><p>Bagus sebagai minimum viable classifier</p></li>
-</ul>
-<p>4.2 Pipeline Model :
-Raw Audio → Preprocessing → Feature Extraction → ML Model → Prediksi Kelas</p>
-<ul class="simple">
-<li><p>Raw Audio : Sinyal audio mentah berdimensi panjang (236.784 titik waktu).</p></li>
-<li><p>Preprocessing : Meliputi normalisasi sinyal dan downsampling opsional untuk efisiensi komputasi.</p></li>
-<li><p>Feature Extraction :
-Ekstraksi 16 fitur audio:</p>
-<ul>
-<li><p>MFCC (13)</p></li>
-<li><p>Zero Crossing Rate (1)</p></li>
-<li><p>RMS Energy (1)</p></li>
-<li><p>Spectral Centroid (1)</p></li>
+<li><p>Train set: 50 instance</p></li>
+<li><p>Test set: 50 instance</p></li>
 </ul>
 </li>
-<li><p>Model <em>Machine Learning</em> : Fitur numerik digunakan sebagai input ke model Random Forest, XGBoost, dan KNN.</p></li>
-<li><p>Prediksi Kelas : Model menghasilkan prediksi salah satu dari lima kelas spesies burung.
-Pipeline ini dipilih karena dataset <strong>DucksAndGeese</strong> berupa <em>raw waveform</em> panjang yang tidak efisien digunakan langsung oleh algoritma <em>machine learning</em> klasik.</p></li>
-</ul>
-<p><strong>4.3 Output Model</strong></p>
+<li><p>Train set dibagi ulang menjadi:</p>
 <ul class="simple">
-<li><p>prediksi salah satu dari 5 kelas spesies burung (0–4 nama spesies)</p></li>
-<li><p><em>confidence probability</em> untuk UI Streamlit (soft voting atau predict_proba)</p></li>
-<li><p>Untuk Streamlit:</p>
-<ul>
-<li><p>waveform plot</p></li>
-<li><p><em>spectrogram plot</em></p></li>
-<li><p>hasil prediksi utama</p></li>
-<li><p><em>confidence chart</em></p></li>
+<li><p>80% data latih</p></li>
+<li><p>20% data validasi</p></li>
 </ul>
 </li>
+</ol>
+<p>Data validasi digunakan untuk <em>hyperparameter tuning</em> dan pemilihan model terbaik, sedangkan data test hanya digunakan sekali pada evaluasi akhir untuk memastikan performa model yang objektif.</p>
+<p><strong>4. Modeling (Pemodelan)</strong></p>
+<p>Tahap <em>Modeling</em> bertujuan untuk membangun dan mengevaluasi model klasifikasi spesies burung berdasarkan fitur numerik hasil ekstraksi. Pendekatan utama yang digunakan adalah <em>feature-based machine learning</em>, karena paling sesuai dengan ukuran dan bentuk dataset.</p>
+<p><strong>4.1 Model yang Digunakan</strong></p>
+<p><strong>4.1.1 Model Utama: Random Forest</strong></p>
+<p>Random Forest dipilih sebagai model utama karena memiliki performa yang stabil pada dataset berukuran kecil dan mampu menangani hubungan non-linear antar fitur.</p>
+<p>Alasan pemilihan Random Forest:</p>
+<ul class="simple">
+<li><p>Stabil untuk dataset kecil (100 instance)</p></li>
+<li><p>Tahan terhadap <em>noise</em></p></li>
+<li><p>Risiko <em>overfitting</em> relatif rendah</p></li>
+<li><p>Tidak memerlukan asumsi linearitas</p></li>
 </ul>
-<p><strong>5. <em>Evaluation</em> (Evaluasi)</strong></p>
-<p>Tahap evaluasi bertujuan untuk mengukur kinerja model machine learning dalam mengklasifikasikan spesies burung berdasarkan sinyal audio. Evaluasi dilakukan secara objektif menggunakan test set resmi yang disediakan oleh dataset DucksAndGeese agar hasil yang diperoleh dapat mencerminkan kemampuan generalisasi model.</p>
-<p>Evaluasi akhir hanya dilakukan pada test set untuk menghindari data leakage.</p>
+<p><strong>4.1.2 Model Alternatif: XGBoost</strong></p>
+<p>XGBoost digunakan sebagai model pembanding untuk mengevaluasi apakah pendekatan <em>boosting</em> mampu memberikan peningkatan performa dibandingkan pendekatan <em>bagging</em> pada Random Forest.</p>
+<p>Keunggulan XGBoost:</p>
+<ul class="simple">
+<li><p>Mampu memodelkan hubungan kompleks antar fitur</p></li>
+<li><p>Performa tinggi pada data tabular</p></li>
+<li><p>Digunakan secara luas pada penelitian klasifikasi audio berbasis fitur</p></li>
+</ul>
+<p><strong>4.1.3 Model Baseline: K-Nearest Neighbors (KNN)</strong></p>
+<p>KNN digunakan sebagai <em>baseline classifier</em> untuk memberikan tolok ukur performa minimum.</p>
+<p>Karakteristik KNN:</p>
+<ul class="simple">
+<li><p>Implementasi sederhana</p></li>
+<li><p>Sensitif terhadap skala fitur</p></li>
+<li><p>Cocok sebagai pembanding awal</p></li>
+</ul>
+<p><strong>4.2 Pipeline Pemodelan Feature-Based</strong></p>
+<p>Pipeline pemodelan utama pada penelitian ini adalah sebagai berikut:</p>
+<p><strong>Time Series Numerik → Feature Extraction → Feature Normalization → Machine Learning Model → Prediksi Kelas</strong></p>
+<p>Pipeline ini dipilih karena paling sesuai dengan fakta dataset dan terbukti efektif untuk dataset audio berukuran kecil.
+4.3 Pendekatan Pemodelan Alternatif (Konseptual)</p>
+<p>Sebagai pembanding konseptual dan pengembangan lanjutan, beberapa pendekatan lain dipertimbangkan:</p>
+<ol class="arabic simple">
+<li><p><strong>DTW + KNN</strong>
+Digunakan sebagai baseline klasik pada klasifikasi <em>time series</em> berbasis kemiripan bentuk sinyal.</p></li>
+<li><p><strong>CNN dengan Spectrogram</strong>
+Menggunakan representasi STFT atau Log-Mel spectrogram sebagai input CNN untuk menangkap pola frekuensi.</p></li>
+<li><p><strong>LSTM</strong>
+Digunakan untuk memodelkan dependensi temporal jangka panjang, namun berisiko <em>overfitting</em> pada dataset kecil.</p></li>
+</ol>
+<p>Pendekatan-pendekatan ini tidak digunakan sebagai pipeline utama.</p>
+<p><strong>4.4 Output Model</strong></p>
+<p>Output yang dihasilkan oleh model meliputi:</p>
+<ul class="simple">
+<li><p>Prediksi kelas spesies burung (5 kelas)</p></li>
+<li><p>Nilai probabilitas prediksi (<em>confidence probability</em>)</p></li>
+</ul>
+<p>Hasil ini digunakan sebagai dasar evaluasi performa model serta analisis lebih lanjut dalam penelitian.</p>
+<p><strong>5. Evaluation (Evaluasi)</strong></p>
+<p>Tahap <em>Evaluation</em> bertujuan untuk menilai kinerja model <em>machine learning</em> dalam mengklasifikasikan lima spesies burung pada dataset <strong>DucksAndGeese</strong> berdasarkan fitur audio hasil ekstraksi. Evaluasi dilakukan secara objektif menggunakan <em>test set</em> resmi yang disediakan oleh dataset agar hasil yang diperoleh merefleksikan kemampuan generalisasi model terhadap data yang belum pernah dilihat sebelumnya.</p>
+<p>Untuk menjaga validitas penelitian, <em>test set</em> <strong>hanya digunakan pada tahap evaluasi akhir</strong> dan tidak terlibat dalam proses pelatihan maupun <em>hyperparameter tuning</em>, sehingga risiko <em>data leakage</em> dapat dihindari.</p>
 <p><strong>5.1 Metrik Evaluasi</strong></p>
-<ol class="arabic simple">
-<li><p><em><strong>Accuracy</strong></em> ≥ 85% (Mengukur proporsi prediksi yang benar terhadap seluruh data uji)</p></li>
-<li><p><em><strong>Classification Report</strong></em> ;</p></li>
-</ol>
+<p>Metrik evaluasi yang digunakan disesuaikan dengan karakteristik permasalahan klasifikasi multikelas dan ukuran dataset yang relatif kecil.</p>
+<ol class="arabic">
+<li><p><strong>Accuracy</strong>
+Mengukur proporsi prediksi yang benar terhadap seluruh data uji.
+<em>Accuracy</em> digunakan sebagai indikator performa global model, dengan target performa <strong>di atas baseline acak (20%)</strong> dan <em>majority-class baseline</em>.</p></li>
+<li><p><strong>Classification Report</strong>
+Classification report digunakan untuk mengevaluasi performa model secara lebih rinci pada setiap kelas, yang mencakup:</p>
 <ul class="simple">
-<li><p><em>precision</em> menunjukkan ketepatan prediksi model</p></li>
-<li><p><em>recall</em> menunjukkan kemampuan model mengenali kelas yang benar</p></li>
-<li><p>f1-score per kelas ≥ 80% digunakan sebagai metrik utama karena menyeimbangkan precision dan recall</p></li>
+<li><p><strong>Precision</strong>: ketepatan prediksi model untuk suatu kelas</p></li>
+<li><p><strong>Recall</strong>: kemampuan model mengenali instance dari kelas yang benar</p></li>
+<li><p><strong>F1-score</strong>: harmonisasi antara precision dan recall</p></li>
 </ul>
-<ol class="arabic simple" start="3">
-<li><p><em><strong>Confusion Matrix</strong></em> untuk :</p>
+<p>F1-score menjadi metrik utama karena memberikan gambaran yang seimbang terhadap kesalahan <em>false positive</em> dan <em>false negative</em> pada tiap spesies burung.</p>
+</li>
+<li><p><strong>Confusion Matrix</strong>
+Confusion matrix digunakan untuk:</p>
 <ul class="simple">
 <li><p>Melihat distribusi prediksi benar dan salah</p></li>
 <li><p>Mengidentifikasi pasangan kelas yang sering tertukar</p></li>
-<li><p>Menganalisis pola kesalahan klasifikasi antar spesies</p></li>
+<li><p>Menganalisis pola kesalahan klasifikasi antar spesies burung</p></li>
 </ul>
 </li>
 </ol>
 <p><strong>5.2 Prosedur Evaluasi Model</strong></p>
-<p>Proses evaluasi dilakukan secara bertahap sebagai berikut:</p>
+<p>Proses evaluasi model dilakukan secara bertahap sebagai berikut:</p>
 <ol class="arabic simple">
-<li><p>Pelatihan Model
-Dataset TRAIN dibagi ulang menjadi:</p></li>
-</ol>
+<li><p><strong>Pelatihan Model</strong>
+Data latih (<em>training set</em>) sebanyak 50 instance dibagi ulang menjadi:</p>
 <ul class="simple">
-<li><p>80% data latih (<em>training set</em>)</p></li>
-<li><p>20% data validasi (<em>validation set</em>)</p></li>
+<li><p>80% data latih</p></li>
+<li><p>20% data validasi</p></li>
 </ul>
-<ol class="arabic simple" start="2">
-<li><p>Validasi
-Data validasi digunakan untuk:</p></li>
-</ol>
+</li>
+<li><p><strong>Validasi Model</strong>
+Data validasi digunakan untuk:</p>
 <ul class="simple">
-<li><p>Hyperparameter tuning Random Forest (jumlah pohon, kedalaman pohon)</p></li>
-<li><p>Hyperparameter tuning XGBoost (<em>learning rate, max depth</em>)</p></li>
+<li><p><em>Hyperparameter tuning</em> Random Forest (misalnya jumlah pohon dan kedalaman maksimum)</p></li>
+<li><p><em>Hyperparameter tuning</em> XGBoost (misalnya <em>learning rate</em> dan <em>max depth</em>)</p></li>
 <li><p>Pemilihan model terbaik berdasarkan performa validasi</p></li>
 </ul>
-<ol class="arabic simple" start="3">
-<li><p>Pengujian Akhir</p></li>
-</ol>
+</li>
+<li><p><strong>Pengujian Akhir</strong></p>
 <ul class="simple">
-<li><p>Model terbaik diuji menggunakan test set resmi (50 sampel)</p></li>
-<li><p>Test set tidak digunakan dalam proses pelatihan maupun tuning</p></li>
+<li><p>Model terbaik diuji menggunakan <em>test set</em> resmi (50 instance)</p></li>
+<li><p><em>Test set</em> tidak digunakan dalam proses pelatihan maupun validasi</p></li>
 <li><p>Hasil evaluasi pada tahap ini digunakan sebagai hasil akhir penelitian</p></li>
 </ul>
-<p>Pendekatan ini memastikan bahwa evaluasi model dilakukan secara adil dan bebas dari kebocoran data (data leakage).</p>
-<p><strong>5.3 Insight evaluasi yang ditulis</strong></p>
-<p>Berdasarkan hasil evaluasi, beberapa analisis yang dilakukan meliputi:</p>
+</li>
+</ol>
+<p>Pendekatan ini memastikan bahwa proses evaluasi dilakukan secara adil, objektif, dan bebas dari kebocoran data.</p>
+<p><strong>5.3 Analisis dan Insight Evaluasi</strong></p>
+<p>Berdasarkan hasil evaluasi model, dilakukan beberapa analisis untuk memperoleh pemahaman yang lebih mendalam terhadap perilaku model:</p>
 <ol class="arabic simple">
-<li><p>Perbedaan Kelas Duck vs Goose</p></li>
-</ol>
+<li><p><strong>Analisis Perbedaan Kelas Duck dan Goose</strong>
+Evaluasi dilakukan untuk melihat apakah model lebih mudah membedakan kelompok <em>duck</em> dan <em>goose</em>. Secara umum, suara <em>duck</em> (khususnya <em>whistling duck</em>) memiliki karakteristik frekuensi yang lebih tinggi dibandingkan suara <em>goose</em>, sehingga diharapkan memiliki tingkat <em>recall</em> yang lebih baik.</p></li>
+<li><p><strong>Analisis Kesalahan Klasifikasi</strong>
+Confusion matrix digunakan untuk mengidentifikasi kelas yang paling sering tertukar, khususnya antar spesies <em>goose</em> yang memiliki pola frekuensi dan durasi suara yang relatif mirip.</p></li>
+<li><p><strong>Faktor Penyebab Misclassification</strong>
+Beberapa faktor yang diduga berkontribusi terhadap kesalahan klasifikasi meliputi:</p>
 <ul class="simple">
-<li><p>Analisis apakah model lebih mudah membedakan kelompok bebek (duck) dan angsa (goose)</p></li>
-<li><p>Umumnya, suara bebek (whistling) memiliki karakteristik frekuensi yang lebih tinggi dibandingkan suara angsa</p></li>
-</ul>
-<ol class="arabic simple" start="2">
-<li><p>Analisis Kesalahan Klasifikasi</p></li>
-</ol>
-<ul class="simple">
-<li><p>Identifikasi kelas yang paling sering tertukar berdasarkan confusion matrix</p></li>
-<li><p>Misalnya antar spesies angsa yang memiliki pola frekuensi dan durasi suara yang mirip</p></li>
-</ul>
-<ol class="arabic simple" start="3">
-<li><p>Faktor Penyebab Misclassification</p></li>
-</ol>
-<ul class="simple">
-<li><p>Overlap frekuensi antar spesies</p></li>
+<li><p>Overlap karakteristik frekuensi antar spesies</p></li>
 <li><p>Noise lingkungan pada rekaman audio</p></li>
 <li><p>Variasi kualitas rekaman (kategori A dan B)</p></li>
 </ul>
-<p>Insight ini digunakan untuk:</p>
+</li>
+</ol>
+<p><strong>Insight yang diperoleh dari tahap evaluasi ini digunakan untuk:</strong></p>
 <ul class="simple">
-<li><p>Memahami keterbatasan model</p></li>
-<li><p>Menjadi dasar pengembangan model lebih lanjut</p></li>
-<li><p>Memberikan justifikasi ilmiah terhadap hasil klasifikasi yang diperoleh</p></li>
+<li><p>Menjelaskan keterbatasan model</p></li>
+<li><p>Memberikan justifikasi ilmiah terhadap hasil klasifikasi</p></li>
+<li><p>Menjadi dasar pengembangan model dan penelitian lanjutan</p></li>
 </ul>
-<p><strong>6.<em>Deployment</em> (Streamlit)</strong></p>
-<p>Tahap deployment bertujuan untuk mengimplementasikan model klasifikasi yang telah dilatih ke dalam sebuah aplikasi interaktif berbasis web menggunakan Streamlit, sehingga pengguna dapat melakukan pengujian audio secara langsung tanpa harus memahami proses teknis <em>machine learning</em> di belakangnya.</p>
+<p><strong>6. Deployment (Streamlit)</strong></p>
+<p>Tahap <em>Deployment</em> bertujuan untuk mengimplementasikan model klasifikasi yang telah dilatih ke dalam sebuah aplikasi interaktif berbasis web menggunakan <strong>Streamlit</strong>. Aplikasi ini memungkinkan pengguna melakukan inferensi model secara langsung tanpa harus memahami detail teknis <em>machine learning</em> yang mendasarinya.</p>
+<p>Perancangan <em>deployment</em> disesuaikan dengan fakta dan batasan dataset <strong>DucksAndGeese</strong>, yaitu penggunaan <em>feature-based machine learning</em> sebagai <em>pipeline</em> utama. Oleh karena itu, seluruh proses inferensi dibuat <strong>konsisten dengan tahap Data Preparation dan Modeling</strong> untuk menghindari perbedaan distribusi data (<em>training–inference mismatch</em>).</p>
 <p><strong>6.1 Arsitektur Deployment</strong></p>
-<p>Aplikasi Streamlit berfungsi sebagai antarmuka (front-end) yang mengintegrasikan:</p>
+<p>Aplikasi Streamlit berfungsi sebagai lapisan antarmuka (<em>front-end</em>) yang mengintegrasikan komponen berikut:</p>
 <ul class="simple">
-<li><p>proses preprocessing audio,</p></li>
-<li><p>ekstraksi fitur,</p></li>
-<li><p>inferensi model,</p></li>
-<li><p>serta visualisasi hasil prediksi.</p></li>
+<li><p><em>Feature extraction pipeline</em> (MFCC, ZCR, RMS Energy, Spectral Centroid)</p></li>
+<li><p><em>Feature normalization</em> menggunakan parameter hasil pelatihan</p></li>
+<li><p>Inferensi model (<em>Random Forest / XGBoost</em>)</p></li>
+<li><p>Visualisasi hasil prediksi</p></li>
 </ul>
-<p>Seluruh <em>pipeline preprocessing</em> dan ekstraksi fitur dibuat konsisten dengan tahap training, sehingga tidak terjadi <em>data leakage</em> maupun perbedaan distribusi fitur.</p>
-<p><strong>6.2 Fitur dan Alur Kerja Aplikasi</strong></p>
+<p>Seluruh <em>pipeline preprocessing</em> yang digunakan pada aplikasi <strong>identik dengan pipeline pada tahap training</strong>, termasuk:</p>
+<ul class="simple">
+<li><p>Parameter ekstraksi fitur</p></li>
+<li><p>Urutan fitur</p></li>
+<li><p>Parameter normalisasi (<em>mean</em> dan <em>standard deviation</em>)</p></li>
+</ul>
+<p>Model dan parameter <em>scaler</em> dimuat dari berkas hasil pelatihan (<code class="docutils literal notranslate"><span class="pre">.pkl</span></code>) sehingga tidak terjadi <em>data leakage</em> maupun inkonsistensi proses.</p>
+<p><strong>6.2 Alur Kerja Aplikasi</strong></p>
+<p><strong>6.2.1 Input Data</strong></p>
+<p>Aplikasi mendukung dua skenario penggunaan:</p>
 <ol class="arabic simple">
-<li><p>Input Audio</p></li>
+<li><p><strong>Input fitur numerik (utama)</strong>
+Pengguna memasukkan atau memuat fitur audio hasil ekstraksi (MFCC, ZCR, RMS, Spectral Centroid) dalam format tabel.</p></li>
+<li><p><strong>Input audio (opsional)</strong>
+Audio <code class="docutils literal notranslate"><span class="pre">.wav</span></code> dapat diunggah untuk keperluan demonstrasi, kemudian diproses menggunakan <em>feature extraction pipeline</em> yang sama seperti pada tahap pelatihan.</p></li>
 </ol>
+<p>Catatan penting:</p>
 <ul class="simple">
-<li><p>upload audio .wav</p></li>
-<li><p>Sampling rate akan diperiksa dan disesuaikan (<em>downsampling</em> ke 16 kHz jika diperlukan)</p></li>
-<li><p>Durasi audio akan diseragamkan (<em>truncation</em> atau <em>padding</em>)</p></li>
+<li><p><em>Sample rate</em> diasumsikan <strong>44.100 Hz</strong>, sesuai dengan dataset DucksAndGeese</p></li>
+<li><p>Tidak dilakukan <em>downsampling</em> tambahan pada <em>pipeline</em> utama</p></li>
+<li><p>Audio disesuaikan panjangnya agar kompatibel dengan parameter ekstraksi fitur</p></li>
 </ul>
-<p>Tahapan preprocessing otomatis yang dilakukan sistem:</p>
-<ul class="simple">
-<li><p>Normalisasi sinyal audio</p></li>
-<li><p><em>Downsampling</em> (jika diperlukan)</p></li>
-<li><p>Ekstraksi fitur:</p>
-<ul>
-<li><p>MFCC</p></li>
-<li><p>Zero Crossing Rate (ZCR)</p></li>
-<li><p>Spectral Centroid</p></li>
-<li><p>RMS Energy</p></li>
-<li><p>Fitur spektral lainnya sesuai model</p></li>
-</ul>
-</li>
-</ul>
-<ol class="arabic simple" start="2">
-<li><p>Proses Inferensi Model</p></li>
-</ol>
-<ul class="simple">
-<li><p>Model yang telah dilatih (Random Forest / XGBoost) dimuat dalam format .pkl</p></li>
-<li><p>Fitur hasil ekstraksi dikonversi ke format numerik sesuai input model</p></li>
-<li><p>Model menghasilkan:</p>
-<ul>
-<li><p>kelas prediksi (Duck atau Goose)</p></li>
-<li><p>probabilitas prediksi (confidence score)</p></li>
-</ul>
-</li>
-</ul>
-<ol class="arabic simple" start="3">
-<li><p>Output dan Visualisasi
-Aplikasi menampilkan:</p></li>
-</ol>
-<ul class="simple">
-<li><p>Waveform audio untuk representasi sinyal waktu</p></li>
-<li><p>Visualisasi MFCC (opsional) untuk representasi domain frekuensi</p></li>
-<li><p>Hasil prediksi spesies</p></li>
-<li><p>Confidence score sebagai ukuran tingkat keyakinan model</p></li>
-<li><p>Penjelasan singkat hasil prediksi, seperti:</p>
-<ul>
-<li><p>kecenderungan frekuensi</p></li>
-<li><p>intensitas energi suara</p></li>
-</ul>
-</li>
-</ul>
-<p><strong>6.3 Struktur Navigasi Aplikasi Streamlit</strong></p>
-<p>Aplikasi dibagi menjadi beberapa halaman utama:</p>
+<p><strong>6.2.2 Proses Inferensi</strong></p>
+<p>Tahapan inferensi model meliputi:</p>
 <ol class="arabic simple">
-<li><p>Home</p></li>
+<li><p>Ekstraksi fitur audio (jika input berupa audio)</p></li>
+<li><p>Penyusunan vektor fitur berdimensi 16</p></li>
+<li><p>Normalisasi fitur menggunakan <em>z-score normalization</em> berbasis data latih</p></li>
+<li><p>Inferensi menggunakan model terlatih (Random Forest atau XGBoost)</p></li>
 </ol>
+<p>Model menghasilkan:</p>
+<ul class="simple">
+<li><p><strong>Prediksi kelas</strong> (1 dari 5 spesies burung)</p></li>
+<li><p><strong>Probabilitas prediksi</strong> (<em>confidence score</em>) menggunakan <code class="docutils literal notranslate"><span class="pre">predict_proba</span></code></p></li>
+</ul>
+<p><strong>6.2.3 Output dan Visualisasi</strong></p>
+<p>Aplikasi menampilkan beberapa komponen utama:</p>
+<ul class="simple">
+<li><p>Hasil prediksi spesies burung</p></li>
+<li><p>Grafik <em>confidence probability</em> untuk setiap kelas</p></li>
+<li><p>Visualisasi waveform audio (jika input berupa audio)</p></li>
+<li><p>Visualisasi <em>spectrogram</em> atau MFCC sebagai representasi domain frekuensi</p></li>
+</ul>
+<p>Visualisasi ini bertujuan untuk meningkatkan interpretabilitas hasil prediksi dan memberikan pemahaman intuitif kepada pengguna.</p>
+<p><strong>6.3 Struktur Navigasi Aplikasi</strong></p>
+<p>Aplikasi Streamlit dibagi ke dalam beberapa halaman:</p>
+<ol class="arabic simple">
+<li><p><strong>Home</strong></p>
 <ul class="simple">
 <li><p>Deskripsi singkat proyek</p></li>
-<li><p>Tujuan klasifikasi suara Duck vs Goose</p></li>
-<li><p>Ringkasan metode yang digunakan</p></li>
+<li><p>Tujuan klasifikasi suara burung</p></li>
+<li><p>Ringkasan pendekatan <em>machine learning</em> yang digunakan</p></li>
 </ul>
-<ol class="arabic simple" start="2">
-<li><p>EDA (Exploratory Data Analysis)</p></li>
-</ol>
+</li>
+<li><p><strong>EDA</strong></p>
 <ul class="simple">
-<li><p>Visualisasi waveform audio</p></li>
-<li><p>Statistik dasar sinyal audio</p></li>
-<li><p>Contoh perbandingan suara Duck dan Goose</p></li>
+<li><p>Contoh visualisasi waveform dan fitur audio</p></li>
+<li><p>Perbandingan karakteristik suara antar spesies</p></li>
 </ul>
-<ol class="arabic simple" start="3">
-<li><p>Model / Prediction</p></li>
-</ol>
+</li>
+<li><p><strong>Prediction</strong></p>
 <ul class="simple">
-<li><p>Upload audio</p></li>
-<li><p>Proses preprocessing dan inferensi</p></li>
-<li><p>Tampilan hasil prediksi dan confidence score</p></li>
+<li><p>Input fitur atau audio</p></li>
+<li><p>Proses inferensi model</p></li>
+<li><p>Tampilan hasil prediksi dan <em>confidence score</em></p></li>
 </ul>
-<ol class="arabic simple" start="4">
-<li><p>About Dataset</p></li>
-</ol>
+</li>
+<li><p><strong>About Dataset</strong></p>
 <ul class="simple">
-<li><p>Penjelasan dataset DucksAndGeese</p></li>
-<li><p>Jumlah data train dan test</p></li>
+<li><p>Informasi dataset DucksAndGeese</p></li>
+<li><p>Jumlah kelas dan distribusi data</p></li>
 <li><p>Karakteristik umum sinyal audio</p></li>
 </ul>
-<p><strong>6.4 Struktur File Deployment</strong></p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/streamlit_app.py #file utama aplikasi Streamlit dan UI
-/model.pkl #model hasil training yang telah diserialisasi
-/preprocessing.py #modul normalisasi, downsampling, dan trimming audio
-/feature_extraction.py #modul ekstraksi fitur audio (MFCC, ZCR, spectral features)
+</li>
+</ol>
+<p><strong>6.4 Struktur Berkas Deployment</strong></p>
+<p>Struktur berkas aplikasi <em>deployment</em> adalah sebagai berikut:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">streamlit_app</span><span class="o">.</span><span class="n">py</span>          <span class="c1"># File utama aplikasi Streamlit</span>
+<span class="n">model</span><span class="o">.</span><span class="n">pkl</span>                 <span class="c1"># Model terlatih (Random Forest / XGBoost)</span>
+<span class="n">scaler</span><span class="o">.</span><span class="n">pkl</span>                <span class="c1"># Parameter normalisasi fitur</span>
+<span class="n">feature_extraction</span><span class="o">.</span><span class="n">py</span>     <span class="c1"># Modul ekstraksi fitur audio</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">py</span>                  <span class="c1"># Fungsi bantu visualisasi dan preprocessing</span>
 </pre></div>
 </div>
+<p>Struktur modular ini memudahkan pemeliharaan aplikasi serta memastikan konsistensi antara tahap pelatihan dan inferensi.</p>
 <p><strong>6.5 Manfaat Deployment</strong></p>
+<p>Implementasi <em>deployment</em> memberikan beberapa manfaat utama:</p>
 <ul class="simple">
+<li><p>Menyediakan bukti implementasi <em>end-to-end pipeline</em> penelitian</p></li>
 <li><p>Mempermudah validasi model secara praktis</p></li>
 <li><p>Menjembatani hasil penelitian dengan aplikasi nyata</p></li>
-<li><p>Memungkinkan pengujian audio baru di luar dataset</p></li>
-<li><p>Menjadi bukti implementasi end-to-end pipeline machine learning</p></li>
+<li><p>Memungkinkan pengujian data baru di luar dataset penelitian</p></li>
 </ul>
+<p>Dengan adanya tahap <em>deployment</em>, penelitian ini tidak hanya bersifat teoritis tetapi juga aplikatif dan siap dikembangkan lebih lanjut.</p>
 </section>
 </section>
 <div class="toctree-wrapper compound">
