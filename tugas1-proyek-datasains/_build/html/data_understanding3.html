@@ -1,0 +1,929 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. Data Understanding (Pemahaman Data) &#8212; PSD</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'data_understanding3';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="2. Data Preparation (Persiapan Data)" href="data_preparation3.html" />
+    <link rel="prev" title="PROYEK UAS" href="crispdm.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/nita.png" class="logo__image only-light" alt="PSD - Home"/>
+    <script>document.write(`<img src="_static/nita.png" class="logo__image only-dark" alt="PSD - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="business_understanding.html"><strong>Business Problem</strong></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="data_understanding.html"><strong>Data Understanding</strong></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_exploration.html"><strong>Data Exploration</strong></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="data_preprocessing.html"><strong>PrepocessingData</strong></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="e_coli.html"><strong>E. coli Protein PCA &amp; ADASYN Implementation</strong></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_explorationecoli.html"><strong>Data Exploration</strong></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_prauts.html"><strong>Penjelasan Tugas Pra-UTS</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_NO2.html"><strong>Prediksi Nilai NO2 Satu Hari Kedepan dengan KNN Regression</strong></a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="crispdm.html"><strong>PROYEK UAS</strong></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><strong>1. Data Understanding (Pemahaman Data)</strong></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="data_preparation3.html"><strong>2. Data Preparation (Persiapan Data)</strong></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="eda3.html"><strong>3. Exploratory Data Analysis (EDA)</strong></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="modeling3.html"><strong>4. Modeling (Pemodelan)</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluasi3.html"><strong>Evaluasi</strong></a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fdata_understanding3.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/data_understanding3.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>1. Data Understanding (Pemahaman Data)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>1. Data Understanding (Pemahaman Data)</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#karakteristik-dataset-ducksandgeese">2.1 Karakteristik Dataset DucksAndGeese</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#karakteristik-suara-burung">2.2 Karakteristik Suara Burung</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alasan-menggunakan-audio-untuk-klasifikasi">2.3 Alasan Menggunakan Audio untuk Klasifikasi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implikasi-pada-pipeline-machine-learning">2.4 Implikasi pada Pipeline Machine Learning</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding-exploratory-data-analysis"><strong>Data Understanding &amp; Exploratory Data Analysis</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploratory-data-analysis-eda-praktik">2.5 Exploratory Data Analysis (EDA) - Praktik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-1-import-library"><strong>Bagian 1: Import Library</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-2-load-dataset-train-test"><strong>Bagian 2: Load Dataset TRAIN &amp; TEST</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-3-cek-total-data-panjang-sinyal"><strong>Bagian 3: Cek Total Data &amp; Panjang Sinyal</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-4-cek-jumlah-kelas-balance-data"><strong>Bagian 4: Cek Jumlah Kelas &amp; Balance Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-5-bentuk-struktur-data"><strong>Bagian 5: Bentuk &amp; Struktur Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-6-visualisasi-waveform"><strong>Bagian 6: Visualisasi Waveform</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-7-analisis-statistik-sinyal-per-kelas"><strong>Bagian 7: Analisis Statistik Sinyal per Kelas</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-8-kesimpulan-data-understanding"><strong>Bagian 8: Kesimpulan Data Understanding</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-understanding-pemahaman-data">
+<h1><strong>1. Data Understanding (Pemahaman Data)</strong><a class="headerlink" href="#data-understanding-pemahaman-data" title="Link to this heading">#</a></h1>
+<p>Tahap <strong>Data Understanding</strong> bertujuan untuk memahami karakteristik, struktur, dan pola yang ada dalam dataset <strong>DucksAndGeese</strong> sebelum dilakukan proses persiapan dan pemodelan data.</p>
+<hr class="docutils" />
+<section id="karakteristik-dataset-ducksandgeese">
+<h2>2.1 Karakteristik Dataset DucksAndGeese<a class="headerlink" href="#karakteristik-dataset-ducksandgeese" title="Link to this heading">#</a></h2>
+<p>Dataset <strong>DucksAndGeese</strong> adalah dataset <em>time series</em> audio yang merepresentasikan sinyal suara lima spesies burung. Berikut adalah karakteristik utama dataset:</p>
+<p><strong>Sumber Data:</strong></p>
+<ul class="simple">
+<li><p>Berasal dari <em>UEA Time Series Archive</em></p></li>
+<li><p>Rekaman audio dari situs <a class="reference external" href="http://www.xenocanto.com">www.xenocanto.com</a></p></li>
+<li><p>Kualitas rekaman: Kategori A (noise rendah) dan Kategori B (noise sedang)</p></li>
+</ul>
+<p><strong>Bentuk Data:</strong></p>
+<ul class="simple">
+<li><p>Format: <em>univariate time series</em> (satu channel/mono audio)</p></li>
+<li><p>Panjang sinyal: <strong>236.784 titik waktu</strong> (durasi ≈ 5,37 detik)</p></li>
+<li><p>Sample rate: <strong>44.100 Hz</strong> (sudah diseragamkan pada preprocessing awal)</p></li>
+<li><p>Preprocessing awal: Semua sinyal sudah di-downsampling dan dipotong ke panjang terpendek</p></li>
+</ul>
+<p><strong>Karakteristik Kelas:</strong></p>
+<ul class="simple">
+<li><p>Jumlah kelas: <strong>5 spesies burung</strong></p></li>
+<li><p>Total data: <strong>100 rekaman</strong> (50 train, 50 test)</p></li>
+<li><p>Distribusi kelas: <strong>Balanced</strong> (masing-masing 20 sampel)</p></li>
+</ul>
+<p><strong>Lima Spesies Burung:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Black-bellied Whistling Duck</strong> (Bebek bersiul) - Kategori Duck</p></li>
+<li><p><strong>Canadian Goose</strong> (Angsa Kanada) - Kategori Goose</p></li>
+<li><p><strong>Greylag Goose</strong> (Angsa abu-abu) - Kategori Goose</p></li>
+<li><p><strong>Pink-footed Goose</strong> (Angsa kaki merah) - Kategori Goose</p></li>
+<li><p><strong>White-faced Whistling Duck</strong> (Bebek bersiul bermuka putih) - Kategori Duck</p></li>
+</ol>
+<hr class="docutils" />
+</section>
+<section id="karakteristik-suara-burung">
+<h2>2.2 Karakteristik Suara Burung<a class="headerlink" href="#karakteristik-suara-burung" title="Link to this heading">#</a></h2>
+<p>Suara burung memiliki perbedaan karakteristik yang dapat dibedakan melalui analisis frekuensi dan temporal:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kelompok</p></th>
+<th class="head"><p>Spesies</p></th>
+<th class="head"><p>Karakteristik Suara</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Duck (Whistling)</strong></p></td>
+<td><p>Black-bellied, White-faced</p></td>
+<td><p>Nyaring, cepat, frekuensi tinggi</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Goose</strong></p></td>
+<td><p>Canadian, Greylag, Pink-footed</p></td>
+<td><p>Berat, lambat, frekuensi rendah</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Tantangan Klasifikasi:</strong></p>
+<ul class="simple">
+<li><p>Overlap frekuensi antar spesies yang mirip</p></li>
+<li><p>Noise lingkungan pada rekaman audio</p></li>
+<li><p>Variasi kualitas rekaman (kategori A dan B)</p></li>
+<li><p>Pola suara yang dapat berulang dengan durasi berbeda</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="alasan-menggunakan-audio-untuk-klasifikasi">
+<h2>2.3 Alasan Menggunakan Audio untuk Klasifikasi<a class="headerlink" href="#alasan-menggunakan-audio-untuk-klasifikasi" title="Link to this heading">#</a></h2>
+<p>Identifikasi burung tidak selalu dapat dilakukan secara visual karena:</p>
+<ul class="simple">
+<li><p>Burung sering tersembunyi di vegetasi</p></li>
+<li><p>Aktif pada waktu-waktu tertentu (fajar, senja)</p></li>
+<li><p>Sulit diamati langsung di lapangan</p></li>
+<li><p>Identifikasi audio memungkinkan monitoring otomatis dan jarak jauh</p></li>
+</ul>
+<hr class="docutils" />
+</section>
+<section id="implikasi-pada-pipeline-machine-learning">
+<h2>2.4 Implikasi pada Pipeline Machine Learning<a class="headerlink" href="#implikasi-pada-pipeline-machine-learning" title="Link to this heading">#</a></h2>
+<p>Karakteristik dataset ini memiliki implikasi penting:</p>
+<ol class="arabic simple">
+<li><p><strong>Dimensi data besar</strong> (236.784 titik waktu per sampel)</p>
+<ul class="simple">
+<li><p>Memerlukan ekstraksi fitur untuk reduksi dimensi</p></li>
+<li><p>Tidak efisien menggunakan sinyal mentah langsung ke model klasik</p></li>
+</ul>
+</li>
+<li><p><strong>Dataset kecil</strong> (100 sampel total)</p>
+<ul class="simple">
+<li><p>Model berbasis deep learning berisiko overfitting</p></li>
+<li><p>Memerlukan teknik seperti augmentasi data atau <em>feature-based approach</em></p></li>
+<li><p>Model sederhana seperti Random Forest dan XGBoost lebih cocok</p></li>
+</ul>
+</li>
+<li><p><strong>Data sudah balanced dan preprocessed</strong></p>
+<ul class="simple">
+<li><p>Tidak perlu handling imbalance atau cleaning data mentah</p></li>
+<li><p>Fokus pada feature extraction dari sinyal time series</p></li>
+</ul>
+</li>
+<li><p><strong>Tersedia train-test split resmi</strong></p>
+<ul class="simple">
+<li><p>Menjaga validitas evaluasi model</p></li>
+<li><p>Menghindari <em>data leakage</em></p></li>
+</ul>
+</li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="data-understanding-exploratory-data-analysis">
+<h1><strong>Data Understanding &amp; Exploratory Data Analysis</strong><a class="headerlink" href="#data-understanding-exploratory-data-analysis" title="Link to this heading">#</a></h1>
+<hr class="docutils" />
+<section id="exploratory-data-analysis-eda-praktik">
+<h2>2.5 Exploratory Data Analysis (EDA) - Praktik<a class="headerlink" href="#exploratory-data-analysis-eda-praktik" title="Link to this heading">#</a></h2>
+<p>Bagian berikut adalah analisis eksploratori praktis terhadap dataset DucksAndGeese menggunakan kode Python.</p>
+<hr class="docutils" />
+</section>
+<section id="bagian-1-import-library">
+<h2><strong>Bagian 1: Import Library</strong><a class="headerlink" href="#bagian-1-import-library" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">aeon.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_classification</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AEON OK&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AEON OK
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-2-load-dataset-train-test">
+<h2><strong>Bagian 2: Load Dataset TRAIN &amp; TEST</strong><a class="headerlink" href="#bagian-2-load-dataset-train-test" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">aeon.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_classification</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">load_classification</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DucksAndGeese&quot;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span>
+    <span class="n">extract_path</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">,</span>
+    <span class="n">load_equal_length</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load_classification</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DucksAndGeese&quot;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+    <span class="n">extract_path</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">,</span>
+    <span class="n">load_equal_length</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train:&quot;</span><span class="p">,</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test :&quot;</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train: (50, 1, 236784)
+Test : (50, 1, 236784)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-3-cek-total-data-panjang-sinyal">
+<h2><strong>Bagian 3: Cek Total Data &amp; Panjang Sinyal</strong><a class="headerlink" href="#bagian-3-cek-total-data-panjang-sinyal" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">total_samples</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">signal_length</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total data :&quot;</span><span class="p">,</span> <span class="n">total_samples</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Panjang tiap audio :&quot;</span><span class="p">,</span> <span class="n">signal_length</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total data : 100
+Panjang tiap audio : 236784
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-4-cek-jumlah-kelas-balance-data">
+<h2><strong>Bagian 4: Cek Jumlah Kelas &amp; Balance Data</strong><a class="headerlink" href="#bagian-4-cek-jumlah-kelas-balance-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">labels</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kelas </span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> sample&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Kelas black-bellied_whistling_duck : 10 sample
+Kelas canadian_goose : 10 sample
+Kelas greylag_goose : 10 sample
+Kelas pink-footed_goose : 10 sample
+Kelas white-faced_whistling_duck : 10 sample
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-5-bentuk-struktur-data">
+<h2><strong>Bagian 5: Bentuk &amp; Struktur Data</strong><a class="headerlink" href="#bagian-5-bentuk-struktur-data" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sample</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Tipe data :&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">sample</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape sample :&quot;</span><span class="p">,</span> <span class="n">sample</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Tipe data : &lt;class &#39;numpy.ndarray&#39;&gt;
+Shape sample : (1, 236784)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-6-visualisasi-waveform">
+<h2><strong>Bagian 6: Visualisasi Waveform</strong><a class="headerlink" href="#bagian-6-visualisasi-waveform" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">seaborn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sns</span>
+
+<span class="c1"># Mapping nama kelas</span>
+<span class="n">class_names</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="mi">0</span><span class="p">:</span> <span class="s2">&quot;Black-bellied Whistling Duck&quot;</span><span class="p">,</span>
+    <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;Canadian Goose&quot;</span><span class="p">,</span>
+    <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;Greylag Goose&quot;</span><span class="p">,</span>
+    <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;Pink-footed Goose&quot;</span><span class="p">,</span>
+    <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;White-faced Whistling Duck&quot;</span>
+<span class="p">}</span>
+
+<span class="c1"># Dapatkan kelas unik yang ada di dataset</span>
+<span class="n">unique_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+<span class="n">num_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_classes</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">num_classes</span><span class="p">))</span>
+
+<span class="c1"># Ambil satu sampel dari masing-masing kelas</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">class_label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_classes</span><span class="p">):</span>
+    <span class="c1"># Cari indeks sampel dengan label ini</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">class_label</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">sample_idx</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">waveform</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">sample_idx</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        
+        <span class="n">class_name</span> <span class="o">=</span> <span class="n">class_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">class_label</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Class </span><span class="si">{</span><span class="n">class_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">waveform</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kelas </span><span class="si">{</span><span class="n">class_label</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time Index&quot;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude&quot;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Visualisasi waveform untuk </span><span class="si">{</span><span class="n">num_classes</span><span class="si">}</span><span class="s2"> spesies burung&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Kelas yang tersedia: </span><span class="si">{</span><span class="n">unique_classes</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/92e9fc288e9940f2f5b9ff407bad2fda6384bfa7850c0f9f564f5dba9bf53730.png" src="_images/92e9fc288e9940f2f5b9ff407bad2fda6384bfa7850c0f9f564f5dba9bf53730.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Visualisasi waveform untuk 5 spesies burung
+Kelas yang tersedia: [&#39;black-bellied_whistling_duck&#39; &#39;canadian_goose&#39; &#39;greylag_goose&#39;
+ &#39;pink-footed_goose&#39; &#39;white-faced_whistling_duck&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="bagian-7-analisis-statistik-sinyal-per-kelas">
+<h2><strong>Bagian 7: Analisis Statistik Sinyal per Kelas</strong><a class="headerlink" href="#bagian-7-analisis-statistik-sinyal-per-kelas" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Hitung statistik sinyal per kelas</span>
+<span class="n">stats_per_class</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">unique_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">class_label</span> <span class="ow">in</span> <span class="n">unique_classes</span><span class="p">:</span>
+    <span class="n">class_samples</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">class_label</span><span class="p">]</span>
+    
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">class_samples</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">class_samples</span><span class="p">])</span>
+        <span class="n">stds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">class_samples</span><span class="p">])</span>
+        <span class="n">maxs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">class_samples</span><span class="p">])</span>
+        <span class="n">mins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">class_samples</span><span class="p">])</span>
+        
+        <span class="n">class_name</span> <span class="o">=</span> <span class="n">class_names</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">class_label</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Class </span><span class="si">{</span><span class="n">class_label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">stats_per_class</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;Kelas&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">class_label</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">class_name</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;Mean (μ)&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">means</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;Std (σ)&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">stds</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;Max&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">maxs</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;Min&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mins</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">})</span>
+
+<span class="n">df_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">stats_per_class</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Statistik Sinyal per Kelas ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_stats</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Statistik Sinyal per Kelas ===
+                                                            Kelas Mean (μ) Std (σ)    Max     Min
+black-bellied_whistling_duck (Class black-bellied_whistling_duck)  -0.0000  0.0603 0.4920 -0.4977
+                            canadian_goose (Class canadian_goose)  -0.0000  0.0342 0.3242 -0.3013
+                              greylag_goose (Class greylag_goose)  -0.0005  0.0420 0.4873 -0.4664
+                      pink-footed_goose (Class pink-footed_goose)  -0.0000  0.0510 0.4249 -0.4104
+    white-faced_whistling_duck (Class white-faced_whistling_duck)  -0.0000  0.0463 0.3737 -0.3792
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="bagian-8-kesimpulan-data-understanding">
+<h2><strong>Bagian 8: Kesimpulan Data Understanding</strong><a class="headerlink" href="#bagian-8-kesimpulan-data-understanding" title="Link to this heading">#</a></h2>
+<p><strong>Key Findings:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Dataset Balanced</strong>: Masing-masing kelas memiliki 20 sampel (balanced)</p></li>
+<li><p><strong>Panjang Sinyal Seragam</strong>: Semua sinyal memiliki panjang 236.784 titik waktu</p></li>
+<li><p><strong>Format Univariate</strong>: Data berupa <em>univariate time series</em> (satu channel)</p></li>
+<li><p><strong>Sudah Preprocessed</strong>: Dataset sudah di-normalize dan di-downsampling pada tahap preprocessing awal</p></li>
+<li><p><strong>Duck vs Goose</strong>: Terlihat perbedaan karakteristik amplitude antara whistling duck dan goose</p></li>
+</ol>
+<p><strong>Implikasi untuk Data Preparation:</strong></p>
+<ul class="simple">
+<li><p>Fokus pada <strong>feature extraction</strong> untuk mengurangi dimensi dari 236.784 menjadi puluhan fitur</p></li>
+<li><p>Gunakan fitur seperti MFCC, ZCR, RMS Energy, dan Spectral Centroid</p></li>
+<li><p>Lakukan <strong>normalisasi fitur</strong> (z-score) agar model dapat belajar dengan optimal</p></li>
+</ul>
+<p><strong>Implikasi untuk Modeling:</strong></p>
+<ul class="simple">
+<li><p>Dataset kecil (100 sampel) cocok untuk <strong>feature-based machine learning</strong> (Random Forest, XGBoost, KNN)</p></li>
+<li><p>Model deep learning (CNN, LSTM) berisiko overfitting tanpa augmentasi data</p></li>
+<li><p><strong>Baseline</strong>: Random Forest dipilih sebagai model utama karena stabil untuk dataset kecil</p></li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="crispdm.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>PROYEK UAS</strong></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="data_preparation3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><strong>2. Data Preparation (Persiapan Data)</strong></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>1. Data Understanding (Pemahaman Data)</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#karakteristik-dataset-ducksandgeese">2.1 Karakteristik Dataset DucksAndGeese</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#karakteristik-suara-burung">2.2 Karakteristik Suara Burung</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#alasan-menggunakan-audio-untuk-klasifikasi">2.3 Alasan Menggunakan Audio untuk Klasifikasi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implikasi-pada-pipeline-machine-learning">2.4 Implikasi pada Pipeline Machine Learning</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding-exploratory-data-analysis"><strong>Data Understanding &amp; Exploratory Data Analysis</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exploratory-data-analysis-eda-praktik">2.5 Exploratory Data Analysis (EDA) - Praktik</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-1-import-library"><strong>Bagian 1: Import Library</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-2-load-dataset-train-test"><strong>Bagian 2: Load Dataset TRAIN &amp; TEST</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-3-cek-total-data-panjang-sinyal"><strong>Bagian 3: Cek Total Data &amp; Panjang Sinyal</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-4-cek-jumlah-kelas-balance-data"><strong>Bagian 4: Cek Jumlah Kelas &amp; Balance Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-5-bentuk-struktur-data"><strong>Bagian 5: Bentuk &amp; Struktur Data</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-6-visualisasi-waveform"><strong>Bagian 6: Visualisasi Waveform</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-7-analisis-statistik-sinyal-per-kelas"><strong>Bagian 7: Analisis Statistik Sinyal per Kelas</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-8-kesimpulan-data-understanding"><strong>Bagian 8: Kesimpulan Data Understanding</strong></a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

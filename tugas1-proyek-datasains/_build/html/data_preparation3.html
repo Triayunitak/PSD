@@ -1,0 +1,1622 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Data Preparation (Persiapan Data) &#8212; PSD</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'data_preparation3';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Exploratory Data Analysis (EDA)" href="eda3.html" />
+    <link rel="prev" title="1. Data Understanding (Pemahaman Data)" href="data_understanding3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/nita.png" class="logo__image only-light" alt="PSD - Home"/>
+    <script>document.write(`<img src="_static/nita.png" class="logo__image only-dark" alt="PSD - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Introduction
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="business_understanding.html"><strong>Business Problem</strong></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="data_understanding.html"><strong>Data Understanding</strong></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_exploration.html"><strong>Data Exploration</strong></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="data_preprocessing.html"><strong>PrepocessingData</strong></a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="e_coli.html"><strong>E. coli Protein PCA &amp; ADASYN Implementation</strong></a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="data_explorationecoli.html"><strong>Data Exploration</strong></a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_prauts.html"><strong>Penjelasan Tugas Pra-UTS</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas_NO2.html"><strong>Prediksi Nilai NO2 Satu Hari Kedepan dengan KNN Regression</strong></a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="crispdm.html"><strong>PROYEK UAS</strong></a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="data_understanding3.html"><strong>1. Data Understanding (Pemahaman Data)</strong></a></li>
+
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><strong>2. Data Preparation (Persiapan Data)</strong></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="eda3.html"><strong>3. Exploratory Data Analysis (EDA)</strong></a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="modeling3.html"><strong>4. Modeling (Pemodelan)</strong></a></li>
+<li class="toctree-l2"><a class="reference internal" href="evaluasi3.html"><strong>Evaluasi</strong></a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fdata_preparation3.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/data_preparation3.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>2. Data Preparation (Persiapan Data)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>2. Data Preparation (Persiapan Data)</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation-feature-extraction"><strong>Data Preparation &amp; Feature Extraction</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-1-import-library"><strong>Bagian 1: Import Library</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-2-load-dataset-train-test"><strong>Bagian 2: Load Dataset TRAIN &amp; TEST</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-3-verifikasi-data-integrity"><strong>Bagian 3: Verifikasi Data Integrity</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-4-normalisasi-sinyal-z-score-step-1"><strong>Bagian 4: Normalisasi Sinyal Z-score (Step 1)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-5-resampling-step-2-opsional"><strong>Bagian 5: Resampling (Step 2 - Opsional)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-6-feature-extraction-step-3"><strong>Bagian 6: Feature Extraction (Step 3)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-7-ekstraksi-fitur-untuk-seluruh-train-set"><strong>Bagian 7: Ekstraksi Fitur untuk Seluruh TRAIN Set</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-8-ekstraksi-fitur-untuk-test-set"><strong>Bagian 8: Ekstraksi Fitur untuk TEST Set</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-9-train-validation-split-step-4"><strong>Bagian 9: Train / Validation Split (Step 4)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-10-feature-scaling-standardisasi-step-5"><strong>Bagian 10: Feature Scaling / Standardisasi (Step 5)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-11-simpan-data-yang-sudah-diproses"><strong>Bagian 11: Simpan Data yang Sudah Diproses</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-data-preparation"><strong>Kesimpulan Data Preparation</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-12-simpan-raw-audio-signals-untuk-cnn"><strong>Bagian 12: Simpan Raw Audio Signals (Untuk CNN)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-13-simpan-label-encoding-mapping"><strong>Bagian 13: Simpan Label Encoding Mapping</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-14-summary-data-preparation-lengkap"><strong>Bagian 14: Summary Data Preparation Lengkap</strong></a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="data-preparation-persiapan-data">
+<h1><strong>2. Data Preparation (Persiapan Data)</strong><a class="headerlink" href="#data-preparation-persiapan-data" title="Link to this heading">#</a></h1>
+<p>Tahap <strong>Data Preparation</strong> bertujuan untuk menyiapkan data <em>time series</em> numerik agar dapat digunakan secara efektif oleh algoritma <em>machine learning</em>. Dataset <strong>DucksAndGeese</strong> tidak menyediakan file audio mentah (WAV/MP3), melainkan sinyal audio yang telah direpresentasikan dalam bentuk <strong>time series numerik univariate</strong> dengan panjang yang seragam.</p>
+<p><strong>3.1 Karakteristik Input Data</strong></p>
+<p>Setiap instance data memiliki karakteristik berikut:</p>
+<ul class="simple">
+<li><p><strong>Bentuk data</strong>: <em>Univariate time series</em> numerik</p></li>
+<li><p><strong>Panjang sinyal</strong>: 236.784 titik waktu</p></li>
+<li><p><strong>Jumlah kelas</strong>: 5 spesies burung (balanced)</p></li>
+<li><p><strong>Tidak tersedia</strong>: Audio mentah atau metadata perekaman tambahan</p></li>
+</ul>
+<p>Dengan kondisi ini, pendekatan yang paling rasional adalah mengekstraksi fitur numerik yang ringkas namun informatif untuk merepresentasikan karakteristik suara burung.</p>
+<p><strong>3.2 Alur Data Preparation</strong></p>
+<p>Pipeline data preparation mengikuti urutan berikut:</p>
+<p><strong>Sinyal Numerik → Normalisasi → Resampling (Opsional) → Feature Extraction → Feature Scaling → Train-Val-Test Split</strong></p>
+<p>Setiap tahap dirancang untuk:</p>
+<ol class="arabic simple">
+<li><p>Mengurangi dimensi dari 236.784 menjadi 16 fitur</p></li>
+<li><p>Menyamakan skala fitur untuk meningkatkan performa model</p></li>
+<li><p>Memastikan distribusi kelas tetap seimbang di setiap subset</p></li>
+</ol>
+<p><strong>3.3 Feature yang Diekstraksi</strong></p>
+<p>Total <strong>16 fitur numerik</strong> diekstraksi dari setiap sinyal audio:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fitur</p></th>
+<th class="head"><p>Jumlah</p></th>
+<th class="head"><p>Deskripsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>MFCC</strong></p></td>
+<td><p>13</p></td>
+<td><p>Mel Frequency Cepstral Coefficients - Karakteristik spektral utama suara</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>ZCR</strong></p></td>
+<td><p>1</p></td>
+<td><p>Zero Crossing Rate - Frekuensi perubahan tanda sinyal</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>RMS Energy</strong></p></td>
+<td><p>1</p></td>
+<td><p>Root Mean Square - Intensitas energi rata-rata sinyal</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Spectral Centroid</strong></p></td>
+<td><p>1</p></td>
+<td><p>Pusat massa spektrum frekuensi (kecerahan suara)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>3.4 Metode Normalisasi &amp; Scaling</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Z-score Normalization</strong> (pada sinyal mentah):
+$<span class="math notranslate nohighlight">\(X_{norm} = \frac{X - \mu}{\sigma}\)</span>$
+Tujuan: Menghilangkan offset dan variasi amplitudo antar sinyal</p></li>
+<li><p><strong>StandardScaler</strong> (pada fitur hasil ekstraksi):</p>
+<ul class="simple">
+<li><p>Fit pada data train</p></li>
+<li><p>Transform pada data val dan test</p></li>
+<li><p>Mencegah data leakage</p></li>
+</ul>
+</li>
+</ol>
+<p><strong>3.5 Data Splitting Strategy</strong></p>
+<p>Dataset dibagi sebagai berikut:</p>
+<p><strong>Dataset Asli:</strong></p>
+<ul class="simple">
+<li><p>Train set: 50 instance</p></li>
+<li><p>Test set: 50 instance</p></li>
+</ul>
+<p><strong>Train Set Dibagi Ulang:</strong></p>
+<ul class="simple">
+<li><p>80% untuk training (40 instance)</p></li>
+<li><p>20% untuk validation (10 instance)</p></li>
+</ul>
+<p><strong>Stratifikasi</strong>: Setiap subset mempertahankan proporsi kelas yang sama (balanced 20:20:20)</p>
+<p><strong>3.6 Implementasi Praktis</strong></p>
+<p>Bagian berikut adalah implementasi konkret dari pipeline data preparation di atas.</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="data-preparation-feature-extraction">
+<h1><strong>Data Preparation &amp; Feature Extraction</strong><a class="headerlink" href="#data-preparation-feature-extraction" title="Link to this heading">#</a></h1>
+<section id="bagian-1-import-library">
+<h2><strong>Bagian 1: Import Library</strong><a class="headerlink" href="#bagian-1-import-library" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">aeon.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_classification</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All libraries imported successfully&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>All libraries imported successfully
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-2-load-dataset-train-test">
+<h2><strong>Bagian 2: Load Dataset TRAIN &amp; TEST</strong><a class="headerlink" href="#bagian-2-load-dataset-train-test" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">load_classification</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DucksAndGeese&quot;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span>
+    <span class="n">extract_path</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">,</span>
+    <span class="n">load_equal_length</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load_classification</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;DucksAndGeese&quot;</span><span class="p">,</span>
+    <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+    <span class="n">extract_path</span><span class="o">=</span><span class="s2">&quot;../data&quot;</span><span class="p">,</span>
+    <span class="n">load_equal_length</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Train shape:&quot;</span><span class="p">,</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Test shape :&quot;</span><span class="p">,</span> <span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Train shape: (50, 1, 236784)
+Test shape : (50, 1, 236784)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-3-verifikasi-data-integrity">
+<h2><strong>Bagian 3: Verifikasi Data Integrity</strong><a class="headerlink" href="#bagian-3-verifikasi-data-integrity" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NaN di X_train:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NaN di X_test :&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>NaN di X_train: 0
+NaN di X_test : 0
+</pre></div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="bagian-4-normalisasi-sinyal-z-score-step-1">
+<h2><strong>Bagian 4: Normalisasi Sinyal Z-score (Step 1)</strong><a class="headerlink" href="#bagian-4-normalisasi-sinyal-z-score-step-1" title="Link to this heading">#</a></h2>
+<p>Normalisasi dilakukan pada sinyal mentah untuk menghilangkan offset dan variasi amplitudo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">zscore_normalize</span><span class="p">(</span><span class="n">signal</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalisasi sinyal menggunakan z-score</span>
+<span class="sd">    Formula: (X - mean) / std</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">signal</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">std</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
+
+<span class="c1"># Test pada satu sampel</span>
+<span class="n">sample_signal</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">normalized_signal</span> <span class="o">=</span> <span class="n">zscore_normalize</span><span class="p">(</span><span class="n">sample_signal</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Verifikasi Z-score Normalization ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Original  - Mean: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">sample_signal</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, Std: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">sample_signal</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Normalized - Mean: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">normalized_signal</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, Std: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">normalized_signal</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Normalisasi seluruh dataset</span>
+<span class="n">X_train_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="n">zscore_normalize</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_train</span>
+<span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">X_test_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="n">zscore_normalize</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_test</span>
+<span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Normalisasi selesai!&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;X_train_norm shape: </span><span class="si">{</span><span class="n">X_train_norm</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;X_test_norm shape : </span><span class="si">{</span><span class="n">X_test_norm</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Verifikasi Z-score Normalization ===
+Original  - Mean: 0.000050, Std: 0.035700
+Normalized - Mean: 0.000000, Std: 1.000000
+
+Normalisasi selesai!
+X_train_norm shape: (50, 1, 236784)
+X_test_norm shape : (50, 1, 236784)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Original&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Waveform Asli (Sebelum Normalisasi)&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time Index&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_train_norm</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Normalized&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Waveform Setelah Z-score Normalisasi&quot;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time Index&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Amplitude (Normalized)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Visualisasi perbandingan sinyal sebelum dan sesudah normalisasi&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9b6d7077b8aba168354d77de109629d7999eb7f304180b15c8e8244c0f5a3c66.png" src="_images/9b6d7077b8aba168354d77de109629d7999eb7f304180b15c8e8244c0f5a3c66.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Visualisasi perbandingan sinyal sebelum dan sesudah normalisasi
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-5-resampling-step-2-opsional">
+<h2><strong>Bagian 5: Resampling (Step 2 - Opsional)</strong><a class="headerlink" href="#bagian-5-resampling-step-2-opsional" title="Link to this heading">#</a></h2>
+<p>Resampling dilakukan untuk mengurangi dimensi dari 236.784 menjadi ~175.000 titik waktu (44100 Hz → 16000 Hz).</p>
+</section>
+<section id="bagian-6-feature-extraction-step-3">
+<h2><strong>Bagian 6: Feature Extraction (Step 3)</strong><a class="headerlink" href="#bagian-6-feature-extraction-step-3" title="Link to this heading">#</a></h2>
+<p>Fitur diekstraksi dari sinyal yang telah dinormalisasi menggunakan librosa. Total 16 fitur numerik diekstraksi.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Demonstrasi resampling pada satu sampel</span>
+<span class="n">sample_normalized</span> <span class="o">=</span> <span class="n">X_train_norm</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Resampling: 44100 Hz → 16000 Hz</span>
+<span class="n">sample_resampled</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">sample_normalized</span><span class="p">,</span>
+    <span class="n">orig_sr</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span>
+    <span class="n">target_sr</span><span class="o">=</span><span class="mi">16000</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Demonstrasi Resampling ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sebelum resampling: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_normalized</span><span class="p">)</span><span class="si">}</span><span class="s2"> titik waktu&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sesudah resampling: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_resampled</span><span class="p">)</span><span class="si">}</span><span class="s2"> titik waktu&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reduction ratio: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sample_normalized</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">sample_resampled</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">x&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Demonstrasi Resampling ===
+Sebelum resampling: 236784 titik waktu
+Sesudah resampling: 85909 titik waktu
+Reduction ratio: 2.76x
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Fitur yang Diekstraksi:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Fitur</p></th>
+<th class="head"><p>Jumlah</p></th>
+<th class="head"><p>Deskripsi</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>MFCC</p></td>
+<td><p>13</p></td>
+<td><p>Mel Frequency Cepstral Coefficients</p></td>
+</tr>
+<tr class="row-odd"><td><p>Zero Crossing Rate</p></td>
+<td><p>1</p></td>
+<td><p>Mengukur frekuensi perubahan tanda sinyal</p></td>
+</tr>
+<tr class="row-even"><td><p>RMS Energy</p></td>
+<td><p>1</p></td>
+<td><p>Intensitas energi rata-rata sinyal</p></td>
+</tr>
+<tr class="row-odd"><td><p>Spectral Centroid</p></td>
+<td><p>1</p></td>
+<td><p>Pusat massa spektrum frekuensi</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Total</strong></p></td>
+<td><p><strong>16</strong></p></td>
+<td><p><strong>Vektor fitur untuk klasifikasi</strong></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">extract_features</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ekstraksi 16 fitur dari sinyal audio</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters:</span>
+<span class="sd">    - signal: numpy array dari sinyal audio</span>
+<span class="sd">    - sr: sample rate</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">    - numpy array berisi 16 fitur</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># 1. MFCC (13 koefisien)</span>
+    <span class="n">mfcc</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">mfcc</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">,</span> <span class="n">n_mfcc</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">mfcc_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mfcc</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># rata-rata temporal</span>
+    <span class="n">features</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">mfcc_mean</span><span class="p">)</span>
+
+    <span class="c1"># 2. Zero Crossing Rate (1 fitur)</span>
+    <span class="n">zcr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">zero_crossing_rate</span><span class="p">(</span><span class="n">signal</span><span class="p">))</span>
+    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">zcr</span><span class="p">)</span>
+
+    <span class="c1"># 3. RMS Energy (1 fitur)</span>
+    <span class="n">rms</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">rms</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">signal</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rms</span><span class="p">)</span>
+
+    <span class="c1"># 4. Spectral Centroid (1 fitur)</span>
+    <span class="n">centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">spectral_centroid</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="n">sr</span><span class="p">))</span>
+    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">centroid</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="c1"># Test pada satu sampel</span>
+<span class="n">sample_normalized</span> <span class="o">=</span> <span class="n">X_train_norm</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sample_resampled</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">sample_normalized</span><span class="p">,</span> <span class="n">orig_sr</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span> <span class="n">target_sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">)</span>
+<span class="n">features_sample</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">sample_resampled</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Hasil Ekstraksi Fitur (Sampel 1) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jumlah fitur: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">features_sample</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitur:</span><span class="se">\n</span><span class="si">{</span><span class="n">features_sample</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Breakdown:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - MFCC[1-13]: </span><span class="si">{</span><span class="n">features_sample</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">13</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - ZCR: </span><span class="si">{</span><span class="n">features_sample</span><span class="p">[</span><span class="mi">13</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - RMS: </span><span class="si">{</span><span class="n">features_sample</span><span class="p">[</span><span class="mi">14</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - Spectral Centroid: </span><span class="si">{</span><span class="n">features_sample</span><span class="p">[</span><span class="mi">15</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Hasil Ekstraksi Fitur (Sampel 1) ===
+Jumlah fitur: 16
+Fitur:
+[-3.03277749e+01  4.00774343e+01  9.66616907e+01  6.28365968e+01
+  4.14131158e+00  3.07694526e+01  1.42954671e+01 -1.71178020e+00
+ -5.15671574e+00  9.42606799e+00 -2.54702141e+00 -6.32606819e+00
+  1.37829476e+01  1.57386416e-01  9.18488979e-01  2.15745077e+03]
+
+Breakdown:
+  - MFCC[1-13]: [-30.32777492  40.07743433  96.66169072  62.83659679   4.14131158
+  30.76945264  14.29546713  -1.7117802   -5.15671574   9.42606799
+  -2.54702141  -6.32606819  13.78294759]
+  - ZCR: 0.157386
+  - RMS: 0.918489
+  - Spectral Centroid: 2157.450772
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-7-ekstraksi-fitur-untuk-seluruh-train-set">
+<h2><strong>Bagian 7: Ekstraksi Fitur untuk Seluruh TRAIN Set</strong><a class="headerlink" href="#bagian-7-ekstraksi-fitur-untuk-seluruh-train-set" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Ekstraksi Fitur TRAIN Set ===&quot;</span><span class="p">)</span>
+<span class="n">X_feat</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y_feat</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)):</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">X_train_norm</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># gunakan sinyal yang sudah dinormalisasi</span>
+    
+    <span class="c1"># Resampling: 44100 Hz → 16000 Hz</span>
+    <span class="n">signal_resampled</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span>
+        <span class="n">orig_sr</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span>
+        <span class="n">target_sr</span><span class="o">=</span><span class="mi">16000</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Ekstraksi fitur</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">signal_resampled</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">)</span>
+    <span class="n">X_feat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">y_feat</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_train</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="n">X_feat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_feat</span><span class="p">)</span>
+<span class="n">y_feat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_feat</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitur train shape: </span><span class="si">{</span><span class="n">X_feat</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Label train shape: </span><span class="si">{</span><span class="n">y_feat</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribusi kelas train:&quot;</span><span class="p">)</span>
+<span class="n">labels</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_feat</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Kelas </span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> sampel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Ekstraksi Fitur TRAIN Set ===
+Fitur train shape: (50, 16)
+Label train shape: (50,)
+Distribusi kelas train:
+  Kelas black-bellied_whistling_duck: 10 sampel
+  Kelas canadian_goose: 10 sampel
+  Kelas greylag_goose: 10 sampel
+  Kelas pink-footed_goose: 10 sampel
+  Kelas white-faced_whistling_duck: 10 sampel
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-8-ekstraksi-fitur-untuk-test-set">
+<h2><strong>Bagian 8: Ekstraksi Fitur untuk TEST Set</strong><a class="headerlink" href="#bagian-8-ekstraksi-fitur-untuk-test-set" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Ekstraksi Fitur TEST Set ===&quot;</span><span class="p">)</span>
+<span class="n">X_feat_test</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y_feat_test</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)):</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">X_test_norm</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># gunakan sinyal yang sudah dinormalisasi</span>
+    
+    <span class="c1"># Resampling: 44100 Hz → 16000 Hz</span>
+    <span class="n">signal_resampled</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span>
+        <span class="n">y</span><span class="o">=</span><span class="n">signal</span><span class="p">,</span>
+        <span class="n">orig_sr</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span>
+        <span class="n">target_sr</span><span class="o">=</span><span class="mi">16000</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Ekstraksi fitur menggunakan fungsi yang sama</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">signal_resampled</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">)</span>
+    <span class="n">X_feat_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">y_feat_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y_test</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+<span class="c1"># Konversi ke numpy array</span>
+<span class="n">X_feat_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_feat_test</span><span class="p">)</span>
+<span class="n">y_feat_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">y_feat_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Fitur test shape: </span><span class="si">{</span><span class="n">X_feat_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Label test shape: </span><span class="si">{</span><span class="n">y_feat_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Distribusi kelas test:&quot;</span><span class="p">)</span>
+<span class="n">labels</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_feat_test</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Kelas </span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> sampel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Ekstraksi Fitur TEST Set ===
+Fitur test shape: (50, 16)
+Label test shape: (50,)
+Distribusi kelas test:
+  Kelas black-bellied_whistling_duck: 10 sampel
+  Kelas canadian_goose: 10 sampel
+  Kelas greylag_goose: 10 sampel
+  Kelas pink-footed_goose: 10 sampel
+  Kelas white-faced_whistling_duck: 10 sampel
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-9-train-validation-split-step-4">
+<h2><strong>Bagian 9: Train / Validation Split (Step 4)</strong><a class="headerlink" href="#bagian-9-train-validation-split-step-4" title="Link to this heading">#</a></h2>
+<p>Dataset train dibagi menjadi 80% training dan 20% validation menggunakan stratified split.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Train / Validation Split ===&quot;</span><span class="p">)</span>
+<span class="n">X_train_final</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_train_final</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_feat</span><span class="p">,</span>          <span class="c1"># fitur train hasil ekstraksi</span>
+    <span class="n">y_feat</span><span class="p">,</span>          <span class="c1"># label train</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="n">y_feat</span>  <span class="c1"># agar distribusi kelas tetap seimbang</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Train final shape: </span><span class="si">{</span><span class="n">X_train_final</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation shape: </span><span class="si">{</span><span class="n">X_val</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verifikasi distribusi kelas setelah split</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">print_distribution</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">labels</span><span class="p">,</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">counts</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Kelas </span><span class="si">{</span><span class="n">l</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2"> sampel&quot;</span><span class="p">)</span>
+
+<span class="n">print_distribution</span><span class="p">(</span><span class="n">y_train_final</span><span class="p">,</span> <span class="s2">&quot;Distribusi Train Final&quot;</span><span class="p">)</span>
+<span class="n">print_distribution</span><span class="p">(</span><span class="n">y_val</span><span class="p">,</span> <span class="s2">&quot;Distribusi Validation&quot;</span><span class="p">)</span>
+<span class="n">print_distribution</span><span class="p">(</span><span class="n">y_feat_test</span><span class="p">,</span> <span class="s2">&quot;Distribusi Test&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Train / Validation Split ===
+Train final shape: (40, 16)
+Validation shape: (10, 16)
+
+Distribusi Train Final:
+  Kelas black-bellied_whistling_duck: 8 sampel
+  Kelas canadian_goose: 8 sampel
+  Kelas greylag_goose: 8 sampel
+  Kelas pink-footed_goose: 8 sampel
+  Kelas white-faced_whistling_duck: 8 sampel
+
+Distribusi Validation:
+  Kelas black-bellied_whistling_duck: 2 sampel
+  Kelas canadian_goose: 2 sampel
+  Kelas greylag_goose: 2 sampel
+  Kelas pink-footed_goose: 2 sampel
+  Kelas white-faced_whistling_duck: 2 sampel
+
+Distribusi Test:
+  Kelas black-bellied_whistling_duck: 10 sampel
+  Kelas canadian_goose: 10 sampel
+  Kelas greylag_goose: 10 sampel
+  Kelas pink-footed_goose: 10 sampel
+  Kelas white-faced_whistling_duck: 10 sampel
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-10-feature-scaling-standardisasi-step-5">
+<h2><strong>Bagian 10: Feature Scaling / Standardisasi (Step 5)</strong><a class="headerlink" href="#bagian-10-feature-scaling-standardisasi-step-5" title="Link to this heading">#</a></h2>
+<p>StandardScaler digunakan untuk menyamakan skala fitur. Fit dilakukan hanya pada training set untuk menghindari data leakage.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Feature Scaling dengan StandardScaler ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Fit scaler hanya pada training set (PENTING: menghindari data leakage)</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_final_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train_final</span><span class="p">)</span>
+<span class="n">X_val_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+<span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_feat_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Scaler fitted pada training set: </span><span class="si">{</span><span class="n">X_train_final</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Transformed shapes:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - X_train_final_scaled: </span><span class="si">{</span><span class="n">X_train_final_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - X_val_scaled: </span><span class="si">{</span><span class="n">X_val_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - X_test_scaled: </span><span class="si">{</span><span class="n">X_test_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verifikasi scaling</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Verifikasi Scaling (sebelum dan sesudah):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  X_train_final - Mean: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X_train_final</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Std: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">X_train_final</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  X_train_final_scaled - Mean: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X_train_final_scaled</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Std: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">X_train_final_scaled</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Buat DataFrame untuk visualisasi</span>
+<span class="n">mfcc_cols</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;mfcc</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">13</span><span class="p">)]</span>
+<span class="n">feature_cols</span> <span class="o">=</span> <span class="n">mfcc_cols</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;zcr&quot;</span><span class="p">,</span> <span class="s2">&quot;rms&quot;</span><span class="p">,</span> <span class="s2">&quot;centroid&quot;</span><span class="p">]</span>  <span class="c1"># total 16 fitur</span>
+
+<span class="n">df_train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_train_final_scaled</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_cols</span><span class="p">)</span>
+<span class="n">df_train</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_train_final</span>
+
+<span class="n">df_val</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_val_scaled</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_cols</span><span class="p">)</span>
+<span class="n">df_val</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_val</span>
+
+<span class="n">df_test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">feature_cols</span><span class="p">)</span>
+<span class="n">df_test</span><span class="p">[</span><span class="s2">&quot;label&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y_feat_test</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Contoh Data (Train Set) ===&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_train</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Feature Scaling dengan StandardScaler ===
+Scaler fitted pada training set: (40, 16)
+Transformed shapes:
+  - X_train_final_scaled: (40, 16)
+  - X_val_scaled: (10, 16)
+  - X_test_scaled: (50, 16)
+
+Verifikasi Scaling (sebelum dan sesudah):
+  X_train_final - Mean: 170.6995, Std: 705.4212
+  X_train_final_scaled - Mean: 0.0000, Std: 1.0000
+
+=== Contoh Data (Train Set) ===
+      mfcc1     mfcc2     mfcc3     mfcc4     mfcc5     mfcc6     mfcc7  \
+0  0.539017 -0.949161  1.135375  1.506132 -0.468704  0.307521  0.638655   
+1  1.536679  0.590696  0.766747  0.328454  1.088302  0.394573  0.988120   
+2  1.249843  0.026736 -1.330608 -0.372341  0.143090  0.854917 -1.300501   
+3 -1.815987  1.304317  0.443364 -0.549747 -0.064497 -0.551112  0.180480   
+4 -0.092758 -0.715671 -0.410989  0.848762  1.169403  0.183659 -0.326187   
+
+      mfcc8     mfcc9    mfcc10    mfcc11    mfcc12    mfcc13       zcr  \
+0 -0.051023  0.150237  1.269368 -0.861989  0.976513  1.703382  1.098734   
+1  0.701457  0.052172 -0.311410 -0.089043 -0.002237 -0.250600 -0.399321   
+2  0.579948  1.763459 -0.921161 -2.589722 -0.824911 -1.007694 -0.349004   
+3 -0.417936 -0.823769 -1.508067 -0.899350 -1.356602 -0.996021 -1.119913   
+4  0.476016 -0.212572 -0.855288 -0.422901 -0.297941 -0.764600  0.433529   
+
+        rms  centroid                         label  
+0  1.079191  1.223952  black-bellied_whistling_duck  
+1 -0.187258 -0.082658                 greylag_goose  
+2  1.405728 -0.469772             pink-footed_goose  
+3 -2.299909 -1.164089                canadian_goose  
+4 -0.988410  0.430449    white-faced_whistling_duck  
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-11-simpan-data-yang-sudah-diproses">
+<h2><strong>Bagian 11: Simpan Data yang Sudah Diproses</strong><a class="headerlink" href="#bagian-11-simpan-data-yang-sudah-diproses" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Buat direktori untuk menyimpan data yang sudah diproses</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s2">&quot;data/processed&quot;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Menyimpan Data yang Sudah Diproses ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan fitur train dan label</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/X_train_final_scaled.npy&quot;</span><span class="p">,</span> <span class="n">X_train_final_scaled</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/y_train_final.npy&quot;</span><span class="p">,</span> <span class="n">y_train_final</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ X_train_final_scaled.npy (</span><span class="si">{</span><span class="n">X_train_final_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ y_train_final.npy (</span><span class="si">{</span><span class="n">y_train_final</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan fitur validation dan label</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/X_val_scaled.npy&quot;</span><span class="p">,</span> <span class="n">X_val_scaled</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/y_val.npy&quot;</span><span class="p">,</span> <span class="n">y_val</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ X_val_scaled.npy (</span><span class="si">{</span><span class="n">X_val_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ y_val.npy (</span><span class="si">{</span><span class="n">y_val</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan fitur test dan label</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/X_test_scaled.npy&quot;</span><span class="p">,</span> <span class="n">X_test_scaled</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/y_test.npy&quot;</span><span class="p">,</span> <span class="n">y_feat_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ X_test_scaled.npy (</span><span class="si">{</span><span class="n">X_test_scaled</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ y_test.npy (</span><span class="si">{</span><span class="n">y_feat_test</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Simpan scaler untuk digunakan saat inference</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+<span class="n">joblib</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">scaler</span><span class="p">,</span> <span class="s2">&quot;data/processed/scaler.joblib&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ scaler.joblib (untuk standardisasi pada inference)&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Semua data berhasil disimpan ke folder &#39;data/processed&#39;!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Menyimpan Data yang Sudah Diproses ===
+✓ X_train_final_scaled.npy ((40, 16))
+✓ y_train_final.npy ((40,))
+✓ X_val_scaled.npy ((10, 16))
+✓ y_val.npy ((10,))
+✓ X_test_scaled.npy ((50, 16))
+✓ y_test.npy ((50,))
+✓ scaler.joblib (untuk standardisasi pada inference)
+
+Semua data berhasil disimpan ke folder &#39;data/processed&#39;!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="kesimpulan-data-preparation">
+<h2><strong>Kesimpulan Data Preparation</strong><a class="headerlink" href="#kesimpulan-data-preparation" title="Link to this heading">#</a></h2>
+<p><strong>Pipeline yang Telah Dilakukan:</strong></p>
+<ol class="arabic simple">
+<li><p>✅ <strong>Normalisasi Sinyal</strong>: Z-score normalization pada sinyal mentah</p></li>
+<li><p>✅ <strong>Resampling</strong>: 44100 Hz → 16000 Hz (reduksi dimensi)</p></li>
+<li><p>✅ <strong>Feature Extraction</strong>: 16 fitur numerik (MFCC, ZCR, RMS, Spectral Centroid)</p></li>
+<li><p>✅ <strong>Train-Val-Test Split</strong>: 40-10-50 dengan stratifikasi</p></li>
+<li><p>✅ <strong>Feature Scaling</strong>: StandardScaler (fit pada train, transform pada val &amp; test)</p></li>
+<li><p>✅ <strong>Penyimpanan</strong>: Semua data disimpan ke format .npy dan scaler ke .joblib</p></li>
+</ol>
+<p><strong>Dimensionalitas:</strong></p>
+<ul class="simple">
+<li><p>Input asli: 236.784 titik waktu per sampel</p></li>
+<li><p>Setelah resampling: ~175.000 titik waktu per sampel</p></li>
+<li><p>Output akhir: <strong>16 fitur numerik</strong> per sampel (dimensi reduction 99.99%)</p></li>
+</ul>
+<p><strong>Data yang Siap untuk Modeling:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">X_train_final_scaled.npy</span></code>: (40, 16) - Data training yang sudah di-scale</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X_val_scaled.npy</span></code>: (10, 16) - Data validation yang sudah di-scale</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X_test_scaled.npy</span></code>: (50, 16) - Data test yang sudah di-scale</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scaler.joblib</span></code>: StandardScaler object untuk standardisasi di inference</p></li>
+</ul>
+<p>Data preparation sekarang <strong>siap untuk tahap Modeling</strong>!</p>
+</section>
+<section id="bagian-12-simpan-raw-audio-signals-untuk-cnn">
+<h2><strong>Bagian 12: Simpan Raw Audio Signals (Untuk CNN)</strong><a class="headerlink" href="#bagian-12-simpan-raw-audio-signals-untuk-cnn" title="Link to this heading">#</a></h2>
+<p>Simpan sinyal audio yang sudah dinormalisasi untuk digunakan dalam deep learning models (CNN/LSTM).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Menyimpan Raw Audio Signals (Untuk Deep Learning) ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Buat arrays untuk raw signals (normalized, resampled)</span>
+<span class="n">X_train_raw_all</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Resampling semua train signals terlebih dahulu</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)):</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">X_train_norm</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">signal_resampled</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">orig_sr</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span> <span class="n">target_sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">)</span>
+    <span class="n">X_train_raw_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal_resampled</span><span class="p">)</span>
+
+<span class="n">X_train_raw_all</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_train_raw_all</span><span class="p">)</span>
+
+<span class="c1"># Gunakan indeks yang sama dengan train/val split untuk raw signals</span>
+<span class="c1"># Kita perlu track indices dari train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">StratifiedShuffleSplit</span>
+<span class="n">sss</span> <span class="o">=</span> <span class="n">StratifiedShuffleSplit</span><span class="p">(</span><span class="n">n_splits</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">train_indices</span><span class="p">,</span> <span class="n">val_indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sss</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">X_feat</span><span class="p">,</span> <span class="n">y_feat</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">X_train_raw</span> <span class="o">=</span> <span class="n">X_train_raw_all</span><span class="p">[</span><span class="n">train_indices</span><span class="p">]</span>
+<span class="n">X_val_raw</span> <span class="o">=</span> <span class="n">X_train_raw_all</span><span class="p">[</span><span class="n">val_indices</span><span class="p">]</span>
+
+<span class="c1"># Resampling test signals</span>
+<span class="n">X_test_raw_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)):</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="n">X_test_norm</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">signal_resampled</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">orig_sr</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span> <span class="n">target_sr</span><span class="o">=</span><span class="mi">16000</span><span class="p">)</span>
+    <span class="n">X_test_raw_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">signal_resampled</span><span class="p">)</span>
+
+<span class="n">X_test_raw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_test_raw_list</span><span class="p">)</span>
+
+<span class="c1"># Simpan raw signals</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/X_train_raw.npy&quot;</span><span class="p">,</span> <span class="n">X_train_raw</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/X_val_raw.npy&quot;</span><span class="p">,</span> <span class="n">X_val_raw</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;data/processed/X_test_raw.npy&quot;</span><span class="p">,</span> <span class="n">X_test_raw</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ X_train_raw.npy (</span><span class="si">{</span><span class="n">X_train_raw</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ X_val_raw.npy (</span><span class="si">{</span><span class="n">X_val_raw</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ X_test_raw.npy (</span><span class="si">{</span><span class="n">X_test_raw</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Raw signals saved for CNN/LSTM models!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Menyimpan Raw Audio Signals (Untuk Deep Learning) ===
+✓ X_train_raw.npy ((40, 85909))
+✓ X_val_raw.npy ((10, 85909))
+✓ X_test_raw.npy ((50, 85909))
+
+Raw signals saved for CNN/LSTM models!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-13-simpan-label-encoding-mapping">
+<h2><strong>Bagian 13: Simpan Label Encoding Mapping</strong><a class="headerlink" href="#bagian-13-simpan-label-encoding-mapping" title="Link to this heading">#</a></h2>
+<p>Simpan mapping antara label numerik dan nama kelas untuk interpretasi hasil modeling.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=== Simpan Label Encoding Mapping &amp; Class Statistics ===&quot;</span><span class="p">)</span>
+
+<span class="c1"># Dapatkan unique classes dalam order</span>
+<span class="n">unique_classes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y_feat</span><span class="p">)</span>
+
+<span class="c1"># Buat label encoder mapping</span>
+<span class="n">label_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">unique_classes</span><span class="p">)}</span>
+
+<span class="c1"># Hitung class statistics</span>
+<span class="n">class_stats</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">unique_classes</span><span class="p">:</span>
+    <span class="n">mask_train</span> <span class="o">=</span> <span class="n">y_train_final</span> <span class="o">==</span> <span class="bp">cls</span>
+    <span class="n">mask_val</span> <span class="o">=</span> <span class="n">y_val</span> <span class="o">==</span> <span class="bp">cls</span>
+    <span class="n">mask_test</span> <span class="o">=</span> <span class="n">y_feat_test</span> <span class="o">==</span> <span class="bp">cls</span>
+    
+    <span class="n">class_stats</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="bp">cls</span><span class="p">)]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;numeric_label&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">unique_classes</span> <span class="o">==</span> <span class="bp">cls</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="s1">&#39;train_count&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">mask_train</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+        <span class="s1">&#39;val_count&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">mask_val</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+        <span class="s1">&#39;test_count&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">mask_test</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+        <span class="s1">&#39;train_percentage&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">mask_train</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train_final</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="s1">&#39;val_percentage&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">mask_val</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_val</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
+        <span class="s1">&#39;test_percentage&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">mask_test</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_feat_test</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
+    <span class="p">}</span>
+
+<span class="c1"># Simpan label mapping dan class stats sebagai JSON</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">mapping_file</span> <span class="o">=</span> <span class="s2">&quot;data/processed/label_mapping.json&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">mapping_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">label_mapping</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ label_mapping.json - Numeric to class name mapping&quot;</span><span class="p">)</span>
+
+<span class="n">stats_file</span> <span class="o">=</span> <span class="s2">&quot;data/processed/class_statistics.json&quot;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">stats_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">class_stats</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✓ class_statistics.json - Distribution per class&quot;</span><span class="p">)</span>
+
+<span class="c1"># Tampilkan summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Label Mapping ===&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">label_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== Class Distribution ===&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">stats</span> <span class="ow">in</span> <span class="n">class_stats</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">cls_name</span><span class="si">}</span><span class="s2">:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Numeric Label: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;numeric_label&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Train: </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;train_count&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;train_percentage&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Val:   </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;val_count&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;val_percentage&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Test:  </span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;test_count&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">2d</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">stats</span><span class="p">[</span><span class="s1">&#39;test_percentage&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">%)&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Label mapping dan statistics berhasil disimpan!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>=== Simpan Label Encoding Mapping &amp; Class Statistics ===
+✓ label_mapping.json - Numeric to class name mapping
+✓ class_statistics.json - Distribution per class
+
+=== Label Mapping ===
+  0 → black-bellied_whistling_duck
+  1 → canadian_goose
+  2 → greylag_goose
+  3 → pink-footed_goose
+  4 → white-faced_whistling_duck
+
+=== Class Distribution ===
+
+black-bellied_whistling_duck:
+  Numeric Label: 0
+  Train:  8 (20.0%)
+  Val:    2 (20.0%)
+  Test:  10 (20.0%)
+
+canadian_goose:
+  Numeric Label: 1
+  Train:  8 (20.0%)
+  Val:    2 (20.0%)
+  Test:  10 (20.0%)
+
+greylag_goose:
+  Numeric Label: 2
+  Train:  8 (20.0%)
+  Val:    2 (20.0%)
+  Test:  10 (20.0%)
+
+pink-footed_goose:
+  Numeric Label: 3
+  Train:  8 (20.0%)
+  Val:    2 (20.0%)
+  Test:  10 (20.0%)
+
+white-faced_whistling_duck:
+  Numeric Label: 4
+  Train:  8 (20.0%)
+  Val:    2 (20.0%)
+  Test:  10 (20.0%)
+
+Label mapping dan statistics berhasil disimpan!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="bagian-14-summary-data-preparation-lengkap">
+<h2><strong>Bagian 14: Summary Data Preparation Lengkap</strong><a class="headerlink" href="#bagian-14-summary-data-preparation-lengkap" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">80</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;DATA PREPARATION SUMMARY - SIAP UNTUK MODELING&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">80</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">╔════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="s2">║                  DATA PIPELINE YANG SUDAH DIKERJAKAN                       ║</span>
+<span class="s2">╚════════════════════════════════════════════════════════════════════════════╝</span>
+
+<span class="s2">1. ✅ LOAD DATASET</span>
+<span class="s2">   - Aeon DucksAndGeese dataset</span>
+<span class="s2">   - Train: 50 samples, Test: 50 samples</span>
+<span class="s2">   - 5 classes: Black-bellied whistling duck, Canadian goose, Greylag goose, </span>
+<span class="s2">                 Pink-footed goose, White-faced whistling duck</span>
+
+<span class="s2">2. ✅ SIGNAL PREPROCESSING</span>
+<span class="s2">   - Z-score normalization (standardize amplitude)</span>
+<span class="s2">   - Resampling: 44.1 kHz → 16 kHz</span>
+<span class="s2">   - Dimensionality: 236,784 → ~175,000 samples</span>
+
+<span class="s2">3. ✅ FEATURE EXTRACTION</span>
+<span class="s2">   - MFCC: 13 coefficients</span>
+<span class="s2">   - Zero Crossing Rate: 1 feature</span>
+<span class="s2">   - RMS Energy: 1 feature</span>
+<span class="s2">   - Spectral Centroid: 1 feature</span>
+<span class="s2">   - Total: 16 features per sample</span>
+
+<span class="s2">4. ✅ DATA SPLITTING</span>
+<span class="s2">   - Train: 40 samples (80</span><span class="si">% o</span><span class="s2">f original 50)</span>
+<span class="s2">   - Validation: 10 samples (20</span><span class="si">% o</span><span class="s2">f original 50)</span>
+<span class="s2">   - Test: 50 samples (original test set)</span>
+<span class="s2">   - Strategy: Stratified split (balanced class distribution)</span>
+
+<span class="s2">5. ✅ FEATURE SCALING</span>
+<span class="s2">   - StandardScaler (fit on train only)</span>
+<span class="s2">   - Applied to all sets</span>
+<span class="s2">   - Prevents data leakage</span>
+
+<span class="s2">6. ✅ FILES GENERATED</span>
+<span class="s2">   </span>
+<span class="s2">   FOR MACHINE LEARNING (Feature-based):</span>
+<span class="s2">   ├─ X_train_final_scaled.npy      (40, 16)  - Training features</span>
+<span class="s2">   ├─ X_val_scaled.npy              (10, 16)  - Validation features</span>
+<span class="s2">   ├─ X_test_scaled.npy             (50, 16)  - Test features</span>
+<span class="s2">   ├─ y_train_final.npy             (40,)     - Training labels</span>
+<span class="s2">   ├─ y_val.npy                     (10,)     - Validation labels</span>
+<span class="s2">   ├─ y_test.npy                    (50,)     - Test labels</span>
+<span class="s2">   └─ scaler.joblib                 - StandardScaler for inference</span>
+
+<span class="s2">   FOR DEEP LEARNING (CNN/LSTM):</span>
+<span class="s2">   ├─ X_train_raw.npy               (40, ~175000) - Raw audio signals</span>
+<span class="s2">   ├─ X_val_raw.npy                 (10, ~175000) - Raw audio signals</span>
+<span class="s2">   ├─ X_test_raw.npy                (50, ~175000) - Raw audio signals</span>
+<span class="s2">   └─ (Will be converted to spectrograms in modeling.ipynb)</span>
+
+<span class="s2">   METADATA:</span>
+<span class="s2">   ├─ label_mapping.json            - Numeric ↔ Class name mapping</span>
+<span class="s2">   └─ class_statistics.json         - Distribution per class</span>
+
+<span class="s2">7. ✅ READY FOR MODELING</span>
+<span class="s2">   - Machine Learning branch: Use scaled features (16D)</span>
+<span class="s2">   - Deep Learning branch: Use raw signals (convert to spectrograms)</span>
+<span class="s2">   - Both branches have proper labels and stratified splits</span>
+
+<span class="s2">╔════════════════════════════════════════════════════════════════════════════╗</span>
+<span class="s2">║                     NEXT STEP: MODELING PHASE                              ║</span>
+<span class="s2">╚════════════════════════════════════════════════════════════════════════════╝</span>
+
+<span class="s2">Two approaches available in modeling.ipynb:</span>
+
+<span class="s2">1. FEATURE-BASED ML (RECOMMENDED FOR NOW)</span>
+<span class="s2">   ├─ Random Forest (58</span><span class="si">% a</span><span class="s2">ccuracy baseline)</span>
+<span class="s2">   ├─ XGBoost</span>
+<span class="s2">   ├─ K-Nearest Neighbors</span>
+<span class="s2">   └─ Ensemble (Soft Voting)</span>
+
+<span class="s2">2. DEEP LEARNING (For future with more data)</span>
+<span class="s2">   ├─ CNN on Mel-spectrograms (NOT YET - requires 500+ samples)</span>
+<span class="s2">   └─ LSTM on raw audio (NOT YET - requires 500+ samples)</span>
+
+<span class="s2">All required data is now prepared and saved. Ready to proceed with modeling!</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">80</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>================================================================================
+DATA PREPARATION SUMMARY - SIAP UNTUK MODELING
+================================================================================
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  DATA PIPELINE YANG SUDAH DIKERJAKAN                       ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+1. ✅ LOAD DATASET
+   - Aeon DucksAndGeese dataset
+   - Train: 50 samples, Test: 50 samples
+   - 5 classes: Black-bellied whistling duck, Canadian goose, Greylag goose, 
+                 Pink-footed goose, White-faced whistling duck
+
+2. ✅ SIGNAL PREPROCESSING
+   - Z-score normalization (standardize amplitude)
+   - Resampling: 44.1 kHz → 16 kHz
+   - Dimensionality: 236,784 → ~175,000 samples
+
+3. ✅ FEATURE EXTRACTION
+   - MFCC: 13 coefficients
+   - Zero Crossing Rate: 1 feature
+   - RMS Energy: 1 feature
+   - Spectral Centroid: 1 feature
+   - Total: 16 features per sample
+
+4. ✅ DATA SPLITTING
+   - Train: 40 samples (80% of original 50)
+   - Validation: 10 samples (20% of original 50)
+   - Test: 50 samples (original test set)
+   - Strategy: Stratified split (balanced class distribution)
+
+5. ✅ FEATURE SCALING
+   - StandardScaler (fit on train only)
+   - Applied to all sets
+   - Prevents data leakage
+
+6. ✅ FILES GENERATED
+
+   FOR MACHINE LEARNING (Feature-based):
+   ├─ X_train_final_scaled.npy      (40, 16)  - Training features
+   ├─ X_val_scaled.npy              (10, 16)  - Validation features
+   ├─ X_test_scaled.npy             (50, 16)  - Test features
+   ├─ y_train_final.npy             (40,)     - Training labels
+   ├─ y_val.npy                     (10,)     - Validation labels
+   ├─ y_test.npy                    (50,)     - Test labels
+   └─ scaler.joblib                 - StandardScaler for inference
+
+   FOR DEEP LEARNING (CNN/LSTM):
+   ├─ X_train_raw.npy               (40, ~175000) - Raw audio signals
+   ├─ X_val_raw.npy                 (10, ~175000) - Raw audio signals
+   ├─ X_test_raw.npy                (50, ~175000) - Raw audio signals
+   └─ (Will be converted to spectrograms in modeling.ipynb)
+
+   METADATA:
+   ├─ label_mapping.json            - Numeric ↔ Class name mapping
+   └─ class_statistics.json         - Distribution per class
+
+7. ✅ READY FOR MODELING
+   - Machine Learning branch: Use scaled features (16D)
+   - Deep Learning branch: Use raw signals (convert to spectrograms)
+   - Both branches have proper labels and stratified splits
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                     NEXT STEP: MODELING PHASE                              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+Two approaches available in modeling.ipynb:
+
+1. FEATURE-BASED ML (RECOMMENDED FOR NOW)
+   ├─ Random Forest (58% accuracy baseline)
+   ├─ XGBoost
+   ├─ K-Nearest Neighbors
+   └─ Ensemble (Soft Voting)
+
+2. DEEP LEARNING (For future with more data)
+   ├─ CNN on Mel-spectrograms (NOT YET - requires 500+ samples)
+   └─ LSTM on raw audio (NOT YET - requires 500+ samples)
+
+All required data is now prepared and saved. Ready to proceed with modeling!
+
+================================================================================
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="data_understanding3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><strong>1. Data Understanding (Pemahaman Data)</strong></p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="eda3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><strong>3. Exploratory Data Analysis (EDA)</strong></p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><strong>2. Data Preparation (Persiapan Data)</strong></a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-preparation-feature-extraction"><strong>Data Preparation &amp; Feature Extraction</strong></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-1-import-library"><strong>Bagian 1: Import Library</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-2-load-dataset-train-test"><strong>Bagian 2: Load Dataset TRAIN &amp; TEST</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-3-verifikasi-data-integrity"><strong>Bagian 3: Verifikasi Data Integrity</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-4-normalisasi-sinyal-z-score-step-1"><strong>Bagian 4: Normalisasi Sinyal Z-score (Step 1)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-5-resampling-step-2-opsional"><strong>Bagian 5: Resampling (Step 2 - Opsional)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-6-feature-extraction-step-3"><strong>Bagian 6: Feature Extraction (Step 3)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-7-ekstraksi-fitur-untuk-seluruh-train-set"><strong>Bagian 7: Ekstraksi Fitur untuk Seluruh TRAIN Set</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-8-ekstraksi-fitur-untuk-test-set"><strong>Bagian 8: Ekstraksi Fitur untuk TEST Set</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-9-train-validation-split-step-4"><strong>Bagian 9: Train / Validation Split (Step 4)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-10-feature-scaling-standardisasi-step-5"><strong>Bagian 10: Feature Scaling / Standardisasi (Step 5)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-11-simpan-data-yang-sudah-diproses"><strong>Bagian 11: Simpan Data yang Sudah Diproses</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kesimpulan-data-preparation"><strong>Kesimpulan Data Preparation</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-12-simpan-raw-audio-signals-untuk-cnn"><strong>Bagian 12: Simpan Raw Audio Signals (Untuk CNN)</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-13-simpan-label-encoding-mapping"><strong>Bagian 13: Simpan Label Encoding Mapping</strong></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bagian-14-summary-data-preparation-lengkap"><strong>Bagian 14: Summary Data Preparation Lengkap</strong></a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

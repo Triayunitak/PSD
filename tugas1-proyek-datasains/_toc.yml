@@ -17,8 +17,8 @@ chapters:
   - file: tugas_NO2
   - file: crispdm
     sections:
-          - file: data_understanding2
-          - file: eda
-          - file: data_preparation2
-          - file: modeling
-          - file: evaluasi
+          - file: data_understanding3
+          - file: data_preparation3
+          - file: eda3
+          - file: modeling3
+          - file: evaluasi3
